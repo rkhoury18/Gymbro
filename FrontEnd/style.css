@@ -1,0 +1,168 @@
+    *{
+        margin: 0;
+        padding: 0;
+    }
+    .background-image{
+        background-image: url('./background.jpg');
+        background-size: 100% 100%;
+        background-repeat: no-repeat;
+        background-position: center;
+        height: 100vh;
+        width: 100%;
+
+    }
+    .center-text {
+        position: fixed;
+        top: 75%;
+        left: 32%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        width: 100vw;
+        height: 100vh;
+        font-size: 35px;
+        font-family: monospace, 'Courier New', Courier, monospace;
+        color: white;
+    }
+    .Title-text {
+        position: fixed;
+        top: 60%;
+        left: 32%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        width: 100vw;
+        height: 100vh;
+        font-size: 80px;
+        font-family:Georgia, 'Times New Roman', Times, serif;
+        font-weight: bolder;
+        color: white;
+        
+    }
+    
+
+    /* CSS */
+    .workout {
+      width: 300px;
+      height: 150px;
+      appearance: none;
+      background-color: #000000;
+      border-width: 0;
+      box-sizing: border-box;
+      color: #FFFFFF;
+      cursor: pointer;
+      display: inline-block;
+      font-family: Clarkson,Helvetica,sans-serif;
+      font-size: 25px;
+      font-weight: 500;
+      letter-spacing: 0;
+      line-height: 1em;
+      margin: 0;
+      opacity: 1;
+      outline: 0;
+      padding: 1.5em 2.2em;
+      position: relative;
+      text-align: center;
+      text-decoration: none;
+      text-rendering: geometricprecision;
+      text-transform: uppercase;
+      transition: opacity 300ms cubic-bezier(.694, 0, 0.335, 1),background-color 100ms cubic-bezier(.694, 0, 0.335, 1),color 100ms cubic-bezier(.694, 0, 0.335, 1);
+      user-select: none;
+      -webkit-user-select: none;
+      touch-action: manipulation;
+      vertical-align: baseline;
+      white-space: nowrap;
+      position: fixed;
+      top: 38%;
+      left: 20%;
+    }
+
+    .workout:before {
+      animation: opacityFallbackOut .5s step-end forwards;
+      backface-visibility: hidden;
+      background-color: #2e2d2d;
+      clip-path: polygon(-1% 0, 0 0, -25% 100%, -1% 100%);
+      content: "";
+      height: 100%;
+      left: 0;
+      position: absolute;
+      top: 0;
+      transform: translateZ(0);
+      transition: clip-path .5s cubic-bezier(.165, 0.84, 0.44, 1), -webkit-clip-path .5s cubic-bezier(.165, 0.84, 0.44, 1);
+      width: 100%;
+    }
+
+    .workout:hover:before {
+      animation: opacityFallbackIn 0s step-start forwards;
+      clip-path: polygon(0 0, 101% 0, 101% 101%, 0 101%);
+    }
+
+    .workout:after {
+      background-color: #000000;
+    }
+
+    .workout span {
+      z-index: 1;
+      position: relative;
+    }
+    .history {
+      width: 300px;
+      height: 150px;
+      appearance: none;
+      background-color: #000000;
+      border-width: 0;
+      box-sizing: border-box;
+      color: #FFFFFF;
+      cursor: pointer;
+      display: inline-block;
+      font-family: Clarkson,Helvetica,sans-serif;
+      font-size: 25px;
+      font-weight: 500;
+      letter-spacing: 0;
+      line-height: 1em;
+      margin: 0;
+      opacity: 1;
+      outline: 0;
+      padding: 1.5em 2.2em;
+      position: relative;
+      text-align: center;
+      text-decoration: none;
+      text-rendering: geometricprecision;
+      text-transform: uppercase;
+      transition: opacity 300ms cubic-bezier(.694, 0, 0.335, 1),background-color 100ms cubic-bezier(.694, 0, 0.335, 1),color 100ms cubic-bezier(.694, 0, 0.335, 1);
+      user-select: none;
+      -webkit-user-select: none;
+      touch-action: manipulation;
+      vertical-align: baseline;
+      white-space: nowrap;
+      position: fixed;
+      top: 66%;
+      left: 20%;
+    }
+
+    .history:before {
+      animation: opacityFallbackOut .5s step-end forwards;
+      backface-visibility: hidden;
+      background-color: #2e2d2d;
+      clip-path: polygon(-1% 0, 0 0, -25% 100%, -1% 100%);
+      content: "";
+      height: 100%;
+      left: 0;
+      position: absolute;
+      top: 0;
+      transform: translateZ(0);
+      transition: clip-path .5s cubic-bezier(.165, 0.84, 0.44, 1), -webkit-clip-path .5s cubic-bezier(.165, 0.84, 0.44, 1);
+      width: 100%;
+    }
+
+    .history:hover:before {
+      animation: opacityFallbackIn 0s step-start forwards;
+      clip-path: polygon(0 0, 101% 0, 101% 101%, 0 101%);
+    }
+
+    .history:after {
+      background-color: #000000;
+    }
+
+    .history span {
+      z-index: 1;
+      position: relative;
+    }
