@@ -32,8 +32,8 @@ server.post('/hello_world', function(req,res){
     let m = req.body
     let mssg = m.message
     console.log(mssg)
-    let reply = {"message":"ur ugly :("}
-    res.end(reply)
+    let return_mssg = {}
+    res.send()
 })
 
 console.log('Server is running on port 3000');
