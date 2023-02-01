@@ -12,7 +12,7 @@
           <div class="heading">
             Exercise History
           </div>
-          <button class="bench" role="button">Bench Press</button>
+          <button id="open-popup-button" class="bench" role="button">Bench Press</button>
           <button class="overhead press" role="button">Overhead Press</button>
           <button class="squat" role="button">Squat</button>
           <button class="deadlift" role="button">Deadlift</button>
@@ -29,6 +29,16 @@
         </div>
     </div>
 </div>
+<div id="popup-container">
+  <div id="popup">
+    <div id="popup-header">
+      <button id="close-popup-button">&times;</button>
+    </div>
+    <div id="popup-content">
+      <p>This is the popup content.</p>
+    </div>
+  </div>
+</div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
@@ -43,6 +53,7 @@
         sizes: [60, 40]
     });
 </script>
+<script src="../Scripts/history.js"></script>
 </body>
 </html>
 
