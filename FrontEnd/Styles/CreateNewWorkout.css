@@ -34,31 +34,59 @@
   .Add{
     border-radius: 50%;
     position: absolute;
-    top: 16%;
+    top: 25%;
     left: 8%;
   }
 
-.input-container1 {
+  .input-container1 {
     display: flex;
     flex-direction: column;
     align-items: center;
-}
+    position: fixed;
+    top: 15%;
+    left: 36%;
+    }
+    
+    .input-container2 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: fixed;
+    top: 15%;
+    left: 52.25%;
+    }
 
-label {
+    .input-container3 {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: fixed;
+      top: 15%;
+      left: 68.5%;
+      }
+    
+      .input-container4 {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: fixed;
+        top: 15%;
+        left: 85%;
+        }
+      
+    
+    label {
     margin-bottom: 10px;
-}
-
-input[type="text"] {
+    }
+    
+    input[type="text"] {
     width: 200px;
     height: 30px;
     padding: 5px;
     border-radius: 5px;
     border: 1px solid gray;
     font-size: 16px;
-    position: fixed;
-    top: 15%;
-    left: 36%;
-}
+    }
 
 nav {
     background-color: lightgray;
@@ -92,6 +120,7 @@ nav {
     background-color: gray;
     color: white;
   }
+
 
 
   
