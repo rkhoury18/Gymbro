@@ -6,19 +6,23 @@
   </head>
   <body>
     <div>
-      <button class="push" role="button">Push</button>
-      <button class="pull" role="button">Pull</button>
-      <button class="legs" role="button">Legs</button>
-      <button class="modify1" role="button">Modify</button>
-      <button class="modify2" role="button">Modify</button>
-      <button class="modify3" role="button">Modify</button>
-      <button class="start1" role="button">Start</button>
-      <button class="start2" role="button">Start</button>
-      <button class="start3" role="button">Start</button>
-      <button class="new" role="button">+ Create New Workout</button>
-      <button class="delete" role="button">X</button>
-
+      <button id="push" class="push" role="button">Push</button>
+      <button id="pull" class="pull" role="button">Pull</button>
+      <button id="legs" class="legs" role="button">Legs</button>
+      <button id="modify1" class="modify1" role="button">Modify</button>
+      <button id="modify2" class="modify2" role="button">Modify</button>
+      <button id="modify3" class="modify3" role="button">Modify</button>
+      <button id="start1" class="start1" role="button">Start</button>
+      <button id="start1" class="start2" role="button">Start</button>
+      <button id="start1" class="start3" role="button">Start</button>
+      <button class="new" role="button" onclick="window.location.href='../HTML/CreateNewWorkout.html'"><span class="text">+ Create New Workout</span></button>
+      <div class="parent">
+        <button id="delete1" class="delete1" role="button">X</button>
+        <button id="delete2" class="delete2" role="button">X</button>
+        <button id="delete3" class="delete3" role="button">X</button>
+      </div>
+      <button class="back" role="button" onclick="window.location.href='../HTML/index.html'"><span class="text">←</span></button>
     </div>
-
+    <script src="../Scripts/workout.js"></script>
   </body>
 </html>

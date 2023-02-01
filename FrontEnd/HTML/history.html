@@ -1,62 +1,50 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Workout Tracker</title>
-  <style>
-    /* CSS styles for the buttons */
-    .btn {
-      padding: 10px 20px;
-      border-radius: 5px;
-      font-size: 16px;
-      margin-right: 10px;
-      margin-bottom: 10px;
-    }
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>GymBro</title>
+    <link rel="stylesheet" href="../Styles/history.css">
+  </head>
+  <body>
+    <div class="flex">
+        <div id="one" class="split">
+          <div class="heading">
+            Exercise History
+          </div>
+          <button class="bench" role="button">Bench Press</button>
+          <button class="overhead press" role="button">Overhead Press</button>
+          <button class="squat" role="button">Squat</button>
+          <button class="deadlift" role="button">Deadlift</button>
+          <button class="row" role="button">Row</button>
+          <button class="lat" role="button">Lat Pulldown</button>
+          <button class="back" role="button" onclick="window.location.href='../HTML/index.html'"><span class="text">←</span></button>
+        </div>
+        
+        <div id="two" class="split">
+            <div class="heading">
+                Workouts Completed
+            </div>
 
-    .main-btn {
-      background-color: #4CAF50; /* Green */
-      color: white;
-    }
-
-    .sub-btn {
-      background-color: #f44336; /* Red */
-      color: white;
-    }
-
-    /* CSS styles for the button container */
-    .btn-container {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-
-    /* CSS styles for the workout container */
-    .workout-container {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-  </style>
-</head>
-<body>
-  <div class="btn-container">
-    <button class="btn main-btn">Push</button>
-    <button class="btn main-btn">Pull</button>
-    <button class="btn main-btn">Legs</button>
-    <button class="btn main-btn">+ Create New Workout</button>
-  </div>
-  <div class="workout-container">
-    <div class="workout-group">
-      <button class="btn sub-btn">Start</button>
-      <button class="btn sub-btn">Modify</button>
+        </div>
     </div>
-    <div class="workout-group">
-      <button class="btn sub-btn">Start</button>
-      <button class="btn sub-btn">Modify</button>
-    </div>
-    <div class="workout-group">
-      <button class="btn sub-btn">Start</button>
-      <button class="btn sub-btn">Modify</button>
-    </div>
-  </div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous">
+</script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/split.js/1.5.11/split.min.js"></script>
+<script>
+    Split(['#one', '#two'], {
+        sizes: [60, 40]
+    });
+</script>
 </body>
 </html>
+
+
+

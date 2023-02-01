@@ -2,24 +2,112 @@
     margin: 0;
     padding: 0;
 }
-.delete {
-  background-color: red; /* Green */
-  border: none;
+
+
+.parent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.parent button {
+  background-color: #9DB3BF;
   color: white;
-  padding: 20px;
+  border: none;
+  padding: 5px;
+  font-size: 22px;
+  height: 50px;
+  width: 50px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+}
+
+.parent button:active {
+  background-color: #48abe0;
+  box-shadow: 0 0 2px darkslategray;
+  transform: translateY(2px);
+}
+
+.parent button:not(:first-child) {
+  margin-top: 10px;
+}
+
+.delete1 {
+  border-radius: 50%;
+  position: absolute;
+  top: 42.5%;
+  right: 8.5%;
+}
+
+.delete2 {
+  border-radius: 50%;
+  position: absolute;
+  top: 61.5%;
+  right: 8.5%;
+}
+
+.delete3 {
+  border-radius: 50%;
+  position: absolute;
+  top: 81.5%;
+  right: 8.5%;
+}
+/* CSS */
+.back {
+  appearance: none;
+  background-color: #FFFFFF;
+  border: 0px solid rgba(27, 31, 35, .15);
+  border-radius: 6px;
+  box-sizing: border-box;
+  color: #000000;
+  cursor: pointer;
+  display: inline-block;
+  font-family: -apple-system,system-ui,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji";
+  font-size: 40px;
+  font-weight: 600;
+  line-height: 20px;
+  padding: 6px 16px;
+  position: relative;
   text-align: center;
   text-decoration: none;
-  display: inline-block;
-  font-size: 12px;
-  margin: 2px 2px;
-  cursor: pointer;
-  top: 42.5%;
-  right: 10%;
-  height: 20px;
-  width: 20px;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: middle;
+  white-space: nowrap;
+  position: fixed;
+  top: 1%;
+  left: 1%;
+  height: 50px;
+  width: 100px;
 }
-.delete {border-radius: 50%;}
 
+.back:focus:not(:focus-visible):not(.focus-visible) {
+  box-shadow: none;
+  outline: none;
+}
+
+.back:hover {
+  background-color: #FFFFFF;
+}
+
+.back:focus {
+  box-shadow: rgba(46, 164, 79, .4) 0 0 0 3px;
+  outline: none;
+}
+
+.back:disabled {
+  background-color: #94d3a2;
+  border-color: rgba(27, 31, 35, .1);
+  color: rgba(255, 255, 255, .8);
+  cursor: default;
+}
+
+.back:active {
+  background-color: #FFFFFF;
+  box-shadow: rgba(20, 70, 32, .2) 0 1px 0 inset;
+}
 
 /* CSS */
 .modify1 {
@@ -47,7 +135,7 @@
   white-space: nowrap;
   position: fixed;
   top: 42.5%;
-  right: 10%;
+  right: 12%;
   height: 50px;
   width: 150px;
 }
@@ -104,7 +192,7 @@
   white-space: nowrap;
   position: fixed;
   top: 62.5%;
-  right: 10%;
+  right: 12%;
   height: 50px;
   width: 150px;
 }
@@ -163,7 +251,7 @@
   white-space: nowrap;
   position: fixed;
     top: 82.5%;
-    right: 10%;
+    right: 12%;
     height: 50px;
       width: 150px;
 }
@@ -220,7 +308,7 @@
     white-space: nowrap;
     position: fixed;
       top: 42.5%;
-      right: 20%;
+      right: 22%;
       height: 50px;
       width: 150px;
   }
@@ -277,7 +365,7 @@
     white-space: nowrap;
     position: fixed;
       top: 62.5%;
-      right: 20%;
+      right: 22%;
       height: 50px;
       width: 150px;
   }
@@ -336,7 +424,7 @@
     white-space: nowrap;
     position: fixed;
       top: 82.5%;
-      right: 20%;
+      right: 22%;
       height: 50px;
       width: 150px;
   }

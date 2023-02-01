@@ -1,0 +1,97 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+.parent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .parent button {
+    background-color: #9DB3BF;
+    color: white;
+    border: none;
+    padding: 5px;
+    font-size: 35px;
+    height: 50px;
+    width: 50px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  
+  }
+  
+  .parent button:active {
+    background-color: #48abe0;
+    box-shadow: 0 0 2px darkslategray;
+    transform: translateY(2px);
+  }
+  
+  .parent button:not(:first-child) {
+    margin-top: 10px;
+  }
+  
+  .Add{
+    border-radius: 50%;
+    position: absolute;
+    top: 16%;
+    left: 8%;
+  }
+
+.input-container1 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+label {
+    margin-bottom: 10px;
+}
+
+input[type="text"] {
+    width: 200px;
+    height: 30px;
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid gray;
+    font-size: 16px;
+    position: fixed;
+    top: 15%;
+    left: 36%;
+}
+
+nav {
+    background-color: lightgray;
+    padding: 17px;
+    text-align: center;
+    font-size: 30px;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+  }
+  
+  nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+  }
+  
+  nav li {
+    flex: 1;
+  }
+  
+  nav a {
+    display: block;
+    padding: 10px;
+    color: black;
+    text-decoration: none;
+  }
+  
+  nav a:hover {
+    background-color: gray;
+    color: white;
+  }
+
+
+  
