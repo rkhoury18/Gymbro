@@ -1,4 +1,9 @@
-const openPopupButton = document.getElementById("open-popup-button");
+const benchButton = document.getElementById("bench");
+const overheadButton = document.getElementById("overhead");
+const squatButton = document.getElementById("squat");
+const deadliftButton = document.getElementById("deadlift");
+const rowButton = document.getElementById("row");
+const latButton = document.getElementById("lat");
 const popupContainer = document.getElementById("popup-container");
 const closePopupButton = document.getElementById("close-popup-button");
 
@@ -8,7 +13,7 @@ window.onload = function() {
     popupContainer.style.display = "none";
 };
 
-openPopupButton.addEventListener("click", function() {
+benchButton.addEventListener("click", function() {
 popupContainer.style.display = "flex";
 });
 

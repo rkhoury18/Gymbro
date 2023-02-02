@@ -26,7 +26,8 @@
     font-family:Arial, Helvetica, sans-serif;
     font-weight: "light";
     color: white;
-    /* position: fixed; */
+    position: relative;
+    width: 99%;
     letter-spacing: 2px;
 }/* position: fixed; */
   /* CSS */
@@ -57,8 +58,8 @@
     /* position: fixed; */
       top: 15%;
       left: 5%;
-      height: 250px;
-      width: 250px;
+      height: 25%;
+      width: 25%;
   }
   
   .bench:focus:not(:focus-visible):not(.focus-visible) {
@@ -114,8 +115,8 @@
     /* position: fixed; */
       top: 15%;
       left: 10%;
-      height: 250px;
-      width: 250px;
+      height: 25%;
+      width: 25%;
   }
   
   .overhead:focus:not(:focus-visible):not(.focus-visible) {
@@ -171,8 +172,8 @@
     /* position: fixed; */
       top: 15%;
       left: 15%;
-      height: 250px;
-      width: 250px;
+      height: 25%;
+      width: 25%;
   }
   
   .squat:focus:not(:focus-visible):not(.focus-visible) {
@@ -228,8 +229,8 @@
     /* position: fixed; */
       top: 30%;
       left: 5%;
-      height: 250px;
-      width: 250px;
+      height: 25%;
+      width: 25%;
   }
   
   .deadlift:focus:not(:focus-visible):not(.focus-visible) {
@@ -285,8 +286,8 @@
     /* position: fixed; */
       top: 30%;
       left: 10%;
-      height: 250px;
-      width: 250px;
+      height: 25%;
+      width: 25%;
   }
   
   .row:focus:not(:focus-visible):not(.focus-visible) {
@@ -342,8 +343,8 @@
     /* position: fixed; */
       top: 30%;
       left: 15%;
-      height: 250px;
-      width: 250px;
+      height: 25%;
+      width: 25%;
   }
   
   .lat:focus:not(:focus-visible):not(.focus-visible) {
@@ -396,8 +397,8 @@
     position: fixed;
     top: 1%;
     left: 1%;
-    height: 50px;
-    width: 100px;
+    height: 10%;
+    width: 15%;
   }
   
   .back:focus:not(:focus-visible):not(.focus-visible) {

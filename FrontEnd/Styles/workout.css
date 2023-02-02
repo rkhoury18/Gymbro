@@ -16,8 +16,8 @@
   border: none;
   padding: 5px;
   font-size: 22px;
-  height: 50px;
-  width: 50px;
+  height: 5%;
+  width: 2.55%;
   cursor: pointer;
   transition: all 0.2s ease;
 
@@ -63,9 +63,9 @@
   color: #000000;
   cursor: pointer;
   display: inline-block;
-  font-family: -apple-system,system-ui,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji";
+  font-family:Arial, Helvetica, sans-serif;
   font-size: 40px;
-  font-weight: 600;
+  font-weight: light;
   line-height: 20px;
   padding: 6px 16px;
   position: relative;
@@ -79,8 +79,8 @@
   position: fixed;
   top: 1%;
   left: 1%;
-  height: 50px;
-  width: 100px;
+  height: 5%;
+  width: 10%;
 }
 
 .back:focus:not(:focus-visible):not(.focus-visible) {
@@ -120,9 +120,9 @@
   color: #fff;
   cursor: pointer;
   display: inline-block;
-  font-family: -apple-system,system-ui,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji";
+  font-family:Arial, Helvetica, sans-serif;
   font-size: 14px;
-  font-weight: 600;
+  font-weight: light;
   line-height: 20px;
   padding: 6px 16px;
   position: relative;
@@ -136,8 +136,8 @@
   position: fixed;
   top: 42.5%;
   right: 12%;
-  height: 50px;
-  width: 150px;
+  height: 5%;
+  width: 9%;
 }
 
 .modify1:focus:not(:focus-visible):not(.focus-visible) {
@@ -177,9 +177,9 @@
   color: #fff;
   cursor: pointer;
   display: inline-block;
-  font-family: -apple-system,system-ui,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji";
+  font-family:Arial, Helvetica, sans-serif;
   font-size: 14px;
-  font-weight: 600;
+  font-weight: light;
   line-height: 20px;
   padding: 6px 16px;
   position: relative;
@@ -193,8 +193,8 @@
   position: fixed;
   top: 62.5%;
   right: 12%;
-  height: 50px;
-  width: 150px;
+  height: 5%;
+  width: 9%;
 }
 
 .modify2:focus:not(:focus-visible):not(.focus-visible) {
@@ -236,9 +236,9 @@
   color: #fff;
   cursor: pointer;
   display: inline-block;
-  font-family: -apple-system,system-ui,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji";
-  font-size: 14px;
-  font-weight: 600;
+  font-family:Arial, Helvetica, sans-serif;
+    font-size: 14px;
+  font-weight: light;
   line-height: 20px;
   padding: 6px 16px;
   position: relative;
@@ -252,8 +252,8 @@
   position: fixed;
     top: 82.5%;
     right: 12%;
-    height: 50px;
-      width: 150px;
+    height: 5%;
+      width: 9%;
 }
 
 .modify3:focus:not(:focus-visible):not(.focus-visible) {
@@ -293,9 +293,9 @@
     color: #fff;
     cursor: pointer;
     display: inline-block;
-    font-family: -apple-system,system-ui,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji";
+    font-family:Arial, Helvetica, sans-serif;
     font-size: 14px;
-    font-weight: 600;
+    font-weight: light;
     line-height: 20px;
     padding: 6px 16px;
     position: relative;
@@ -309,8 +309,8 @@
     position: fixed;
       top: 42.5%;
       right: 22%;
-      height: 50px;
-      width: 150px;
+      height: 5%;
+      width: 9%;
   }
   
   .start1:focus:not(:focus-visible):not(.focus-visible) {
@@ -350,9 +350,9 @@
     color: #fff;
     cursor: pointer;
     display: inline-block;
-    font-family: -apple-system,system-ui,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji";
+          font-family:Arial, Helvetica, sans-serif;
     font-size: 14px;
-    font-weight: 600;
+    font-weight: light;
     line-height: 20px;
     padding: 6px 16px;
     position: relative;
@@ -366,8 +366,8 @@
     position: fixed;
       top: 62.5%;
       right: 22%;
-      height: 50px;
-      width: 150px;
+      height: 5%;
+      width: 9%;
   }
   
   .start2:focus:not(:focus-visible):not(.focus-visible) {
@@ -409,9 +409,9 @@
     color: #fff;
     cursor: pointer;
     display: inline-block;
-    font-family: -apple-system,system-ui,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji";
+          font-family:Arial, Helvetica, sans-serif;
     font-size: 14px;
-    font-weight: 600;
+    font-weight: light;
     line-height: 20px;
     padding: 6px 16px;
     position: relative;
@@ -425,8 +425,8 @@
     position: fixed;
       top: 82.5%;
       right: 22%;
-      height: 50px;
-      width: 150px;
+      height: 5%;
+      width: 9%;
   }
 
   
@@ -483,8 +483,8 @@
   position: fixed;
   top: 40%;
   left: 5%;
-  width: 1500px;
-  height: 100px;
+  width: 90%;
+  height: 10%;
 }
 
 .pull{
@@ -512,8 +512,8 @@
     position: fixed;
     top: 60%;
     left: 5%;
-    width: 1500px;
-    height: 100px;
+    width: 90%;
+    height: 10%;
 }
 
 .legs{
@@ -541,8 +541,8 @@
     position: fixed;
     top: 80%;
     left: 5%;
-    width: 1500px;
-    height: 100px;
+    width: 90%;
+    height: 10%;
 }
 
 .new {
@@ -555,9 +555,9 @@
     color: #fff;
     cursor: pointer;
     display: inline-block;
-    font-family: -apple-system,system-ui,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji";
+    font-family:Arial, Helvetica, sans-serif;
     font-size: 22px;
-    font-weight: 600;
+    font-weight: light;
     line-height: 20px;
     padding: 6px 16px;
     position: relative;
@@ -571,8 +571,8 @@
     position: fixed;
     top: 10%;
     left: 5%;
-    width: 1500px;
-    height: 175px;
+    width: 90%;
+    height: 20%;
   }
   
   .new:focus:not(:focus-visible):not(.focus-visible) {
