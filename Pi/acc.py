@@ -10,6 +10,7 @@ GPIO.setwarnings(False)
 
 LIS3DH_ADRESS = 0x18 #Add the I2C bus address for the sensor here
 REGISTER_ADRESS = 0x20 #Add the command to read temperature here
+PIN_VIBRATE = 23
 
 bus = smbus2.SMBus(1)
 time.sleep(1)
@@ -80,23 +81,38 @@ def peak_finder(x, height=None):
 
 #Vibrate
 def vibrate_goal():
-    GPIO.output(26, 1)        
+    GPIO.output(PIN_VIBRATE, 1)        
     time.sleep(0.5)                 
-    GPIO.output(26, 0)           
+    GPIO.output(PIN_VIBRATE, 0)           
     time.sleep(0.5)
-    GPIO.output(26, 1)           
+    GPIO.output(PIN_VIBRATE, 1)           
     time.sleep(0.5)  
-    GPIO.output(26,0)   
+    GPIO.output(PIN_VIBRATE,0)   
     
 def vibrate_start():
-    GPIO.output(26, 1)        
+    GPIO.output(PIN_VIBRATE, 1)        
     time.sleep(0.5)                 
-    GPIO.output(26, 0)           
+    GPIO.output(PIN_VIBRATE, 0)           
 
 def vibrate_rest():
-    GPIO.output(26, 1)        
+    GPIO.output(PIN_VIBRATE, 1)        
     time.sleep(0.5)                 
-    GPIO.output(26, 0)
+    GPIO.output(PIN_VIBRATE, 0)
+
+def vibrate_finish_Set():
+    GPIO.output(PIN_VIBRATE, 1)
+    time.sleep(0.5)
+    GPIO.output(PIN_VIBRATE, 0)
+    time.sleep(0.5)
+    GPIO.output(PIN_VIBRATE, 1)
+    time.sleep(0.5)
+    GPIO.output(PIN_VIBRATE, 0)
+    time.sleep(0.5)
+    GPIO.output(PIN_VIBRATE, 1)
+    time.sleep(0.5)
+    GPIO.output(PIN_VIBRATE, 0)
+    time.sleep(0.5)
+
 
 #Remove in final version
 def to_csv(array, name):
@@ -123,6 +139,8 @@ def start_set(target_reps):
     recent_reps = 1
     goal_hit = False
     set_started = False
+
+    #vibrate_start()
 
     while True:
 
@@ -167,7 +185,7 @@ def start_set(target_reps):
                 goal_hit = True
 
             else:
-                GPIO.output(26,0)
+                GPIO.output(PIN_VIBRATE,0)
 
             if (recent_reps == 0):
                 print("Rest started..")
@@ -187,3 +205,6 @@ def start_set(target_reps):
 
 if __name__ == "__main__":
     start_set()
+
+
+    
