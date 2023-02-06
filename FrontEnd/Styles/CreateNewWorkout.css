@@ -38,7 +38,7 @@
     left: 8%;
   }
 
-  .input-container1 {
+  .input_container1 {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -47,7 +47,7 @@
     left: 36%;
     }
     
-    .input-container2 {
+    .input_container2 {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -56,7 +56,7 @@
     left: 52.25%;
     }
 
-    .input-container3 {
+    .input_container3 {
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -65,7 +65,7 @@
       left: 68.5%;
       }
     
-    .input-container4 {
+    .input_container4 {
       display: flex;
       flex-direction: column;
       align-items: center;
