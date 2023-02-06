@@ -10,16 +10,34 @@ app.use(express.static('.'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended:true}));
 
-var privateKey  = fs.readFileSync('key.pem', 'utf8');
-var certificate = fs.readFileSync('cert.pem', 'utf8');
-var credentials = {key: privateKey, cert: certificate};
+//var privateKey  = fs.readFileSync('key.pem', 'utf8');
+//var certificate = fs.readFileSync('cert.pem', 'utf8');
+//var credentials = {key: privateKey, cert: certificate};
 
-// const con = mysql.createConnection({
-//     host: '13.42.25.210', //changes frequently
-//     user: 'jim',
-//     password: 'andy23',
-//     port: 3306
-// });
+insert_sql = (data) => {
+    let table = data.name
+    str = "INSERT INTO " + table + "("
+    for (var key in data) {
+	if (key == "name") continue
+        str += key + ", "
+    }
+    str = str.slice(0, -2) //remove last comma
+    str += ") VALUES ("
+    for (var key in data) {
+	if (key == "name") continue
+        str += data[key] + ", "
+    }
+    str = str.slice(0, -2) //remove last comma
+    str += ");"
+    return str
+}
+
+const con = mysql.createConnection({
+    host: '13.40.222.118', //changes frequently
+    user: 'jim',
+    password: 'andy23',
+    port: 3306
+});
 
 let start_exec; 
 // {
@@ -34,28 +52,41 @@ let meta;
 let workout;
 let completed_set;
 
-// con.connect(function(err) {
-//     if (err){
-//         console.log("Could not connect to the database.");
-//         throw err;
-//     }
-//     console.log("Connected!");
-// });
+let db_name = "jimbro";
+
+con.connect(function(err) {
+    if (err){
+        console.log("Could not connect to the database.");
+        throw err;
+    }
+    console.log("Connected!");
+});
+
+con.query("USE "+db_name, function (err, result) {
+    if (err) throw err;
+});
 
 app.get('/', function(req, res){
-    res.sendFile('index.html', { root: 'html' });
+    res.sendFile('index.html', { root: '../FrontEnd/HTML' });
 });
 
 app.get('/use',function(req, res){
-    res.sendFile('use.html', { root: 'html' });
+    res.sendFile('use.html', { root: '../FrontEnd/HTML' });
 })
 
 app.get('/workout',function(req, res){
-    res.sendFile('workout.html', { root: 'html' });
+    res.sendFile('workout.html', { root: '../FrontEnd/HTML' });
 })
 
 app.get('/history',function(req, res){
-    res.sendFile('history.html', { root: 'html' });
+    res.sendFile('history.html', { root: '../FrontEnd/HTML/history.html' });
+})
+
+app.post('/history/save',function(req, res){
+    let data = req.body
+    console.log(data)
+    //store data in database
+    res.end()
 })
 
 app.post('/pi', function(req,res){
@@ -66,9 +97,9 @@ app.post('/pi', function(req,res){
     res.end(reply)
 })
 
-app.post('/client/start_exec', function(req,res){
+app.get('/client/start_exec', function(req,res){ //change to post
     //start_exec = req.body
-    start_exec = {name:"bench_press", start:1, reps:10, sets:4, weight:50, rest:60}
+    start_exec = {name:"bench_press", start:1, reps:5, sets:3, weight:50, rest:30}
     meta = {name:start_exec.name, start:start_exec.start, sets:start_exec.sets,rest:start_exec.rest}
     workout = {reps:start_exec.reps, weight:start_exec.weight}
     console.log(start_exec)
@@ -97,8 +128,11 @@ app.get('/client/finish_set', function(req,res){
 app.post('/pi/finish_exec', function(req,res){
     let finished_exec = req.body
     console.log("total exec:",finished_exec)
+    req = insert_sql(finished_exec)
+    con.query(req, function (err, result) {
+        if (err) throw err;
+    });
     res.end()
-    //TODO: send data to database
 }) //get data at the end of exec from pi
 
 //http code:
