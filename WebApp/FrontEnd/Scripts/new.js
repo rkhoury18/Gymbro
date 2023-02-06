@@ -162,28 +162,30 @@ window.onload = function() {
   
   save = document.getElementById("Save")
   var wrkt_name = "Push"
-  let wrkt = {wrkt_name:[]}
+  let wrkt = {[wrkt_name]:[]}
   save.addEventListener("click", function() {
     var exercises = ["p_bench_press", "p_overhead_press", "p_squat", "p_deadlift", "p_hip_thrust", "p_barbell_row"]
     for (let i = 1; i <= num_exercises ; i+=1){
+      console.log("Exercise " + String(i))
       //send data to server (exercise, weight, reps, sets, rest)
       weight_element = document.getElementById("weights" + String(i));
       reps_element = document.getElementById("reps" + String(i));
       sets_element= document.getElementById("sets" + String(i));
       rest_element = document.getElementById("rest" + String(i));
+      // consol
       //we need a workout name
       //get values for each of
-      let ex = exercises.slice(i-1)
+      let ex = exercises[i-1]
       let w = weight_element.value
       let r = reps_element.value
       let s = sets_element.value
       let rst = rest_element.value
-      ex_obj = {weight:w,reps:r,sets:s,rest:rst}
-      wrkt["wrkt_name"].push({ex:ex_obj})
+      var ex_obj = {weight:w,reps:r,sets:s,rest:rst}
+      console.log(ex_obj)
+      var final = {[ex]:ex_obj}
+      wrkt[wrkt_name].push(final)
     }
     senddatajson(wrkt,url_save)
-
-
   })
 
   

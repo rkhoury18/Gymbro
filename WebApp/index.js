@@ -6,7 +6,7 @@ var https=require('https');
 
 var app = express();
 
-app.use(express.static('.'));
+app.use(express.static('FrontEnd'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended:true}));
 
@@ -67,24 +67,24 @@ con.query("USE "+db_name, function (err, result) {
 });
 
 app.get('/', function(req, res){
-    res.sendFile('index.html', { root: '../FrontEnd/HTML' });
+    res.sendFile('HTML/index.html', { root: 'FrontEnd' });
 });
 
 app.get('/use',function(req, res){
-    res.sendFile('use.html', { root: '../FrontEnd/HTML' });
+    res.sendFile('HTML/use.html', { root: 'FrontEnd' });
 })
 
 app.get('/workout',function(req, res){
-    res.sendFile('workout.html', { root: '../FrontEnd/HTML' });
+    res.sendFile('HTML/workout.html', { root: 'FrontEnd' });
 })
 
 app.get('/history',function(req, res){
-    res.sendFile('history.html', { root: '../FrontEnd/HTML/history.html' });
+    res.sendFile('HTML/history.html', { root: 'FrontEnd' });
 })
 
 app.post('/history/save',function(req, res){
     let data = req.body
-    console.log(data)
+    console.log(JSON.stringify(data, null, 4))
     //store data in database
     res.end()
 })
