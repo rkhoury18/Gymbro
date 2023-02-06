@@ -2,13 +2,13 @@
     margin: 0;
     padding: 0;
 }
-.parent {
+.parents {
     display: flex;
     flex-direction: column;
     align-items: center;
   }
   
-  .parent button {
+  .parents button {
     background-color: #9DB3BF;
     color: white;
     border: none;
@@ -21,13 +21,13 @@
   
   }
   
-  .parent button:active {
+  .parents button:active {
     background-color: #48abe0;
     box-shadow: 0 0 2px darkslategray;
     transform: translateY(2px);
   }
   
-  .parent button:not(:first-child) {
+  .parents button:not(:first-child) {
     margin-top: 10px;
   }
   
@@ -38,16 +38,17 @@
     left: 8%;
   }
 
-  .input-container1 {
+
+  .input_container1 {
     display: flex;
     flex-direction: column;
     align-items: center;
-    position: fixed;
+    position: relative;
     top: 15%;
-    left: 36%;
+    left: 5%;
     }
     
-    .input-container2 {
+    .input_container2 {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -56,7 +57,7 @@
     left: 52.25%;
     }
 
-    .input-container3 {
+    .input_container3 {
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -65,7 +66,7 @@
       left: 68.5%;
       }
     
-    .input-container4 {
+    .input_container4 {
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -81,7 +82,7 @@
     
     input[type="text"] {
     text-align: center;
-    width: 80%;
+    width: 10%;
     height: 3%;
     padding: 5px;
     border-radius: 5px;
@@ -170,5 +171,95 @@ nav {
 /* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
 .show {display:block;}
 
+.Save {
+  appearance: none;
+  background-color: #4F7186;
+  border: 1px solid rgba(27, 31, 35, .15);
+  border-radius: 6px;
+  box-shadow: rgba(27, 31, 35, .1) 0 1px 0;
+  box-sizing: border-box;
+  color: #fff;
+  cursor: pointer;
+  display: inline-block;
+  font-family:Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  font-weight: light;
+  line-height: 20px;
+  padding: 6px 16px;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: middle;
+  white-space: nowrap;
+  position: fixed;
+    top: 35%;
+    left: 6%;
+    height: 5%;
+    width: 9%;
+}
 
+.Save:focus:not(:focus-visible):not(.focus-visible) {
+  box-shadow: none;
+  outline: none;
+}
+
+.Save:hover {
+  background-color: #3E4F63;
+}
+
+.Save:focus {
+  box-shadow: rgba(46, 164, 79, .4) 0 0 0 3px;
+  outline: none;
+}
+
+.Save:disabled {
+  background-color: #94d3a2;
+  border-color: rgba(27, 31, 35, .1);
+  color: rgba(255, 255, 255, .8);
+  cursor: default;
+}
+
+.Save:active {
+  background-color: #4F7186;
+  box-shadow: rgba(20, 70, 32, .2) 0 1px 0 inset;
+}
   
+.parent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.parent button {
+  background-color: rgb(121, 5, 5);
+  color: white;
+  border: none;
+  padding: 5px;
+  font-size: 35px;
+  text-align: center;
+  height: 50px;
+  width: 50px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+}
+
+.parent button:active {
+  background-color: red;
+  box-shadow: 0 0 2px darkslategray;
+  transform: translateY(2px);
+}
+
+.parent button:not(:first-child) {
+  margin-top: 10px;
+}
+
+.delete1{
+  border-radius: 50%;
+  position: absolute;
+  top: 17%;
+  left: 8%;
+}
