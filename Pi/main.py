@@ -41,7 +41,7 @@ while True:
                 #Execute the two transactions with a small delay between them
                 bus.i2c_rdwr(cmd_meas_acceleration)
                 time.sleep(0.1)
-                for  i in range(target_sets):
+                for i in range(target_sets):
                     print("Starting set: ", i)
                     x = rq.get(URL_RCV_SET)
                     wrkt = x.json()
@@ -49,15 +49,9 @@ while True:
                     target_reps = wrkt['reps']
                     weight = wrkt['weight']
                     stalled = 0
+                    
                     r = start_set(target_reps)
-                    # while stalled < REST_CONST:
-                    #     if r == target_reps:
-                    #         pass
-                    #         # TODO vibration code
-                    #     else:
-                    #         pass
-                    #         # TODO measurement code 
-                    #         # TODO increment r
+
                     volume = weight*r
                     print("volume: ", volume)
                     if volume > max_volume:
@@ -69,7 +63,14 @@ while True:
                     print("Resting for: ", rest_time, " seconds")
                     time.sleep(rest_time)
                     print("Resting done")
-                    #TODO vibration code
+
+                    
+                #once sets are done, vibrate:
+                vibrate_finish_set()
+
                 rq.post(URL_SEND_EXEC, data = {'name':name, 'max_weight':max_weight, 'best_reps':best_reps, 'sets':target_sets, 'rest':rest_time, 'volume':max_volume})
         else:
             pass  
+
+
+
