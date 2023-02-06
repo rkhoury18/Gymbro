@@ -68,6 +68,11 @@ window.onload = function() {
       newDelete.setAttribute("class", "parent");
       deleteIn.setAttribute("class", "delete1");
 
+      newWeight.id = "weights_c" + String(num_exercises);
+      newReps.id = "reps_c" + String(num_exercises);
+      newSets.id = "sets_c" + String(num_exercises);
+      newRest.id = "rest_c" + String(num_exercises);
+
       weightsIn.id = "weights" + String(num_exercises);
       repsIn.id = "reps" + String(num_exercises);
       setsIn.id = "sets" + String(num_exercises);
@@ -100,12 +105,21 @@ window.onload = function() {
         sets = document.getElementById("sets" + String(row_num))
         rest = document.getElementById("rest" + String(row_num))
         deletes = document.getElementById("delete" + String(row_num))
+
+        weight_c = document.getElementById("weights_c" + String(row_num))
+        reps_c = document.getElementById("reps_c" + String(row_num))
+        sets_c = document.getElementById("sets_c" + String(row_num))
+        rest_c = document.getElementById("rest_c" + String(row_num))
         
         removal(weights);
         removal(reps);
         removal(sets);
         removal(rest);
         removal(deletes);
+        removal(weight_c);
+        removal(reps_c);
+        removal(sets_c);
+        removal(rest_c);
     
         for (let i = row_num + 1; i <= num_exercises; i+=1){
             weights = document.getElementById("weights" + String(i))
@@ -113,18 +127,27 @@ window.onload = function() {
             sets = document.getElementById("sets" + String(i))
             rest = document.getElementById("rest" + String(i))
             deletes = document.getElementById("delete" + String(i))
+            weight_c = document.getElementById("weights_c" + String(i))
+            reps_c = document.getElementById("reps_c" + String(i))
+            sets_c = document.getElementById("sets_c" + String(i))
+            rest_c = document.getElementById("rest_c" + String(i))
     
             weights.id = "weights" + String(i - 1)
             reps.id = "reps" + String(i - 1)
             sets.id = "sets" + String(i - 1)
             rest.id = "rest" + String(i - 1)
             deletes.id = "delete" + String(i - 1)
+            weight_c.id = "weights_c" + String(i - 1)
+            reps_c.id = "reps_c" + String(i - 1)
+            sets_c.id = "sets_c" + String(i - 1)
+            rest_c.id = "rest_c" + String(i - 1)
 
-            weights.style.top = String(15 + 10*(i - 2)) + "%"; //TODO: Make this not hardcoded
-            reps.style.top = String(15 + 10*(i - 2)) + "%"; //TODO: Make this not hardcoded
-            sets.style.top = String(15 + 10*(i - 2)) + "%"; //TODO: Make this not hardcoded
-            rest.style.top = String(15 + 10*(i - 2)) + "%"; //TODO: Make this not hardcoded
+            weight_c.style.top = String(15 + 10*(i - 2)) + "%"; //TODO: Make this not hardcoded
+            reps_c.style.top = String(15 + 10*(i - 2)) + "%"; //TODO: Make this not hardcoded
+            sets_c.style.top = String(15 + 10*(i - 2)) + "%"; //TODO: Make this not hardcoded
+            rest_c.style.top = String(15 + 10*(i - 2)) + "%"; //TODO: Make this not hardcoded
             deletes.style.top = String(15 + 10*(i - 2)) + "%";
+
         }
         num_exercises -= 1;
         add.style.top = String(25 + 10*num_exercises - 1) + "%";
