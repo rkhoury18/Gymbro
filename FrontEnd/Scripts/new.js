@@ -19,18 +19,33 @@ function myFunction() {
 
 
 
-var add_count = 0
+var num_exercises = 1
 window.onload = function() {
+  
+  deleteIn.addEventListener("click", function() {
+    row_num = deleteIn.id.slice(-1); 
+    for (let i = row_num; i < num_exercises ; i+=1){
+        weights = document.getElementById("weights" + String(i))
+        reps = document.getElementById("reps" + String(i))
+        sets = document.getElementById("sets" + String(i))
+        rest = document.getElementById("rest" + String(i))
+        deletes = document.getElementById("deletes" + String(i))
+
+        weights_next =  
+
+      }
+  })
+
   var add = document.getElementById("Add");
   add.addEventListener("click", function() {
-      add_count += 1;
-      var newWeight = document.createElement("div");
-      var weightsIn = document.createElement("input");
-      var newReps = document.createElement("div");
-      var repsIn = document.createElement("input");
+      num_exercises += 1;
+      var newWeight = document.createElement("div");      
+      var newReps = document.createElement("div");      
       var newSets = document.createElement("div");
-      var setsIn = document.createElement("input");
       var newRest = document.createElement("div");
+      var weightsIn = document.createElement("input");
+      var repsIn = document.createElement("input");
+      var setsIn = document.createElement("input");
       var restIn = document.createElement("input");
 
       newWeight.setAttribute("class", "input_container1");
@@ -42,27 +57,15 @@ window.onload = function() {
       newRest.setAttribute("class", "input_container4");
       restIn.setAttribute("type", "text");
 
-      restIn.id = "rest" + String(add_count + 1);
-      repsIn.id = "reps" + String(add_count + 1);
-      weightsIn.id = "weights" + String(add_count + 1);
-      setsIn.id = "sets" + String(add_count + 1);
-      
+      weightsIn.id = "weights" + String(num_exercises );
+      repsIn.id = "reps" + String(num_exercises );
+      setsIn.id = "sets" + String(num_exercises );
+      restIn.id = "rest" + String(num_exercises );
 
-      weightsIn.addEventListener("keyup", function(event) {
-        // If the user presses the "Enter" key on the keyboard
-        console.log("Entered")
-        if (event.key === "Enter") {
-          // Cancel the default action, if needed
-          val = weightsIn.value;
-          alert(val)
-        }
-      })
-
-
-      newWeight.style.top = String(15 + 10*add_count) + "%"; //TODO: Make this not hardcoded
-      newReps.style.top = String(15 + 10*add_count) + "%"; //TODO: Make this not hardcoded
-      newSets.style.top = String(15 + 10*add_count) + "%"; //TODO: Make this not hardcoded
-      newRest.style.top = String(15 + 10*add_count) + "%"; //TODO: Make this not hardcoded
+      newWeight.style.top = String(15 + 10*(num_exercises - 1)) + "%"; //TODO: Make this not hardcoded
+      newReps.style.top = String(15 + 10*(num_exercises - 1)) + "%"; //TODO: Make this not hardcoded
+      newSets.style.top = String(15 + 10*(num_exercises - 1)) + "%"; //TODO: Make this not hardcoded
+      newRest.style.top = String(15 + 10*(num_exercises - 1)) + "%"; //TODO: Make this not hardcoded
       
       newWeight.appendChild(weightsIn);
       document.body.appendChild(newWeight);
@@ -73,24 +76,24 @@ window.onload = function() {
       newRest.appendChild(restIn);
       document.body.appendChild(newRest);
 
-      add.style.top = String(25 + 10*add_count) + "%";
+      add.style.top = String(25 + 10*num_exercises - 1) + "%";
+      save.style.top = String(35 + 10*num_exercises - 1) + "%";
+  })
+  
+  save = document.getElementById("Save")
+  save.addEventListener("click", function() {
+    for (let i = 1; i < num_exercises ; i+=1){
+      //send data to server (name of workout, exercise, weight, reps, sets, rest)
+      weights = document.getElementById("weights" + String(i));
+      reps = document.getElementById("reps" + String(i));
+      sets = document.getElementById("sets" + String(i));
+      rest = document.getElementById("rest" + String(i));
+
+
+    }
+
+
   })
 
-
-  // //
-  // var weights = document.getElementById("weights2");
-  // var reps = document.getElementById("reps2");
-  // var sets = document.getElementById("sets2");
-  // var rest = document.getElementById("rest2");
   
-  // // Save the input given by the user
-  // weightsIn.addEventListener("keyup", function(event) {
-  //   // If the user presses the "Enter" key on the keyboard
-  //   console.log("Entered")
-  //   if (event.key === "Enter") {
-  //     // Cancel the default action, if needed
-  //     val = weightsIN.value;
-  //     alert(val)
-  //   }
-  // });
 };
