@@ -15,7 +15,7 @@
     .center-text {
         position: fixed;
         top: 75%;
-        left: 32%;
+        left: 40%;
         transform: translate(-50%, -50%);
         text-align: center;
         width: 100vw;
@@ -23,13 +23,13 @@
         font-size: 25px;
         font-family:Arial, Helvetica, sans-serif;
         font-weight: light;
-        color: white;
+        color: black;
         min-width: 1000px;
     }
     .Title-text {
         position: fixed;
         top: 60%;
-        left: 32%;
+        left: 40%;
         transform: translate(-50%, -50%);
         text-align: center;
         width: 100vw;
@@ -37,76 +37,76 @@
         font-size: 60px;
         font-family:Arial, Helvetica, sans-serif;
         font-weight: light;
-        color: white;
+        color: black;
         min-width: 1000px;
         
     }
-    
-
-    /* CSS */
-    .workout {
-      width: 300px;
-      height: 150px;
-      appearance: none;
-      background-color: #000000;
-      border-width: 0;
-      box-sizing: border-box;
-      color: #FFFFFF;
-      cursor: pointer;
-      display: inline-block;
-      font-family:Arial, Helvetica, sans-serif;
-      font-size: 25px;
-      font-weight: light;
-      letter-spacing: 0;
-      line-height: 1em;
+    body {
+      padding: 0;
       margin: 0;
-      opacity: 1;
-      outline: 0;
-      padding: 1.5em 2.2em;
-      position: relative;
-      text-align: center;
-      text-decoration: none;
-      text-rendering: geometricprecision;
+      background-color: #0f1a20;
+  }
+  
+  #button-container {
+      display: flex;
+      height: 100vh;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+  }
+  
+  
+  .workout-button {
+      border: 2px solid black;
+      border-radius: 500px;
+      width: 250px;
+      height: 48px;
+      overflow: hidden;
+      background-color: transparent;
       text-transform: uppercase;
-      transition: opacity 300ms cubic-bezier(.694, 0, 0.335, 1),background-color 100ms cubic-bezier(.694, 0, 0.335, 1),color 100ms cubic-bezier(.694, 0, 0.335, 1);
-      user-select: none;
-      -webkit-user-select: none;
-      touch-action: manipulation;
-      vertical-align: baseline;
-      white-space: nowrap;
+      color: black;
+      font-size: 14px;
+      font-family: "Rubik", sans-serif;
+      font-weight: 700;
       position: fixed;
       top: 38%;
-      left: 20%;
-    }
-
-    .workout:before {
-      animation: opacityFallbackOut .5s step-end forwards;
-      backface-visibility: hidden;
-      background-color: #2e2d2d;
-      clip-path: polygon(-1% 0, 0 0, -25% 100%, -1% 100%);
-      content: "";
-      height: 100%;
-      left: 0;
+      left: 30%;
+      ;
+  }
+  
+  .workout-button:hover {
+      cursor: pointer;
+      border: 2px solid #0197f6;
+  }
+  
+  .workout-button .round {
+      border-radius: 50%;
+      background-color: #0197f6;
       position: absolute;
-      top: 0;
-      transform: translateZ(0);
-      transition: clip-path .5s cubic-bezier(.165, 0.84, 0.44, 1), -webkit-clip-path .5s cubic-bezier(.165, 0.84, 0.44, 1);
-      width: 100%;
-    }
-
-    .workout:hover:before {
-      animation: opacityFallbackIn 0s step-start forwards;
-      clip-path: polygon(0 0, 101% 0, 101% 101%, 0 101%);
-    }
-
-    .workout:after {
-      background-color: #000000;
-    }
-
-    .workout span {
-      z-index: 1;
-      position: relative;
-    }
+      top: 5px;
+      left: 10px;
+      z-index: -1;
+      animation: scale-down 0.2s forwards;
+  }
+  
+  .workout-button.animate .round {
+      animation: scale-up 0.5s forwards;
+  }
+  
+  @keyframes scale-up {
+      to {
+          transform: scale(600);
+      }
+  }
+  
+  @keyframes scale-down {
+      from {
+          transform: scale(600);
+      }
+      to {
+          ransform: scale(0);
+      }
+  }
     .history {
       width: 300px;
       height: 150px;
@@ -139,7 +139,7 @@
       white-space: nowrap;
       position: fixed;
       top: 66%;
-      left: 20%;
+      left: 30%;
     }
 
     .history:before {
