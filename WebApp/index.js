@@ -18,19 +18,40 @@ insert_sql = (data) => {
     let table = data.name
     str = "INSERT INTO " + table + "("
     for (var key in data) {
-	if (key == "name") continue
+	    if (key == "name") continue
         str += key + ", "
     }
     str = str.slice(0, -2) //remove last comma
     str += ") VALUES ("
     for (var key in data) {
-	if (key == "name") continue
+	    if (key == "name") continue
         str += data[key] + ", "
     }
     str = str.slice(0, -2) //remove last comma
     str += ");"
     return str
 }
+
+insert_sql_link_wrkt = (data,fk_c,fk) => {
+    let table = data.name
+    str = "INSERT INTO " + table + "("
+    for (var key in data) {
+	    if (key == "name") continue
+        str += key + ", "
+    }
+    str += fk_c+ ", "
+    str = str.slice(0, -2) //remove last comma
+    str += ") VALUES ("
+    for (var key in data) {
+	    if (key == "name") continue
+        str += data[key] + ", "
+    }
+    str += "'" + fk + "', "
+    str = str.slice(0, -2) //remove last comma
+    str += ");"
+    return str
+}
+
 
 const con = mysql.createConnection({
     host: '13.40.222.118', //changes frequently
@@ -67,26 +88,72 @@ con.query("USE "+db_name, function (err, result) {
 });
 
 app.get('/', function(req, res){
-    res.sendFile('HTML/index.html', { root: 'FrontEnd' });
+    res.sendFile('index.html', { root: 'FrontEnd/HTML' });
 });
 
 app.get('/use',function(req, res){
-    res.sendFile('HTML/use.html', { root: 'FrontEnd' });
+    res.sendFile('use.html', { root: 'FrontEnd/HTML' });
 })
 
 app.get('/workout',function(req, res){
-    res.sendFile('HTML/workout.html', { root: 'FrontEnd' });
+    res.sendFile('workout.html', { root: 'FrontEnd/HTML' });
 })
 
 app.get('/history',function(req, res){
-    res.sendFile('HTML/history.html', { root: 'FrontEnd' });
+    res.sendFile('history.html', { root: 'FrontEnd/HTML' });
+})
+
+app.get('/new_workout',function(req, res){
+    res.sendFile('CreateNewWorkout.html', { root: 'FrontEnd/HTML' });
+})
+
+app.get('/start_workout',function(req, res){
+    res.sendFile('StartWorkout.html', { root: 'FrontEnd/HTML' });
 })
 
 app.post('/history/save',function(req, res){
     let data = req.body
     console.log(JSON.stringify(data, null, 4))
     //store data in database
+    let str_wrkt = "INSERT INTO workouts("
+    for (var key in data) {
+        str_wrkt += key + ", "
+    }
+    str_wrkt = str_wrkt.slice(0, -2) //remove last comma
+    str_wrkt += ") VALUES ("
+    for (var key in data) {
+        if (key == "name") {
+            str_wrkt += "'" + data[key] + "', "
+        }
+        else {
+            str_wrkt += "'" + data[key].name + "', "
+        }
+    }
+    str_wrkt = str_wrkt.slice(0, -2) //remove last comma
+    str_wrkt += ");"
+    req_workouts = str_wrkt
+    con.query(req_workouts, function (err, result) {
+        if (err) throw err;
+    });
+    for (var key in data) {
+        if (key == "name") continue
+        let str_ex = insert_sql_link_wrkt(data[key],"workout",data.name)
+        con.query(str_ex, function (err, result) {
+            if (err) throw err;
+        });
+    }
     res.end()
+})
+
+app.get('/rcv/workout_names', function(req,res){
+    var data = {}
+    let q = "SELECT name FROM workouts"
+    con.query(q, function (err, result) {
+        if (err) throw err;
+        r = JSON.parse(JSON.stringify(result));
+        console.log(r)
+        res.send(r)
+    })
 })
 
 app.post('/pi', function(req,res){
