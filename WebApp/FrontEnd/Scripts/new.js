@@ -44,6 +44,8 @@ var num_exercises = 1
 window.onload = function() {
 
   var add = document.getElementById("Add");
+  var save = document.getElementById("Save")
+  var name = document.getElementById("name");
   add.addEventListener("click", function() {
       num_exercises += 1;
       var newWeight = document.createElement("div");      
@@ -152,19 +154,23 @@ window.onload = function() {
 
         }
         num_exercises -= 1;
-        add.style.top = String(25 + 10*num_exercises - 1) + "%";
-        save.style.top = String(35 + 10*num_exercises - 1) + "%";
+        add.style.top = String(25 + 10*(num_exercises - 1)) + "%";
+        name.style.top = String(35 + 10*(num_exercises - 1)) + "%";
+        save.style.top = String(45 + 10*(num_exercises - 1)) + "%";
       })
 
-      add.style.top = String(25 + 10*num_exercises - 1) + "%";
-      save.style.top = String(35 + 10*num_exercises - 1) + "%";
+      add.style.top = String(25 + 10*(num_exercises - 1)) + "%";
+      name.style.top = String(35 + 10*(num_exercises - 1)) + "%";
+      save.style.top = String(45 + 10*(num_exercises - 1)) + "%";
+      
   })
   
-  save = document.getElementById("Save")
-  var wrkt_name = "Push"
-  let wrkt = {[wrkt_name]:[]}
+  
   save.addEventListener("click", function() {
-    var exercises = ["p_bench_press", "p_overhead_press", "p_squat", "p_deadlift", "p_hip_thrust", "p_barbell_row"]
+    let wrkt = {}
+    var exercises = ["p_bench_press", "p_overhead_press", "p_squat", "p_deadlift", "p_hip_thrust", "p_barbell_row"] //TODO: Add exercises selection
+    var wrkt_name = name.value
+    wrkt = {name:wrkt_name}
     for (let i = 1; i <= num_exercises ; i+=1){
       console.log("Exercise " + String(i))
       //send data to server (exercise, weight, reps, sets, rest)
@@ -180,10 +186,8 @@ window.onload = function() {
       let r = reps_element.value
       let s = sets_element.value
       let rst = rest_element.value
-      var ex_obj = {weight:w,reps:r,sets:s,rest:rst}
-      console.log(ex_obj)
-      var final = {[ex]:ex_obj}
-      wrkt[wrkt_name].push(final)
+      var ex_obj = {name:ex,weight:w,reps:r,sets:s,rest:rst}
+      wrkt["exec"+String(i)] = ex_obj
     }
     senddatajson(wrkt,url_save)
   })

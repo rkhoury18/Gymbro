@@ -31,3 +31,40 @@ button.addEventListener("mouseleave", function() {
   }
   item.style.left = buttonX + "px";
 });
+
+
+
+
+let button_b = document.querySelector(".history-button");
+let item_b = document.querySelector(".history-button .round");
+
+button_b.addEventListener("mouseenter", function(event) {
+  this.classList += " animate";
+
+  let buttonX = event.offsetX;
+  let buttonY = event.offsetY;
+
+  if (buttonY < 24) {
+    item_b.style.top = 0 + "px";
+  } else if (buttonY > 30) {
+    item_b.style.top = 48 + "px";
+  }
+
+  item_b.style.left = buttonX + "px";
+  item_b.style.width = "1px";
+  item_b.style.height = "1px";
+});
+
+button_b.addEventListener("mouseleave", function() {
+  this.classList.remove("animate");
+
+  let buttonX = event.offsetX;
+  let buttonY = event.offsetY;
+
+  if (buttonY < 24) {
+    item_b.style.top = 0 + "px";
+  } else if (buttonY > 30) {
+    item_b.style.top = 48 + "px";
+  }
+  item_b.style.left = buttonX + "px";
+});
