@@ -4,6 +4,7 @@ import smbus2
 # import numpy as np
 import RPi.GPIO as GPIO
 from acc import *
+from acc_new import *
 GPIO.setmode(GPIO.BCM) 
 GPIO.setup(26, GPIO.OUT) 
 GPIO.setwarnings(False)
