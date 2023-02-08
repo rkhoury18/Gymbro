@@ -27,7 +27,7 @@
     <script type="text/javascript">
       var oktaConfig = {
         issuer: "https://dev-57581534.okta.com/oauth2/default",
-        redirectUri: '/',
+        redirectUri: 'http://127.0.0.1:3000/',
         clientId: "0oa896ymq5IYUyLBT5d7"
       }
       // Search for URL Parameters to see if a user is being routed to the application to recover password
@@ -61,5 +61,39 @@
         location.reload();
       }
     </script>
+  </body>
+</html>
+
+
+
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>GymBro</title>
+    <link rel="stylesheet" href="../Styles/style.css">
+  </head>
+  <body>
+    <div class="background-image"></div>
+    <div class="Title-text">
+        <p>Welcome to GymBro</p>
+    </div>
+    <div class="center-text">
+        <p>A Fitness buddy that helps you exercise</p>
+    </div>
+    <div>
+        <div id="button-container">
+          <button class="workout-button" role="button" onclick="window.location.href='/workout'">
+            Workout
+            <span class="round">
+          </button>
+          <button class="history-button" role= "button" onclick="window.location.href='/history'">
+            History
+            <span class="round">
+          </button>
+        </div>
+    </div>
+  </head>
+    <script src="../Scripts/homepage.js"></script>
   </body>
 </html>
