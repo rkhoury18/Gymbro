@@ -50,7 +50,8 @@ while True:
                     weight = wrkt['weight']
                     stalled = 0
                     
-                    r = start_set(target_reps)
+                    #r = start_set(target_reps)
+                    r = start_set_y(target_reps) #signal processing using PCA
 
                     volume = weight*r
                     print("volume: ", volume)

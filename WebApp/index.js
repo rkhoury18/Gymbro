@@ -69,9 +69,13 @@ let start_exec;
 //  weight : 50, //weight in kgs 
 //  rest : 60 //rest time in seconds
 // }
-let meta;
-let workout;
-let completed_set;
+
+var workout = {}
+var meta;
+var workout_change_my_name;
+var completed_set;
+
+
 
 let db_name = "jimbro";
 
@@ -108,6 +112,7 @@ app.get('/new_workout',function(req, res){
 })
 
 app.get('/start_workout',function(req, res){
+    console.log(workout)
     res.sendFile('StartWorkout.html', { root: 'FrontEnd/HTML' });
 })
 
@@ -146,7 +151,6 @@ app.post('/history/save',function(req, res){
 })
 
 app.get('/rcv/workout_names', function(req,res){
-    var data = {}
     let q = "SELECT name FROM workouts"
     con.query(q, function (err, result) {
         if (err) throw err;
@@ -164,11 +168,38 @@ app.post('/pi', function(req,res){
     res.end(reply)
 })
 
+app.post('/client/workout/start', function(req,res){
+    let data = req.body;
+    workout_name = data.name
+    console.log(data)
+    base_q = "SELECT * FROM workouts WHERE name = '" + workout_name + "';" //get exercises in workout
+    console.log(base_q)
+    con.query(base_q, function (err, result) {
+        console.log("hello?")
+        if (err) throw err;
+        r = JSON.parse(JSON.stringify(result))[0];
+        console.log(r)
+        for (var key in r){
+            if (key == "name") continue
+            if (r[key] == null) continue
+            let q = "SELECT * FROM " + r[key] + " WHERE workout = '" + r.name + "';" //get exercise data
+            let k = r[key]
+            con.query(q, function (err, result) {
+                console.log("hello???")
+                if (err) throw err;
+                r_2 = JSON.parse(JSON.stringify(result))[0];
+                console.log(k)
+                console.log(r_2)
+                workout[k] = r_2
+            })
+        }
+    })
+})
 app.get('/client/start_exec', function(req,res){ //change to post
     //start_exec = req.body
     start_exec = {name:"bench_press", start:1, reps:5, sets:3, weight:50, rest:30}
     meta = {name:start_exec.name, start:start_exec.start, sets:start_exec.sets,rest:start_exec.rest}
-    workout = {reps:start_exec.reps, weight:start_exec.weight}
+    workout_change_my_name = {reps:start_exec.reps, weight:start_exec.weight}
     console.log(start_exec)
 }) //get workout data from client
 
@@ -178,8 +209,8 @@ app.get('/pi/start_exec', function(req,res){
 }) //pi is constantly polling app here
 
 app.get('/pi/start_set', function(req,res){
-    res.send(workout)
-    console.log("workout data :",workout)
+    res.send(workout_change_my_name)
+    console.log("workout data :",workout_change_my_name)
 }) //send pi workout data
 
 app.post('/pi/finish_set', function(req,res){
