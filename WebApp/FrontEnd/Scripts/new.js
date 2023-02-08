@@ -104,6 +104,7 @@ window.onload = function() {
       //Listen to delete and delete accordingly
       deleteIn.addEventListener("click", function() {
         row_num = parseInt(deleteIn.id.slice(-1));
+        console.log(row_num)
         weights = document.getElementById("weights" + String(row_num))
         reps = document.getElementById("reps" + String(row_num))
         sets = document.getElementById("sets" + String(row_num))
