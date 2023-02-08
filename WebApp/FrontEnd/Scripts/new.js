@@ -38,10 +38,64 @@ xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 xhr.send(str);
 }
 
+function createDropdown(num_exercises) {
+  var newDiv = document.createElement("div")
+  var newDrop = document.createElement("select")
+  newDrop.setAttribute("class", "dropdown")
+
+  var bench = document.createElement("option")
+  var overhead = document.createElement("option")
+  var squat = document.createElement("option")
+  var deadlift = document.createElement("option")
+  var row = document.createElement("option")
+  var hip = document.createElement("option")
+
+  document.createtextn
+  var bench_text = document.createTextNode("Bench Press")
+  var overhead_text = document.createTextNode("Overhead Press")
+  var squat_text = document.createTextNode("Squat")
+  var deadlift_text = document.createTextNode("Deadlift")
+  var row_text = document.createTextNode("Barbell Row")
+  var hip_text = document.createTextNode("Hip Thrust")
+
+  bench.value = "p_bench_press"
+  overhead.value = "p_overhead_press"
+  squat.value = "p_squat"
+  deadlift.value = "p_dealift"
+  row.value = "p_barbell_row"
+  hip.value = "p_hip_thrust"
+
+  bench.appendChild(bench_text)
+  overhead.appendChild(overhead_text)
+  squat.appendChild(squat_text)
+  deadlift.appendChild(deadlift_text)
+  row.appendChild(row_text)
+  hip.appendChild(hip_text)
+
+  
+  newDrop.appendChild(bench)
+  newDrop.appendChild(overhead)
+  newDrop.appendChild(squat)
+  newDrop.appendChild(deadlift)
+  newDrop.appendChild(row)
+  newDrop.appendChild(hip)
+
+  newDrop.style.top = String(15 + 10*(num_exercises - 1)) + "%"; 
+  newDrop.id = "dropdown" + String(num_exercises);
+  // newDiv.appendChild(newDrop)
+  document.body.appendChild(newDrop)
+
+
+  newDrop.addEventListener("change", function() {
+    const selectedOption = dropdown.value;
+  });
+}
+
 
 
 var num_exercises = 1
 window.onload = function() {
+  //Dropdown code
 
   var add = document.getElementById("Add");
   var save = document.getElementById("Save")
@@ -53,7 +107,8 @@ window.onload = function() {
       var newSets = document.createElement("div");
       var newRest = document.createElement("div");
       var newDelete = document.createElement("div");
-      
+      createDropdown(num_exercises);
+
       var weightsIn = document.createElement("input");
       var repsIn = document.createElement("input");
       var setsIn = document.createElement("input");
@@ -110,6 +165,7 @@ window.onload = function() {
         sets = document.getElementById("sets" + String(row_num))
         rest = document.getElementById("rest" + String(row_num))
         deletes = document.getElementById("delete" + String(row_num))
+        drop = document.getElementById("dropdown" + String(row_num))
 
         weight_c = document.getElementById("weights_c" + String(row_num))
         reps_c = document.getElementById("reps_c" + String(row_num))
@@ -125,6 +181,7 @@ window.onload = function() {
         removal(reps_c);
         removal(sets_c);
         removal(rest_c);
+        removal(drop);
     
         for (let i = row_num + 1; i <= num_exercises; i+=1){
             weights = document.getElementById("weights" + String(i))
@@ -132,6 +189,7 @@ window.onload = function() {
             sets = document.getElementById("sets" + String(i))
             rest = document.getElementById("rest" + String(i))
             deletes = document.getElementById("delete" + String(i))
+            drop = document.getElementById("dropdown" + String(i))
             weight_c = document.getElementById("weights_c" + String(i))
             reps_c = document.getElementById("reps_c" + String(i))
             sets_c = document.getElementById("sets_c" + String(i))
@@ -146,12 +204,14 @@ window.onload = function() {
             reps_c.id = "reps_c" + String(i - 1)
             sets_c.id = "sets_c" + String(i - 1)
             rest_c.id = "rest_c" + String(i - 1)
+            drop.id = "dropdown" + String(i - 1)
 
             weight_c.style.top = String(15 + 10*(i - 2)) + "%"; //TODO: Make this not hardcoded
             reps_c.style.top = String(15 + 10*(i - 2)) + "%"; //TODO: Make this not hardcoded
             sets_c.style.top = String(15 + 10*(i - 2)) + "%"; //TODO: Make this not hardcoded
             rest_c.style.top = String(15 + 10*(i - 2)) + "%"; //TODO: Make this not hardcoded
             deletes.style.top = String(15 + 10*(i - 2)) + "%";
+            drop.style.top = String(15 + 10*(i - 2)) + "%";
 
         }
         num_exercises -= 1;
@@ -179,10 +239,11 @@ window.onload = function() {
       reps_element = document.getElementById("reps" + String(i));
       sets_element= document.getElementById("sets" + String(i));
       rest_element = document.getElementById("rest" + String(i));
+      drop_element = document.getElementById("dropdown" + String(i));
       // consol
       //we need a workout name
       //get values for each of
-      let ex = exercises[i-1]
+      let ex = drop_element.value
       let w = weight_element.value
       let r = reps_element.value
       let s = sets_element.value

@@ -3,16 +3,69 @@ var fs = require('fs');
 var mysql = require('mysql');
 var bodyParser=require('body-parser');
 var https=require('https');
+const expressSession = require("express-session");
+const passport = require("passport");
+const Auth0Strategy = require("passport-auth0");
+require("dotenv").config();
+const authRouter = require("./auth");
+
+const session = {
+    secret: process.env.SESSION_SECRET,
+    cookie: {},
+    resave: false,
+    saveUninitialized: false
+  };
+
+  const strategy = new Auth0Strategy(
+    {
+      domain: process.env.AUTH0_DOMAIN,
+      clientID: process.env.AUTH0_CLIENT_ID,
+      clientSecret: process.env.AUTH0_CLIENT_SECRET,
+      callbackURL: process.env.AUTH0_CALLBACK_URL
+    },
+    function(accessToken, refreshToken, extraParams, profile, done) {
+      /**
+       * Access tokens are used to authorize users to an API
+       * (resource server)
+       * accessToken is the token to call the Auth0 API
+       * or a secured third-party API
+       * extraParams.id_token has the JSON Web Token
+       * profile has all the information from the user
+       */
+      return done(null, profile);
+    }
+  )
 
 var app = express();
 
 app.use(express.static('FrontEnd'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended:true}));
+app.use(expressSession(session));
+passport.use(strategy);
+app.use(passport.initialize());
+app.use(passport.session());
 
-//var privateKey  = fs.readFileSync('key.pem', 'utf8');
-//var certificate = fs.readFileSync('cert.pem', 'utf8');
-//var credentials = {key: privateKey, cert: certificate};
+
+passport.serializeUser((user, done) => {
+    done(null, user);
+  });
+  
+  passport.deserializeUser((user, done) => {
+    done(null, user);
+  });
+
+
+//   app.use((req, res, next) => {
+//     res.locals.isAuthenticated = req.isAuthenticated();
+//     next();
+//   });
+
+app.use("/", authRouter);
+
+var privateKey  = fs.readFileSync('key.pem', 'utf8');
+var certificate = fs.readFileSync('cert.pem', 'utf8');
+var credentials = {key: privateKey, cert: certificate};
 
 insert_sql = (data) => {
     let table = data.name
@@ -52,7 +105,6 @@ insert_sql_link_wrkt = (data,fk_c,fk) => {
     return str
 }
 
-
 const con = mysql.createConnection({
     host: '13.40.222.118', //changes frequently
     user: 'jim',
@@ -63,7 +115,6 @@ const con = mysql.createConnection({
 let start_exec; 
 // {
 //  name : "bench_press", //name of exercise    
-//  start : 1, //0 = not started, 1 = started
 //  reps : 10, //reps per set
 //  sets : 4,  //number of sets
 //  weight : 50, //weight in kgs 
@@ -74,8 +125,6 @@ var workout = {}
 var meta;
 var workout_change_my_name;
 var completed_set;
-
-
 
 let db_name = "jimbro";
 
@@ -92,7 +141,12 @@ con.query("USE "+db_name, function (err, result) {
 });
 
 app.get('/', function(req, res){
+    console.log(req.user)
     res.sendFile('index.html', { root: 'FrontEnd/HTML' });
+});
+
+app.get('/login_for_andy', function(req, res){
+    res.sendFile('hellpage.html', { root: 'FrontEnd/HTML' });
 });
 
 app.get('/use',function(req, res){
@@ -160,6 +214,10 @@ app.get('/rcv/workout_names', function(req,res){
     })
 })
 
+app.get('/rcv/workout', function(req,res){
+    res.send(workout)
+})
+
 app.post('/pi', function(req,res){
     let m = req.body
     let mssg = m.message
@@ -174,6 +232,7 @@ app.post('/client/workout/start', function(req,res){
     console.log(data)
     base_q = "SELECT * FROM workouts WHERE name = '" + workout_name + "';" //get exercises in workout
     console.log(base_q)
+    workout = {}
     con.query(base_q, function (err, result) {
         console.log("hello?")
         if (err) throw err;
@@ -195,12 +254,12 @@ app.post('/client/workout/start', function(req,res){
         }
     })
 })
-app.get('/client/start_exec', function(req,res){ //change to post
-    //start_exec = req.body
-    start_exec = {name:"bench_press", start:1, reps:5, sets:3, weight:50, rest:30}
-    meta = {name:start_exec.name, start:start_exec.start, sets:start_exec.sets,rest:start_exec.rest}
-    workout_change_my_name = {reps:start_exec.reps, weight:start_exec.weight}
-    console.log(start_exec)
+app.post('/client/start_ex', function(req,res){ //change to post
+    ex = req.body
+    ex["start"] = 1
+    meta = {name:ex.name, start:ex.start, sets:ex.sets,rest:ex.rest}
+    workout_change_my_name = {reps:ex.reps, weight:ex.weight}
+    console.log(ex)
 }) //get workout data from client
 
 app.get('/pi/start_exec', function(req,res){

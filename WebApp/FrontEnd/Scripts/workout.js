@@ -33,7 +33,7 @@ function createWorkoutElement(i, workout_names){
 
     newWorkout.setAttribute("class", "push")
     newStart.setAttribute("class", "start1")
-    //newStart.setAttribute("onclick", "window.location.href='/start_workout'")
+    newStart.setAttribute("onclick", "window.location.href='/start_workout'")
     newModify.setAttribute("class", "modify1")
     newDelete.setAttribute("class", "delete1")
     delete_div.setAttribute("class", "parent")
