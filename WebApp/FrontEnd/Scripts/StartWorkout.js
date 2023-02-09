@@ -87,6 +87,10 @@ function createExercise(i, workout) {
     r.id = "reps" + String(i)
     s.id = "set" + String(i)
     rst.id = "rest" + String(i)
+    w_div.id = "weight_div" + String(i)
+    r_div.id = "reps_div" + String(i)
+    s_div.id = "sets_div" + String(i)
+    rst_div.id = "rest_div" + String(i)
     name_button.id = "name" + String(i)
 
     name_button.appendChild(name_text)
@@ -145,7 +149,56 @@ window.onload = function() {
             senddatajson(ex_obj, "/client/start_ex") 
             
             //Wait for data
-            completed_sets = rcvdatajson("/client/finish_set")
+            sets_completed = 0
+            while (sets_completed < cur_s.value){
+                completed_set_data = rcvdatajson("/client/finish_set")
+                completed_set_data.then(value => {
+                    sets_completed += 1
+                    if (sets_completed == 1) {
+                        cur_w = document.getElementById("weight" + String(ex_counter))
+                        cur_r = document.getElementById("reps" + String(ex_counter))
+                        cur_s = document.getElementById("sets" + String(ex_counter))
+            
+                        w_div = document.getElementById("weight_div" + String(ex_counter))
+                        r_div = document.getElementById("reps_div" + String(ex_counter))
+                        s_div = document.getElementById("set_div" + String(ex_counter))
+                        rst_div = document.getElementById("rest_div" + String(ex_counter))
+
+                        w_div.style.top = String(5 + 25*ex_counter) + "%"
+                        r_div.style.top  = String(5 + 25*ex_counter) + "%"
+                        s_div.style.top  = String(5 + 25*ex_counter) + "%"
+                        
+                        cur_w.parentNode.removeChild(cur_w)
+                        cur_r.parentNode.removeChild(cur_r)
+                        cur_s.parentNode.removeChild(cur_s)
+                        rst_div.parentNode.removeChild(rst_div)
+                    }
+                    set_w =  document.createElement("div")
+                    set_r = document.createElement("div")
+                    set_S = document.createElement("div")
+                    
+                    w_label = document.createElement("label")
+                    r_label = document.createElement("label")
+                    s_label = document.createElement("label")
+                    
+                    w_text = document.createTextNode(set_data.weight)
+                    r_text = document.createTextNode(set_data.reps)
+                    s_text = document.createTextNode(String(sets_completed))
+
+                    w_label.appendChild(w_text)
+                    r_label.appendChild(r_text)
+                    s_label.appendChild(s_text)
+                    set_w.appendChild(w_label)
+                    set_r.appendChild(r_label)
+                    set_s.appendChild(s_label)
+
+                    set_w.style.top = String(5*(sets_completed + 1) + 25*ex_counter) + "%"
+                    set_r.style.top  = String(5*(sets_completed + 1) + 25*ex_counter) + "%"
+                    set_s.style.top  = String(5*(sets_completed + 1) + 25*ex_counter) + "%"
+                    
+                })
+            }
+            
             
             //Move play button and change the class of 1 and 2 
             if (ex_counter < num_exercises - 1){
@@ -161,9 +214,7 @@ window.onload = function() {
                 cur_name_button.setAttribute("class", "exerciseGrey")
                 cur_name_button.style.top = String(5 + 25*(ex_counter)) + "%"
             }
-            ex_counter += 1
-
-            
+            ex_counter += 1  
         })
 
 
