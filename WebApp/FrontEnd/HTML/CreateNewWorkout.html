@@ -6,19 +6,19 @@
   </head>
   <body>
     <div>
-        <nav>
-            <ul>
-                <li id="back">
-                    <a href="/workout">←</a>
-                  </li>
-              <li><a href="#home">Exercises</a></li>
-              <li><a href="#about">Weights</a></li>
-              <li><a href="#services">Reps</a></li>
-              <li><a href="#portfolio">Sets</a></li>
-              <li><a href="#contact">Rest</a></li>
-            </ul>
-        </nav>
         <div>
+          <button id="top_navigation" class="top_navigation" role="button"></button>
+          <button id="Exercise" class="Exercise" role="button">Exercice</button>
+          <button id="Sets" class="Sets" role="button">Sets</button>
+          <button id="Rest" class="Rest" role="button">Rest</button>
+          <button id="Weights" class="Weights" role="button">Weight</button>
+          <button id="Reps" class="Reps" role="button">Reps</button>
+          <button id="new_exercise1" class="New_exercise" role="button"></button>
+          <div class="form__group field">
+            <input type="input" class="form__field" placeholder="Name" name="name" id='name' required />
+            <label for="name" class="form__label">Name of Workout</label>
+          </div>
+
           <select id = "dropdown1" class="dropdown">
             <option value="p_bench_press">Bench Press</option>
             <option value="p_overhead_press">Overhead Press</option>
@@ -27,6 +27,8 @@
             <option value="p_barebll_row">Barebll Row</option>
             <option value="p_hip_thrust">Hip Thrust</option>
           </select>
+
+          
         </div>
         <div class="input_container1">
           <label for="weights1"></label>
@@ -44,17 +46,15 @@
           <label for="rest1"></label>
           <input type="text" id="rest1" />
         </div>
-        <div class="name">
-          <label for="name"></label>
-          <input type="text" id="name" />
-        </div>
+
+        <div class="parent">
+          <button id="delete1" class="delete1" role="button">-</button>
+      </div>
         <div class="parents">
             <button id="Add" class="Add" role="button">+</button>
         </div>
-        <div class="parent">
-            <button id="delete1" class="delete1" role="button">-</button>
-        </div>
         <button id="Save" class="Save" role="button">Save</button>
+        <button class="back" onclick="window.location.href='/workout'">←</button>
         <script src="../Scripts/new.js"></script>
   </body>
 </html>

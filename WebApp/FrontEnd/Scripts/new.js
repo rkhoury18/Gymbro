@@ -80,7 +80,7 @@ function createDropdown(num_exercises) {
   newDrop.appendChild(row)
   newDrop.appendChild(hip)
 
-  newDrop.style.top = String(15 + 10*(num_exercises - 1)) + "%"; 
+  newDrop.style.top = String(25 + 13*(num_exercises - 1)) + "%"; 
   newDrop.id = "dropdown" + String(num_exercises);
   // newDiv.appendChild(newDrop)
   document.body.appendChild(newDrop)
@@ -114,6 +114,7 @@ window.onload = function() {
       var setsIn = document.createElement("input");
       var restIn = document.createElement("input");
       var deleteIn = document.createElement("button");
+      var newExercise = document.createElement("button")
       const delete_text = document.createTextNode("-");
 
       newWeight.setAttribute("class", "input_container1");
@@ -126,11 +127,14 @@ window.onload = function() {
       restIn.setAttribute("type", "text");
       newDelete.setAttribute("class", "parent");
       deleteIn.setAttribute("class", "delete1");
+      newExercise.setAttribute("class", "New_exercise")
+
 
       newWeight.id = "weights_c" + String(num_exercises);
       newReps.id = "reps_c" + String(num_exercises);
       newSets.id = "sets_c" + String(num_exercises);
       newRest.id = "rest_c" + String(num_exercises);
+      newExercise.id = "new_exercise" + String(num_exercises)
 
       weightsIn.id = "weights" + String(num_exercises);
       repsIn.id = "reps" + String(num_exercises);
@@ -138,11 +142,12 @@ window.onload = function() {
       restIn.id = "rest" + String(num_exercises);
       deleteIn.id = "delete" + String(num_exercises)
 
-      newWeight.style.top = String(15 + 10*(num_exercises - 1)) + "%"; //TODO: Make this not hardcoded
-      newReps.style.top = String(15 + 10*(num_exercises - 1)) + "%"; //TODO: Make this not hardcoded
-      newSets.style.top = String(15 + 10*(num_exercises - 1)) + "%"; //TODO: Make this not hardcoded
-      newRest.style.top = String(15 + 10*(num_exercises - 1)) + "%"; //TODO: Make this not hardcoded
-      deleteIn.style.top = String(15 + 10*(num_exercises - 1)) + "%";
+      newWeight.style.top = String(25 + 13*(num_exercises - 1)) + "%"; //TODO: Make this not hardcoded
+      newReps.style.top = String(25 + 13*(num_exercises - 1)) + "%"; //TODO: Make this not hardcoded
+      newSets.style.top = String(25 + 13*(num_exercises - 1)) + "%"; //TODO: Make this not hardcoded
+      newRest.style.top = String(25 + 13*(num_exercises - 1)) + "%"; //TODO: Make this not hardcoded
+      deleteIn.style.top = String(25 + 13*(num_exercises - 1)) + "%";
+      newExercise.style.top = String(25 + 10*(num_exercises - 1)) + "%";
       
       newWeight.appendChild(weightsIn);
       document.body.appendChild(newWeight);
@@ -155,6 +160,7 @@ window.onload = function() {
       deleteIn.appendChild(delete_text);
       newDelete.appendChild(deleteIn);
       document.body.appendChild(newDelete);
+      document.body.appendChild(newExercise);
 
       //Listen to delete and delete accordingly
       deleteIn.addEventListener("click", function() {
@@ -164,8 +170,10 @@ window.onload = function() {
         reps = document.getElementById("reps" + String(row_num))
         sets = document.getElementById("sets" + String(row_num))
         rest = document.getElementById("rest" + String(row_num))
+        new_ex = document.getElementById("new_exercise" + String(row_num))
         deletes = document.getElementById("delete" + String(row_num))
         drop = document.getElementById("dropdown" + String(row_num))
+
 
         weight_c = document.getElementById("weights_c" + String(row_num))
         reps_c = document.getElementById("reps_c" + String(row_num))
@@ -182,6 +190,7 @@ window.onload = function() {
         removal(sets_c);
         removal(rest_c);
         removal(drop);
+        removal(new_ex)
     
         for (let i = row_num + 1; i <= num_exercises; i+=1){
             weights = document.getElementById("weights" + String(i))
@@ -194,6 +203,7 @@ window.onload = function() {
             reps_c = document.getElementById("reps_c" + String(i))
             sets_c = document.getElementById("sets_c" + String(i))
             rest_c = document.getElementById("rest_c" + String(i))
+            new_ex = document.getElementById("new_exercise" + String(i))
     
             weights.id = "weights" + String(i - 1)
             reps.id = "reps" + String(i - 1)
@@ -205,24 +215,24 @@ window.onload = function() {
             sets_c.id = "sets_c" + String(i - 1)
             rest_c.id = "rest_c" + String(i - 1)
             drop.id = "dropdown" + String(i - 1)
+            new_ex.id = "new_exercise" + + String(i - 1)
 
-            weight_c.style.top = String(15 + 10*(i - 2)) + "%"; //TODO: Make this not hardcoded
-            reps_c.style.top = String(15 + 10*(i - 2)) + "%"; //TODO: Make this not hardcoded
-            sets_c.style.top = String(15 + 10*(i - 2)) + "%"; //TODO: Make this not hardcoded
-            rest_c.style.top = String(15 + 10*(i - 2)) + "%"; //TODO: Make this not hardcoded
-            deletes.style.top = String(15 + 10*(i - 2)) + "%";
-            drop.style.top = String(15 + 10*(i - 2)) + "%";
+            weight_c.style.top = String(25 + 13*(i - 2)) + "%"; //TODO: Make this not hardcoded
+            reps_c.style.top = String(25 + 13*(i - 2)) + "%"; //TODO: Make this not hardcoded
+            sets_c.style.top = String(25 + 13*(i - 2)) + "%"; //TODO: Make this not hardcoded
+            rest_c.style.top = String(25 + 13*(i - 2)) + "%"; //TODO: Make this not hardcoded
+            deletes.style.top = String(25 + 13*(i - 2)) + "%";
+            drop.style.top = String(25 + 13*(i - 2)) + "%";
+            new_ex.style.top = String(25 + 10*(i - 2)) + "%";
 
         }
         num_exercises -= 1;
-        add.style.top = String(25 + 10*(num_exercises - 1)) + "%";
-        name.style.top = String(35 + 10*(num_exercises - 1)) + "%";
-        save.style.top = String(45 + 10*(num_exercises - 1)) + "%";
+        add.style.top = String(25 + 20*(num_exercises - 1)) + "%";
+        save.style.top = String(35 + 13*(num_exercises - 1)) + "%";
       })
 
-      add.style.top = String(25 + 10*(num_exercises - 1)) + "%";
-      name.style.top = String(35 + 10*(num_exercises - 1)) + "%";
-      save.style.top = String(45 + 10*(num_exercises - 1)) + "%";
+      add.style.top = String(25 + 20*(num_exercises - 1)) + "%";
+      save.style.top = String(35 + 13*(num_exercises - 1)) + "%";
       
   })
   
