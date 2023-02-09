@@ -1,3 +1,19 @@
+async function rcvdatajson(url) {
+  let response = await fetch(url);
+  let data = response.json();
+  return data;
+}
+
+window.onload = function() {
+  user_promise = rcvdatajson("/rcv/user");
+  user_promise.then(user => {
+    console.log(user)
+    //user-name should be on top right of page i am noob :(
+    document.getElementById("user-name").innerHTML = user.name.givenName + " " + user.name.familyName;
+  }); 
+}
+
+
 let button = document.querySelector(".workout-button");
 let item = document.querySelector(".workout-button .round");
 
@@ -68,8 +84,3 @@ button_b.addEventListener("mouseleave", function() {
   }
   item_b.style.left = buttonX + "px";
 });
-
-
-
-
-

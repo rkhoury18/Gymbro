@@ -106,7 +106,7 @@ insert_sql_link_wrkt = (data,fk_c,fk) => {
 }
 
 const con = mysql.createConnection({
-    host: '13.40.222.118', //changes frequently
+    host: '13.42.16.164', //changes frequently
     user: 'jim',
     password: 'andy23',
     port: 3306
@@ -127,7 +127,7 @@ var workout_change_my_name;
 var completed_set;
 
 let db_name = "jimbro";
-
+let user = {}
 con.connect(function(err) {
     if (err){
         console.log("Could not connect to the database.");
@@ -141,12 +141,21 @@ con.query("USE "+db_name, function (err, result) {
 });
 
 app.get('/', function(req, res){
-    console.log(req.user)
-    res.sendFile('index.html', { root: 'FrontEnd/HTML' });
+    console.log(req.isAuthenticated())
+    user = {}
+    if (req.isAuthenticated()) {
+        console.log(req.user)
+        user["name"] = req.user.name
+        user["email"] = req.user.email
+        user["id"] = req.user.id
+        res.sendFile('index.html', { root: 'FrontEnd/HTML'});
+    } else {
+        res.sendFile("login.html", { root: "FrontEnd/HTML"});
+    }
 });
 
-app.get('/login_for_andy', function(req, res){
-    res.sendFile('hellpage.html', { root: 'FrontEnd/HTML' });
+app.get('/rcv/user', function(req, res){
+    res.send(user);
 });
 
 app.get('/use',function(req, res){

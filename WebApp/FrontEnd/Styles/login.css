@@ -1,0 +1,107 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+.background-image{
+    background-image: url('../background.jpg');
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 100vh;
+    width: 100%;
+    min-width: 700px;
+
+}
+.center-text {
+    position: fixed;
+    top: 75%;
+    left: 40%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    width: 100vw;
+    height: 100vh;
+    font-size: 25px;
+    font-family:Arial, Helvetica, sans-serif;
+    font-weight: light;
+    color: black;
+    min-width: 1000px;
+}
+.Title-text {
+    position: fixed;
+    top: 60%;
+    left: 40%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    width: 100vw;
+    height: 100vh;
+    font-size: 60px;
+    font-family:Arial, Helvetica, sans-serif;
+    font-weight: light;
+    color: black;
+    min-width: 1000px;
+    
+}
+body {
+  padding: 0;
+  margin: 0;
+  background-color: #0f1a20;
+}
+
+#button-container {
+  display: flex;
+  height: 100vh;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-button {
+    border: 2px solid black;
+    border-radius: 500px;
+    width: 300px;
+    height: 150px;
+    overflow: hidden;
+    background-color: transparent;
+    text-transform: uppercase;
+    color: black;
+    font-size: 25px;
+    font-family: "Rubik", sans-serif;
+    font-weight: 700;
+    position: fixed;
+    top: 50%;
+    left: 30%;
+}
+
+.login-button:hover {
+    cursor: pointer;
+    border: 2px solid #0378c0;
+}
+
+.login-button .round {
+    border-radius: 50%;
+    background-color: #0378c0;
+    position: absolute;
+    top: 5px;
+    left: 10px;
+    z-index: -1;
+    animation: scale-down 0.2s forwards;
+}
+
+.login-button.animate .round {
+    animation: scale-up 0.5s forwards;
+}
+
+@keyframes scale-up {
+    to {
+        transform: scale(600);
+    }
+}
+
+@keyframes scale-down {
+    from {
+        transform: scale(600);
+    }
+    to {
+        ransform: scale(0);
+    }
+}
