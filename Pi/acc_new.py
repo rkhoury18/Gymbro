@@ -1,12 +1,11 @@
 #Code that re-runs peak finder over and over
 import smbus2
-# import numpy as np
-# import pandas as pd
+#import pandas as pd
 import RPi.GPIO as GPIO
 import time
 import numpy as np
 GPIO.setmode(GPIO.BCM) 
-GPIO.setup(26, GPIO.OUT) 
+GPIO.setup(23, GPIO.OUT) 
 GPIO.setwarnings(False)
 
 LIS3DH_ADRESS = 0x18 #Add the I2C bus address for the sensor here
@@ -16,7 +15,7 @@ PIN_VIBRATE = 23
 bus = smbus2.SMBus(1)
 time.sleep(1)
 #Set up a write transaction that sends the command to measure temperature
-cmd_meas_acceleration = smbus2.i2c_msg.write(LIS3DH_ADRESS,[REGISTER_ADRESS, 0x27])
+cmd_meas_acceleration = smbus2.i2c_msg.write(LIS3DH_ADRESS,[REGISTER_ADRESS, 0x77])
     
 #Execute the two transactions with a small delay between them
 bus.i2c_rdwr(cmd_meas_acceleration)
@@ -124,7 +123,7 @@ def to_csv(array, name):
     
     
 #-----Parameters-----
-FILTER_TAPS = 100
+FILTER_TAPS = 400
 
 SAMPLES_SAVED = 200
 MIN_PEAK_HEIGHT = 1.2
@@ -192,7 +191,7 @@ def start_set(target_reps):
                 break
 
             else:
-                GPIO.output(26,0)
+                GPIO.output(PIN_VIBRATE,0)
 
         except KeyboardInterrupt:
             GPIO.cleanup()
@@ -212,7 +211,7 @@ def start_set_y(target_reps):
     goal_hit = False
     set_started = False
 
-#Initialise signal processing variables:
+    #Initialise signal processing variables:
     d = 3 #dimension of input data
     l = 1 #dimension of output data
     k = 10 #window size 
@@ -274,24 +273,19 @@ def start_set_y(target_reps):
                 break
 
             else:
-                GPIO.output(26,0)
+                GPIO.output(PIN_VIBRATE,0)
 
         except KeyboardInterrupt:
             GPIO.cleanup()
 
-        print("y_t: {} ".format(round(y_t, 3)))
+        print("y_t: {} ".format(y_t))
 
     return reps
 
 
-if __name__ == "__main__":
-    start_set()
-
-
-
 def ConstructWindow(x_t, B, k):
 
-    B_new = np.delete(B, k, 0)
+    B_new = np.delete(B, k-1, 0)
 
     B_t = np.vstack([x_t, B_new])
 
@@ -308,18 +302,37 @@ def process_1_input_vector(x,y,z,k,l,d,sigma_array, B_t, U):
     #inside the while true:
     x_t = [x,y,z]
     B_t = ConstructWindow(x_t, B_t, k)
+    
     min_val = np.min(sigma_array)
 
     #sigma, u = np.linalg.eigh( B_t*(I - U*U.T)):
-    sigma, u = np.linalg.eigh( np.matmul(B_t, (np.eye(d) - np.matmul(U, U.transpose()))))[-1]
+    X = np.matmul(B_t, (np.eye(d) - np.matmul(U, U.transpose())))
     
-    if sigma > min_val:
+
+    sigma, u = np.linalg.eigh( np.matmul(X.transpose(), X))
+    
+    #print(sigma.shape)
+
+    #print(sigma)
+    #print(u)
+
+    if sigma[d-1] > min_val:
         idx = np.argmin(sigma_array)
-        U[:, idx] = u
-        sigma_array[idx] = sigma
+        U[:, idx] = u[:,d-1]
+        sigma_array[idx] = sigma[d-1]
     
+
     y_t = np.matmul(x_t, U)
 
     return B_t, U, sigma_array, y_t
+
+
+
+    
+
+if __name__ == "__main__":
+    start_set_y(10)
+
+
 
 
