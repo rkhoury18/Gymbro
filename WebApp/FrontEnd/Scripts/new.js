@@ -80,7 +80,7 @@ function createDropdown(num_exercises) {
   newDrop.appendChild(row)
   newDrop.appendChild(hip)
 
-  newDrop.style.top = String(25 + 13*(num_exercises - 1)) + "%"; 
+  newDrop.style.top = String(25 + 12*(num_exercises - 1)) + "%"; 
   newDrop.id = "dropdown" + String(num_exercises);
   // newDiv.appendChild(newDrop)
   document.body.appendChild(newDrop)
@@ -142,12 +142,12 @@ window.onload = function() {
       restIn.id = "rest" + String(num_exercises);
       deleteIn.id = "delete" + String(num_exercises)
 
-      newWeight.style.top = String(25 + 13*(num_exercises - 1)) + "%"; //TODO: Make this not hardcoded
-      newReps.style.top = String(25 + 13*(num_exercises - 1)) + "%"; //TODO: Make this not hardcoded
-      newSets.style.top = String(25 + 13*(num_exercises - 1)) + "%"; //TODO: Make this not hardcoded
-      newRest.style.top = String(25 + 13*(num_exercises - 1)) + "%"; //TODO: Make this not hardcoded
-      deleteIn.style.top = String(25 + 13*(num_exercises - 1)) + "%";
-      newExercise.style.top = String(25 + 10*(num_exercises - 1)) + "%";
+      newWeight.style.top = String(25 + 12*(num_exercises - 1)) + "%"; //TODO: Make this not hardcoded
+      newReps.style.top = String(25 + 12*(num_exercises - 1)) + "%"; //TODO: Make this not hardcoded
+      newSets.style.top = String(25 + 12*(num_exercises - 1)) + "%"; //TODO: Make this not hardcoded
+      newRest.style.top = String(25 + 12*(num_exercises - 1)) + "%"; //TODO: Make this not hardcoded
+      deleteIn.style.top = String(23 + 12*(num_exercises - 1)) + "%";
+      newExercise.style.top = String(23 + 12*(num_exercises - 1)) + "%";
       
       newWeight.appendChild(weightsIn);
       document.body.appendChild(newWeight);
@@ -217,22 +217,22 @@ window.onload = function() {
             drop.id = "dropdown" + String(i - 1)
             new_ex.id = "new_exercise" + + String(i - 1)
 
-            weight_c.style.top = String(25 + 13*(i - 2)) + "%"; //TODO: Make this not hardcoded
-            reps_c.style.top = String(25 + 13*(i - 2)) + "%"; //TODO: Make this not hardcoded
-            sets_c.style.top = String(25 + 13*(i - 2)) + "%"; //TODO: Make this not hardcoded
-            rest_c.style.top = String(25 + 13*(i - 2)) + "%"; //TODO: Make this not hardcoded
-            deletes.style.top = String(25 + 13*(i - 2)) + "%";
-            drop.style.top = String(25 + 13*(i - 2)) + "%";
-            new_ex.style.top = String(25 + 10*(i - 2)) + "%";
+            weight_c.style.top = String(25 + 12*(i - 2)) + "%"; //TODO: Make this not hardcoded
+            reps_c.style.top = String(25 + 12*(i - 2)) + "%"; //TODO: Make this not hardcoded
+            sets_c.style.top = String(25 + 12*(i - 2)) + "%"; //TODO: Make this not hardcoded
+            rest_c.style.top = String(25 + 12*(i - 2)) + "%"; //TODO: Make this not hardcoded
+            deletes.style.top = String(23 + 12*(i - 2)) + "%";
+            drop.style.top = String(25 + 12*(i - 2)) + "%";
+            new_ex.style.top = String(23 + 12*(i - 2)) + "%";
 
         }
         num_exercises -= 1;
-        add.style.top = String(25 + 20*(num_exercises - 1)) + "%";
-        save.style.top = String(35 + 13*(num_exercises - 1)) + "%";
+        add.style.top = String(34 + 12*(num_exercises - 1)) + "%";
+        save.style.top = String(35 + 12*(num_exercises - 1)) + "%";
       })
 
-      add.style.top = String(25 + 20*(num_exercises - 1)) + "%";
-      save.style.top = String(35 + 13*(num_exercises - 1)) + "%";
+      add.style.top = String(34 + 12*(num_exercises - 1)) + "%";
+      save.style.top = String(35 + 12*(num_exercises - 1)) + "%";
       
   })
   

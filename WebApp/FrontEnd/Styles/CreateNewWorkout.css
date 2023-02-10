@@ -296,7 +296,7 @@
   z-index: 2;
 }
 
-.Sets {
+.Reps {
   background-color: rgb(14, 161, 240);
   border-radius: 8px;
   border-width: 0;
@@ -325,7 +325,8 @@
   z-index: 2;
 }
 
-.Reps {
+
+.Sets {
   background-color: rgb(14, 161, 240);
   border-radius: 8px;
   border-width: 0;
@@ -353,6 +354,7 @@
   height: 10%;
   z-index: 2;
 }
+
 
 .Rest {
   background-color: rgb(14, 161, 240);
