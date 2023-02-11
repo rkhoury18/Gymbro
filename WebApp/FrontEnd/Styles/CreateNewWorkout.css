@@ -1,7 +1,4 @@
-*{
-    margin: 0;
-    padding: 0;
-}
+
 .parents {
     display: flex;
     flex-direction: column;
@@ -9,7 +6,7 @@
   }
   
   .parents button {
-    background-color: #9DB3BF;
+    background-color: rgb(2, 2, 100);
     color: white;
     border: none;
     padding: 5px;
@@ -18,11 +15,15 @@
     width: 50px;
     cursor: pointer;
     transition: all 0.2s ease;
+    touch-action: manipulation;
   
+  }
+  .parents:hover {
+    background-color: #3E4F63;
   }
   
   .parents button:active {
-    background-color: #48abe0;
+    background-color: #4F7186;
     box-shadow: 0 0 2px darkslategray;
     transform: translateY(2px);
   }
@@ -34,17 +35,8 @@
   .Add{
     border-radius: 50%;
     position: absolute;
-    top: 25%;
+    top: 34%;
     left: 8%;
-  }
-
-  .name{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    position: absolute;
-    top: 30%;
-    left: 5.75%;
   }
 
 
@@ -52,9 +44,10 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    position: fixed;
-    top: 15%;
-    left: 36%;
+    position: absolute;
+    top: 25%;
+    left: 29%;
+    z-index: 3;
     }
     
     .input_container2 {
@@ -62,8 +55,9 @@
     flex-direction: column;
     align-items: center;
     position: fixed;
-    top: 15%;
-    left: 52.25%;
+    top: 25%;
+    left: 44%;
+    z-index: 3;
     }
 
     .input_container3 {
@@ -71,8 +65,9 @@
       flex-direction: column;
       align-items: center;
       position: fixed;
-      top: 15%;
-      left: 68.5%;
+      top: 25%;
+      left: 59%;
+      z-index: 3;
       }
     
     .input_container4 {
@@ -80,9 +75,11 @@
       flex-direction: column;
       align-items: center;
       position: fixed;
-      top: 15%;
-      left: 85%;
+      top: 25%;
+      left: 74%;
+      z-index: 3;
     }
+    
       
     
     label {
@@ -99,56 +96,24 @@
     font-size: 16px;
     }
 
-nav {
-    background-color: lightgray;
-    padding: 17px;
-    text-align: center;
-    font-size: 30px;
-    position: sticky;
-    top: 0;
-    z-index: 1;
-  }
-  
-  nav ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-  }
-  
-  nav li {
-    flex: 1;
-  }
-  
-  nav a {
-    display: block;
-    padding: 10px;
-    color: black;
-    text-decoration: none;
-  }
-  
-  nav a:hover {
-    background-color: gray;
-    color: white;
-  }
-
   
 .dropdown {
-  background-color: #2980B9;
+  background-color: darkgrey;
   color: white;
   width: 10%;
   height: 5%;
   font-size: 16px;
   padding: 0.1%;
   position: absolute;
-  top: 15%;
-  left: 19.75%;
+  top: 25.25%;
+  left: 6%;
+  z-index: 3;
 }
 
 
 .Save {
   appearance: none;
-  background-color: #4F7186;
+  background-color: rgb(2, 2, 100);
   border: 1px solid rgba(27, 31, 35, .15);
   border-radius: 6px;
   box-shadow: rgba(27, 31, 35, .1) 0 1px 0;
@@ -171,10 +136,10 @@ nav {
   white-space: nowrap;
   position: fixed;
     top: 35%;
-    left: 6%;
+    left: 80%;
     height: 5%;
     width: 9%;
-}
+} 
 
 .Save:focus:not(:focus-visible):not(.focus-visible) {
   box-shadow: none;
@@ -209,11 +174,11 @@ nav {
 }
 
 .parent button {
-  background-color: rgb(121, 5, 5);
-  color: white;
+  background-color: white;
+  color: red;
   border: none;
   padding: 5px;
-  font-size: 35px;
+  font-size: 70px;
   text-align: center;
   height: 50px;
   width: 50px;
@@ -223,7 +188,7 @@ nav {
 }
 
 .parent button:active {
-  background-color: red;
+  background-color: white;
   box-shadow: 0 0 2px darkslategray;
   transform: translateY(2px);
 }
@@ -235,7 +200,335 @@ nav {
 .delete1{
   border-radius: 50%;
   position: absolute;
-  top: 17%;
-  left: 8%;
+  top: 23%;
+  left: 92%;
+
 }
 
+
+
+
+/* redesigning */
+.top_navigation {
+  background-color: rgb(14, 161, 240);
+  border-radius: 8px;
+  border-width: 0;
+  color: white;
+  cursor: pointer;
+  display: inline-block;
+  font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 250%;
+  font-weight: 500;
+  line-height: 20px;
+  list-style: none;
+  text-align: center;
+  text-indent: -1100px;
+  margin: 0;
+  padding: 10px 12px;
+  transition: all 200ms;
+  vertical-align: baseline;
+  white-space: nowrap;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  position: fixed;
+  top: 10%;
+  left: 5%;
+  width: 85%;
+  height: 10%;
+}
+
+.Exercise {
+  background-color: rgb(14, 161, 240);
+  border-radius: 8px;
+  border-width: 0;
+  color: white;
+  cursor: pointer;
+  display: inline-block;
+  font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 150%;
+  font-weight: 500;
+  line-height: 20px;
+  list-style: none;
+  text-align: center;
+  margin: 0;
+  padding: 10px 12px;
+  transition: all 200ms;
+  vertical-align: baseline;
+  white-space: nowrap;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  position: fixed;
+  top: 10%;
+  left: 5%;
+  width: 10%;
+  height: 10%;
+  z-index: 2;
+}
+
+.Weights {
+  background-color: rgb(14, 161, 240);
+  border-radius: 8px;
+  border-width: 0;
+  color: white;
+  cursor: pointer;
+  display: inline-block;
+  font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 150%;
+  font-weight: 500;
+  line-height: 20px;
+  list-style: none;
+  text-align: center;
+  margin: 0;
+  padding: 10px 12px;
+  transition: all 200ms;
+  vertical-align: baseline;
+  white-space: nowrap;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  position: fixed;
+  top: 10%;
+  left: 30%;
+  width: 10%;
+  height: 10%;
+  z-index: 2;
+}
+
+.Reps {
+  background-color: rgb(14, 161, 240);
+  border-radius: 8px;
+  border-width: 0;
+  color: white;
+  cursor: pointer;
+  display: inline-block;
+  font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 150%;
+  font-weight: 500;
+  line-height: 20px;
+  list-style: none;
+  text-align: center;
+  margin: 0;
+  padding: 10px 12px;
+  transition: all 200ms;
+  vertical-align: baseline;
+  white-space: nowrap;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  position: fixed;
+  top: 10%;
+  left: 45%;
+  width: 10%;
+  height: 10%;
+  z-index: 2;
+}
+
+
+.Sets {
+  background-color: rgb(14, 161, 240);
+  border-radius: 8px;
+  border-width: 0;
+  color: white;
+  cursor: pointer;
+  display: inline-block;
+  font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 150%;
+  font-weight: 500;
+  line-height: 20px;
+  list-style: none;
+  text-align: center;
+  margin: 0;
+  padding: 10px 12px;
+  transition: all 200ms;
+  vertical-align: baseline;
+  white-space: nowrap;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  position: fixed;
+  top: 10%;
+  left: 60%;
+  width: 10%;
+  height: 10%;
+  z-index: 2;
+}
+
+
+.Rest {
+  background-color: rgb(14, 161, 240);
+  border-radius: 8px;
+  border-width: 0;
+  color: white;
+  cursor: pointer;
+  display: inline-block;
+  font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 150%;
+  font-weight: 500;
+  line-height: 20px;
+  list-style: none;
+  text-align: center;
+  margin: 0;
+  padding: 10px 12px;
+  transition: all 200ms;
+  vertical-align: baseline;
+  white-space: nowrap;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  position: fixed;
+  top: 10%;
+  left: 75%;
+  width: 10%;
+  height: 10%;
+  z-index: 2;
+}
+
+.New_exercise {
+  background-color: lightgrey;
+  border-radius: 8px;
+  border-width: 0;
+  color: white;
+  cursor: pointer;
+  display: inline-block;
+  font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 150%;
+  font-weight: 500;
+  line-height: 20px;
+  list-style: none;
+  text-align: center;
+  margin: 0;
+  padding: 10px 12px;
+  transition: all 200ms;
+  vertical-align: baseline;
+  white-space: nowrap;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  position: fixed;
+  top: 23%;
+  left: 5%;
+  width: 85%;
+  height: 10%;
+  z-index: 2;
+}
+
+.form__group {
+  position: absolute;
+  padding: 15px 0 0;
+  margin-top: 10px;
+  width: 20%;
+  top:0%;
+  left:39%;
+  z-index:2;
+}
+
+.form__field {
+  font-family: inherit;
+  width: 100%;
+  border: 0;
+  border-bottom: 2px solid grey;
+  outline: 0;
+  font-size: 1.3rem;
+  color: black;
+  padding: 7px 0;
+  background: transparent;
+  transition: border-color 0.2s;
+}
+.form__field::placeholder {
+  color: transparent;
+}
+.form__field:placeholder-shown ~ .form__label {
+  font-size: 1.3rem;
+  cursor: text;
+  top: 20px;
+}
+
+.form__label {
+  position: absolute;
+  top: 0;
+  display: block;
+  transition: 0.2s;
+  font-size: 1rem;
+  color: grey;
+}
+
+.form__field:focus {
+  padding-bottom: 6px;
+  font-weight: 700;
+  border-width: 3px;
+  border-image: linear-gradient(to right, black, black);
+  border-image-slice: 1;
+}
+.form__field:focus ~ .form__label {
+  position: absolute;
+  top: 0;
+  display: block;
+  transition: 0.2s;
+  font-size: 1rem;
+  color: black;
+  font-weight: 700;
+}
+
+/* reset input */
+.form__field:required, .form__field:invalid {
+  box-shadow: none;
+}
+
+
+
+.back {
+  appearance: none;
+  background-color: transparent;
+  border: 0px solid rgba(27, 31, 35, .15);
+  border-radius: 6px;
+  box-sizing: border-box;
+  color: #000000;
+  cursor: pointer;
+  display: inline-block;
+  font-family: -apple-system,system-ui,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji";
+  font-size: 40px;
+  font-weight: 600;
+  line-height: 20px;
+  padding: 6px 16px;
+  /* position: relative; */
+  text-align: center;
+  text-decoration: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: middle;
+  white-space: nowrap;
+  position: fixed;
+  top: -1%;
+  left: -2%;
+  height: 10%;
+  width: 15%;
+}
+
+.back:focus:not(:focus-visible):not(.focus-visible) {
+  box-shadow: none;
+  outline: none;
+}
+
+.back:hover {
+  background-color: transparent;
+}
+
+.back:focus {
+  box-shadow: rgba(46, 164, 79, .4) 0 0 0 3px;
+  outline: none;
+}
+
+.back:disabled {
+  background-color: #94d3a2;
+  border-color: rgba(27, 31, 35, .1);
+  color: rgba(255, 255, 255, .8);
+  cursor: default;
+}
+
+.back:active {
+  background-color: transparent;
+  box-shadow: rgba(20, 70, 32, .2) 0 1px 0 inset;
+}

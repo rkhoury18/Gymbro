@@ -22,16 +22,29 @@ Object.size = function(obj) {
 };
 
 function parse_str(str){
-    for (let i = 0; i < str.length; i++){
-        return
+    
+    str_arr = str.slice(2).split("")
+    prev_underscore = true
+    let i = 0;
+    while (i < str_arr.length){
+        if (str_arr[i] == "_"){
+            str_arr[i] = " "
+            prev_underscore = true
+        }
+        else if (prev_underscore){
+            prev_underscore = false
+            str_arr[i] = str_arr[i].toUpperCase()
+        }
+        i += 1;
     }
-}
+    return str_arr.join("")
+};
 
 function createExercise(i, workout) {
     var keys = Object.keys(workout)
     ex_obj = workout[keys[i]]
     name_button = document.createElement("button");
-    name_text = document.createTextNode(keys[i])
+    name_text = document.createTextNode(parse_str(keys[i]))
     w_div =  document.createElement("div")
     r_div = document.createElement("div")
     s_div = document.createElement("div")
