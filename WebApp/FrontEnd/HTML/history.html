@@ -35,7 +35,8 @@
       <button id="close-popup-button">&times;</button>
     </div>
     <div id="popup-content">
-      <p>This is the popup content.</p>
+      <!-- <p>This is the popup content.</p> -->
+      <canvas id="myChart" style="width:100%;max-width:700px"></canvas>
     </div>
   </div>
 </div>
@@ -48,6 +49,8 @@
     integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/split.js/1.5.11/split.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
+</script>
 <script>
     Split(['#one', '#two'], {
         sizes: [60, 40]

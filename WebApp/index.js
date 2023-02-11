@@ -159,24 +159,49 @@ app.get('/rcv/user', function(req, res){
 });
 
 app.get('/use',function(req, res){
-    res.sendFile('use.html', { root: 'FrontEnd/HTML' });
+    if (!req.isAuthenticated()){
+        res.redirect("/")
+    }
+    else{
+        res.sendFile('use.html', { root: 'FrontEnd/HTML' });
+    }
 })
 
 app.get('/workout',function(req, res){
-    res.sendFile('workout.html', { root: 'FrontEnd/HTML' });
+    if (!req.isAuthenticated()){
+        res.redirect("/")
+    }
+    else{
+        res.sendFile('workout.html', { root: 'FrontEnd/HTML' });
+    }
 })
 
 app.get('/history',function(req, res){
-    res.sendFile('history.html', { root: 'FrontEnd/HTML' });
+    if (!req.isAuthenticated()){
+        res.redirect("/")
+    }
+    else{
+        res.sendFile('history.html', { root: 'FrontEnd/HTML' });
+    }
 })
 
 app.get('/new_workout',function(req, res){
+    if (!req.isAuthenticated()){
+        res.redirect("/")
+    }
+    else{
     res.sendFile('CreateNewWorkout.html', { root: 'FrontEnd/HTML' });
+    }
 })
 
 app.get('/start_workout',function(req, res){
     console.log(workout)
-    res.sendFile('StartWorkout.html', { root: 'FrontEnd/HTML' });
+    if (!req.isAuthenticated()){
+        res.redirect("/")
+    }
+    else{
+        res.sendFile('StartWorkout.html', { root: 'FrontEnd/HTML' });
+    }
 })
 
 app.post('/history/save',function(req, res){
