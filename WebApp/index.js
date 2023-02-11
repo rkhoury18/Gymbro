@@ -214,7 +214,7 @@ app.post('/history/save',function(req, res){
 })
 
 app.get('/rcv/workout_names', function(req,res){
-    let q = "SELECT name FROM workouts"
+    let q = "SELECT name FROM workouts WHERE user_id = '" + user.id + "';"
     con.query(q, function (err, result) {
         if (err) throw err;
         r = JSON.parse(JSON.stringify(result));
@@ -239,7 +239,7 @@ app.post('/client/workout/start', function(req,res){
     let data = req.body;
     workout_name = data.name
     console.log(data)
-    base_q = "SELECT * FROM workouts WHERE name = '" + workout_name + "';" //get exercises in workout
+    base_q = "SELECT * FROM workouts WHERE name = '" + workout_name + "' AND user_id = '" + user.id + "';" //get exercises in workout
     console.log(base_q)
     workout = {}
     con.query(base_q, function (err, result) {
@@ -250,7 +250,7 @@ app.post('/client/workout/start', function(req,res){
         for (var key in r){
             if (key == "name") continue
             if (r[key] == null) continue
-            let q = "SELECT * FROM " + r[key] + " WHERE workout = '" + r.name + "';" //get exercise data
+            let q = "SELECT * FROM " + r[key] + " WHERE workout = '" + r.name + "' AND user_id = '" + user.id + "';" //get exercise data
             let k = r[key]
             con.query(q, function (err, result) {
                 console.log("hello???")
@@ -275,7 +275,7 @@ app.post('/client/workout/delete', function(req,res){
     let data = req.body
     console.log(data)
     workout_name = data.name
-    base_q = "SELECT * FROM workouts WHERE name = '" + workout_name + "';" //get exercises in workout
+    base_q = "SELECT * FROM workouts WHERE name = '" + workout_name + "' AND user_id = '" + user.id + "';" //get exercises in workout
     workout = {}
     con.query(base_q, function (err, result) {
         if (err) throw err;
@@ -283,12 +283,12 @@ app.post('/client/workout/delete', function(req,res){
         for (var key in r){
             if (key == "name") continue
             if (r[key] == null) continue
-            let q = "DELETE FROM " + r[key] + " WHERE workout = '" + r.name + "';" //delete exercise data
+            let q = "DELETE FROM " + r[key] + " WHERE workout = '" + r.name + "' AND user_id = '" + user.id + "';" //delete exercise data
             con.query(q, function (err, result) {
                 if (err) throw err;
             })
         }
-        let q = "DELETE FROM workouts WHERE name = '" + r.name + "';" //delete workout data
+        let q = "DELETE FROM workouts WHERE name = '" + r.name + "' AND user_id = '" + user.id + "';" //delete workout data
         con.query(q, function (err, result) {
             if (err) throw err;
         })
@@ -318,6 +318,7 @@ app.get('/client/finish_set', function(req,res){
 
 app.post('/pi/finish_exec', function(req,res){
     let finished_exec = req.body
+    finished_exec["user_id"] = user.id
     console.log("total exec:",finished_exec)
     req = insert_sql(finished_exec)
     con.query(req, function (err, result) {
@@ -331,6 +332,18 @@ app.post('/pi/finish_exec', function(req,res){
 app.get('/client/finish_exec', function(req,res){
     res.send("done")
 }) //send ex complete to client
+
+app.post('/history/rcv/ex', function(req,res){
+
+})
+
+app.get('/history/rcv/ex', function(req,res){
+    res.end()
+})
+
+app.get('/history/rcv/workout', function(req,res){
+    res.end()
+})
 
 //http code:
 console.log('app is running on port 3000');
