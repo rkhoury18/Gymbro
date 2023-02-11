@@ -271,6 +271,30 @@ app.post('/client/start_ex', function(req,res){ //change to post
     console.log(ex)
 }) //get workout data from client
 
+app.post('/client/workout/delete', function(req,res){
+    let data = req.body
+    console.log(data)
+    workout_name = data.name
+    base_q = "SELECT * FROM workouts WHERE name = '" + workout_name + "';" //get exercises in workout
+    workout = {}
+    con.query(base_q, function (err, result) {
+        if (err) throw err;
+        r = JSON.parse(JSON.stringify(result))[0];
+        for (var key in r){
+            if (key == "name") continue
+            if (r[key] == null) continue
+            let q = "DELETE FROM " + r[key] + " WHERE workout = '" + r.name + "';" //delete exercise data
+            con.query(q, function (err, result) {
+                if (err) throw err;
+            })
+        }
+        let q = "DELETE FROM workouts WHERE name = '" + r.name + "';" //delete workout data
+        con.query(q, function (err, result) {
+            if (err) throw err;
+        })
+    })
+})
+
 app.get('/pi/start_exec', function(req,res){
     res.send(meta)
     console.log("meta data :",meta)
