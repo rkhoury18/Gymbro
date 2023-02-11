@@ -124,7 +124,7 @@ let start_exec;
 var workout = {}
 var meta;
 var workout_change_my_name;
-var completed_set;
+var completed_set ={};
 
 let db_name = "jimbro";
 let user = {}
@@ -267,7 +267,7 @@ app.post('/client/start_ex', function(req,res){ //change to post
     ex = req.body
     ex["start"] = 1
     meta = {name:ex.name, start:ex.start, sets:ex.sets,rest:ex.rest}
-    workout_change_my_name = {reps:ex.reps, weight:ex.weight}
+    set = {reps:ex.reps, weight:ex.weight}
     console.log(ex)
 }) //get workout data from client
 
@@ -277,9 +277,9 @@ app.get('/pi/start_exec', function(req,res){
 }) //pi is constantly polling app here
 
 app.get('/pi/start_set', function(req,res){
-    res.send(workout_change_my_name)
-    console.log("workout data :",workout_change_my_name)
-}) //send pi workout data
+    res.send(set)
+    console.log("set data :",set)
+}) //send pi set data
 
 app.post('/pi/finish_set', function(req,res){
     completed_set = req.body
@@ -289,6 +289,7 @@ app.post('/pi/finish_set', function(req,res){
 
 app.get('/client/finish_set', function(req,res){
     res.send(completed_set)
+    completed_set = {}
 }) //send workout data to client
 
 app.post('/pi/finish_exec', function(req,res){
@@ -298,8 +299,14 @@ app.post('/pi/finish_exec', function(req,res){
     con.query(req, function (err, result) {
         if (err) throw err;
     });
+    meta = {}
+    set= {}
     res.end()
 }) //get data at the end of exec from pi
+
+app.get('/client/finish_exec', function(req,res){
+    res.send("done")
+}) //send ex complete to client
 
 //http code:
 console.log('app is running on port 3000');

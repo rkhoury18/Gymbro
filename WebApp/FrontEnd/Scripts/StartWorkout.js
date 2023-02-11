@@ -85,7 +85,7 @@ function createExercise(i, workout) {
 
     w.id = "weight" + String(i)
     r.id = "reps" + String(i)
-    s.id = "set" + String(i)
+    s.id = "sets" + String(i)
     rst.id = "rest" + String(i)
     w_div.id = "weight_div" + String(i)
     r_div.id = "reps_div" + String(i)
@@ -116,10 +116,69 @@ function createExercise(i, workout) {
     
 }
 
+async function updatepage(){
+    while (sets_completed < cur_s.value){
+        set_data = await rcvdatajson("/client/finish_set")
+	if (Object.keys(set_data).length == 0) {
+            continue
+        }
+        sets_completed += 1
+            if (sets_completed == 1) {
+                cur_w = document.getElementById("weight" + String(ex_counter))
+                cur_r = document.getElementById("reps" + String(ex_counter))
+                cur_s = document.getElementById("sets" + String(ex_counter))
+    
+                w_div = document.getElementById("weight_div" + String(ex_counter))
+                r_div = document.getElementById("reps_div" + String(ex_counter))
+                s_div = document.getElementById("sets_div" + String(ex_counter))
+                rst_div = document.getElementById("rest_div" + String(ex_counter))
+
+                w_div.style.top = String(5 + 25*ex_counter) + "%"
+                r_div.style.top  = String(5 + 25*ex_counter) + "%"
+                s_div.style.top  = String(5 + 25*ex_counter) + "%"
+                
+                cur_w.parentNode.removeChild(cur_w)
+                cur_r.parentNode.removeChild(cur_r)
+                cur_s.parentNode.removeChild(cur_s)
+                rst_div.parentNode.removeChild(rst_div)
+            }
+        set_w =  document.createElement("div")
+        set_r = document.createElement("div")
+        set_s = document.createElement("div")
+        
+        w_label = document.createElement("label")
+        r_label = document.createElement("label")
+        s_label = document.createElement("label")
+        
+        w_text = document.createTextNode(set_data.weight)
+        r_text = document.createTextNode(set_data.reps)
+        s_text = document.createTextNode(String(sets_completed))
+
+        w_div.setAttribute("class", "form__group_a field")
+        r_div.setAttribute("class", "form__group_b field")
+        s_div.setAttribute("class", "form__group_c field")
+
+        w_label.appendChild(w_text)
+        r_label.appendChild(r_text)
+        s_label.appendChild(s_text)
+        set_w.appendChild(w_label)
+        set_r.appendChild(r_label)
+        set_s.appendChild(s_label)
+
+        document.body.appendChild(set_w)
+        document.body.appendChild(set_r)
+        document.body.appendChild(set_s)
+
+        set_w.style.top = String(5*(sets_completed + 1) + 25*ex_counter) + "%"
+        set_r.style.top  = String(5*(sets_completed + 1) + 25*ex_counter) + "%"
+        set_s.style.top  = String(5*(sets_completed + 1) + 25*ex_counter) + "%"
+
+    }
+}
 
 window.onload = function() {
     workout_promise = rcvdatajson("/rcv/workout")
-    workout_promise.then(value => {
+    workout_promise.then(async value => {
         workout = value
         console.log(workout)
         num_exercises = Object.size(workout)
@@ -134,12 +193,12 @@ window.onload = function() {
 
 
         //Add listeners for play button
-        play.addEventListener("click", function(){
+        play.addEventListener("click", async function(){
             //Send data to server
             console.log("Ex_counter:", ex_counter)
             cur_w = document.getElementById("weight" + String(ex_counter))
             cur_r = document.getElementById("reps" + String(ex_counter))
-            cur_s = document.getElementById("set" + String(ex_counter))
+            cur_s = document.getElementById("sets" + String(ex_counter))
             cur_rst = document.getElementById("rest" + String(ex_counter))
             cur_name_button = document.getElementById("name" + String(ex_counter))
 
@@ -150,55 +209,8 @@ window.onload = function() {
             
             //Wait for data
             sets_completed = 0
-            while (sets_completed < cur_s.value){
-                completed_set_data = rcvdatajson("/client/finish_set")
-                completed_set_data.then(value => {
-                    sets_completed += 1
-                    if (sets_completed == 1) {
-                        cur_w = document.getElementById("weight" + String(ex_counter))
-                        cur_r = document.getElementById("reps" + String(ex_counter))
-                        cur_s = document.getElementById("sets" + String(ex_counter))
-            
-                        w_div = document.getElementById("weight_div" + String(ex_counter))
-                        r_div = document.getElementById("reps_div" + String(ex_counter))
-                        s_div = document.getElementById("set_div" + String(ex_counter))
-                        rst_div = document.getElementById("rest_div" + String(ex_counter))
 
-                        w_div.style.top = String(5 + 25*ex_counter) + "%"
-                        r_div.style.top  = String(5 + 25*ex_counter) + "%"
-                        s_div.style.top  = String(5 + 25*ex_counter) + "%"
-                        
-                        cur_w.parentNode.removeChild(cur_w)
-                        cur_r.parentNode.removeChild(cur_r)
-                        cur_s.parentNode.removeChild(cur_s)
-                        rst_div.parentNode.removeChild(rst_div)
-                    }
-                    set_w =  document.createElement("div")
-                    set_r = document.createElement("div")
-                    set_S = document.createElement("div")
-                    
-                    w_label = document.createElement("label")
-                    r_label = document.createElement("label")
-                    s_label = document.createElement("label")
-                    
-                    w_text = document.createTextNode(set_data.weight)
-                    r_text = document.createTextNode(set_data.reps)
-                    s_text = document.createTextNode(String(sets_completed))
-
-                    w_label.appendChild(w_text)
-                    r_label.appendChild(r_text)
-                    s_label.appendChild(s_text)
-                    set_w.appendChild(w_label)
-                    set_r.appendChild(r_label)
-                    set_s.appendChild(s_label)
-
-                    set_w.style.top = String(5*(sets_completed + 1) + 25*ex_counter) + "%"
-                    set_r.style.top  = String(5*(sets_completed + 1) + 25*ex_counter) + "%"
-                    set_s.style.top  = String(5*(sets_completed + 1) + 25*ex_counter) + "%"
-                    
-                })
-            }
-            
+            await updatepage()
             
             //Move play button and change the class of 1 and 2 
             if (ex_counter < num_exercises - 1){
@@ -216,7 +228,5 @@ window.onload = function() {
             }
             ex_counter += 1  
         })
-
-
     })
 }
