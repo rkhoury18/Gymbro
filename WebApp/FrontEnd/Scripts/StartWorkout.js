@@ -167,9 +167,9 @@ async function updatepage(){
         r_text = document.createTextNode(set_data.reps)
         s_text = document.createTextNode(String(sets_completed))
 
-        w_div.setAttribute("class", "form__group_a field")
-        r_div.setAttribute("class", "form__group_b field")
-        s_div.setAttribute("class", "form__group_c field")
+        set_w.setAttribute("class", "form__group_a field")
+        set_r.setAttribute("class", "form__group_b field")
+        set_s.setAttribute("class", "form__group_c field")
 
         w_label.appendChild(w_text)
         r_label.appendChild(r_text)

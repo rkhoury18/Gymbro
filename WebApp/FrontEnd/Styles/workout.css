@@ -112,7 +112,7 @@
 /* CSS */
 .modify1 {
   appearance: none;
-  background-color: #5F6E7F;
+  background-color: grey;
   border: 1px solid rgba(27, 31, 35, .15);
   border-radius: 6px;
   box-shadow: rgba(27, 31, 35, .1) 0 1px 0;
@@ -285,7 +285,7 @@
 /* CSS */
 .start1 {
     appearance: none;
-    background-color: #4F7186;
+    background-color: rgb(2, 2, 100);;
     border: 1px solid rgba(27, 31, 35, .15);
     border-radius: 6px;
     box-shadow: rgba(27, 31, 35, .1) 0 1px 0;
@@ -459,7 +459,7 @@
 
 /* CSS */
 .push{
-  background-color: #9DB3BF;
+  background-color: rgb(14, 161, 240);
   border-radius: 8px;
   border-width: 0;
   color: white;
@@ -473,7 +473,7 @@
   text-align: center;
   text-indent: -1100px;
   margin: 0;
-  padding: 10px 12px;
+  padding: 20px;
   transition: all 200ms;
   vertical-align: baseline;
   white-space: nowrap;
@@ -547,7 +547,7 @@
 
 .new {
     appearance: none;
-    background-color: #3E4F63;
+    background-color: rgb(2, 2, 100);;
     border: 1px solid rgba(27, 31, 35, .15);
     border-radius: 6px;
     box-shadow: rgba(27, 31, 35, .1) 0 1px 0;
