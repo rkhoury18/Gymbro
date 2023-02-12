@@ -63,9 +63,9 @@ passport.serializeUser((user, done) => {
 
 app.use("/", authRouter);
 
-//var privateKey  = fs.readFileSync('key.pem', 'utf8');
-//var certificate = fs.readFileSync('cert.pem', 'utf8');
-//var credentials = {key: privateKey, cert: certificate};
+var privateKey  = fs.readFileSync('key.pem', 'utf8');
+var certificate = fs.readFileSync('cert.pem', 'utf8');
+var credentials = {key: privateKey, cert: certificate};
 
 insert_sql = (data) => {
     let table = data.name
@@ -146,8 +146,11 @@ app.get('/', function(req, res){
     if (req.isAuthenticated()) {
         console.log(req.user)
         user["name"] = req.user.name
+        //remove google-oauth2| from user.id?
+        user["id"] = req.user.id.slice(14) 
+
         user["email"] = req.user.email
-        user["id"] = req.user.id.slice(14)
+        
         res.sendFile('index.html', { root: 'FrontEnd/HTML'});
     } else {
         res.sendFile("login.html", { root: "FrontEnd/HTML"});
@@ -216,7 +219,7 @@ app.post('/history/save',function(req, res){
     str_wrkt = str_wrkt.slice(0, -2) //remove last comma
     str_wrkt += ") VALUES ("
     for (var key in data) {
-        if (key == "name" || key == "user_id") {
+        if (key == "name") {
             str_wrkt += "'" + data[key] + "', "
         }
         else {
@@ -231,7 +234,7 @@ app.post('/history/save',function(req, res){
     });
     for (var key in data) {
         if (key == "name") continue
-	if (key == "user_id") continue
+        if (key == "user_id") continue
         data[key]["user_id"] = user.id
         let str_ex = insert_sql_link_wrkt(data[key],"workout",data.name)
         con.query(str_ex, function (err, result) {
@@ -278,7 +281,6 @@ app.post('/client/workout/start', function(req,res){
         for (var key in r){
             if (key == "name") continue
             if (r[key] == null) continue
-	    if (key == "user_id") continue
             let q = "SELECT * FROM " + r[key] + " WHERE workout = '" + r.name + "' AND user_id = '" + user.id + "';" //get exercise data
             let k = r[key]
             con.query(q, function (err, result) {
@@ -312,7 +314,6 @@ app.post('/client/workout/delete', function(req,res){
         for (var key in r){
             if (key == "name") continue
             if (r[key] == null) continue
-	    if (key == "user_id") continue
             let q = "DELETE FROM " + r[key] + " WHERE workout = '" + r.name + "' AND user_id = '" + user.id + "';" //delete exercise data
             con.query(q, function (err, result) {
                 if (err) throw err;
