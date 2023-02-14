@@ -31,73 +31,73 @@ function popupFunctionality(element, ex_name){
             volumes = []
             reps = []
             dates = []
-            for (let i = 0; i < json_arr.length; i++){
-                json_arr[i].
+            // for (let i = 0; i < json_arr.length; i++){
+            //     json_arr[i].
+            // }
+
+        var xValues = ["2021-01-01T00:00:00Z", "2021-01-15T00:00:00Z", "2021-02-01T00:00:00Z", "2021-02-15T00:00:00Z","2021-03-01T00:00:00Z", "2021-03-15T00:00:00Z","2021-04-01T00:00:00Z", "2021-04-15T00:00:00Z","2021-05-01T00:00:00Z", "2021-05-15T00:00:00Z","2021-06-01T00:00:00Z", "2021-06-15T00:00:00Z"];
+        var yValues = [60, 60, 65, 65, 70, 70, 72.5, 72.5, 75, 75, 75, 77.5];
+        
+        //WeightChart
+        new Chart(ex_name + "ChartW", {
+            type: "line",
+            data: {
+                labels: xValues,
+                datasets: [{
+                backgroundColor: "rgba(14, 161, 240, 0.75)",
+                borderColor: "rgba(0,0,0,0)",
+                data: yValues
+                }]
+            },
+            options: {
+                scales: {
+                  xAxes: [{
+                    type: 'time',
+                    time: {
+                        unit: 'month',
+                    }
+                  }],
+                  x: {
+                    text: 'Time'
+                  },
+                  yAxes : [{
+                    text: 'Weight (kg)'
+                  }]
+                }
             }
+        });
 
-            var xValues = ["2021-01-01T00:00:00Z", "2021-01-15T00:00:00Z", "2021-02-01T00:00:00Z", "2021-02-15T00:00:00Z","2021-03-01T00:00:00Z", "2021-03-15T00:00:00Z","2021-04-01T00:00:00Z", "2021-04-15T00:00:00Z","2021-05-01T00:00:00Z", "2021-05-15T00:00:00Z","2021-06-01T00:00:00Z", "2021-06-15T00:00:00Z"];
-            var yValues = [60, 60, 65, 65, 70, 70, 72.5, 72.5, 75, 75, 75, 77.5];
-            
-            //WeightChart
-            new Chart(ex_name + "ChartW", {
-                type: "line",
-                data: {
-                    labels: xValues,
-                    datasets: [{
-                    backgroundColor: "rgba(14, 161, 240, 0.75)",
-                    borderColor: "rgba(0,0,0,0)",
-                    data: yValues
-                    }]
-                },
-                options: {
-                    scales: {
-                    xAxes: [{
-                        type: 'time',
-                        time: {
-                            unit: 'month',
-                        }
-                    }],
-                    x: {
-                        text: 'Time'
-                    },
-                    yAxes : [{
-                        text: 'Weight (kg)'
-                    }]
+        //VolumeChart
+        new Chart(ex_name + "ChartV", {
+            type: "line",
+            data: {
+                labels: xValues,
+                datasets: [{
+                backgroundColor: "rgba(240, 161, 14, 0.75)",
+                borderColor: "rgba(0,0,0,0)",
+                data: yValues
+                }]
+            },
+            options: {
+                scales: {
+                  xAxes: [{
+                    type: 'time',
+                    time: {
+                        unit: 'month',
                     }
+                  }]
                 }
-            });
+            }
+        });
 
-            //VolumeChart
-            new Chart(ex_name + "ChartV", {
-                type: "line",
-                data: {
-                    labels: xValues,
-                    datasets: [{
-                    backgroundColor: "rgba(240, 161, 14, 0.75)",
-                    borderColor: "rgba(0,0,0,0)",
-                    data: yValues
-                    }]
-                },
-                options: {
-                    scales: {
-                    xAxes: [{
-                        type: 'time',
-                        time: {
-                            unit: 'month',
-                        }
-                    }]
-                    }
-                }
-            });
-        })
 
         PopUp.style.display = "flex";
     });
-    
         
     ClosePopup.addEventListener("click", function() {
         PopUp.style.display = "none";
     });
+}
 }
 
 function toggleFunctionality(ex_name) {
@@ -118,7 +118,6 @@ function toggleFunctionality(ex_name) {
 }
 
 
-<<<<<<< Updated upstream
 function createHistoryElement(ex_name, count, max_count){
     var two = document.getElementById("two");
     var container = document.createElement("div");
@@ -152,10 +151,6 @@ function createHistoryElement(ex_name, count, max_count){
     container.appendChild(box)
     two.appendChild(container)
 
-=======
-function createHistoryElement(ex_name, count){
-    var two = document.getElementById("two")
->>>>>>> Stashed changes
 }
 
 
@@ -190,15 +185,15 @@ window.onload = function() {
         max_count = 0;
         keys = Object.keys(workout_history)
         for (var key in keys){
-            if (parseInt(workout_history[keys[key]]) > max_count){
-                max_count = parseInt(workout_history[keys[key]]);
+            if (parseInt(workout_history[key]) > max_count){
+                max_count = parseInt(workout_history[key]);
             }
         }
         for (var key in keys){
             console.log("Key: " + key) 
-            console.log("Count: " + workout_history[keys[key]]) 
+            console.log("Count: " + workout_history[count]) 
             console.log("Max Count: " + max_count) 
-            createHistoryElement(keys[key], parseInt(workout_history[keys[key]]), max_count)
+            createHistoryElement(key, parseInt(workout_history[key]), max_count)
         }
     })
     // createHistoryElement("Push", 30, 35)

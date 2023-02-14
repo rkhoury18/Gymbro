@@ -4,6 +4,15 @@ async function rcvdatajson(url) {
   return data;
 }
 
+window.onload = function() {
+  user_promise = rcvdatajson("/rcv/user");
+  user_promise.then(user => {
+    console.log(user)
+    //user-name should be on top right of page i am noob :(
+    document.getElementById("user-name").innerHTML = user.name.givenName + " " + user.name.familyName;
+  }); 
+}
+
 function senddatajson(json,url){
   let xhr = new XMLHttpRequest();
   xhr.open("POST", url, true);
@@ -42,7 +51,7 @@ function createWorkoutElement(i, workout_names){
     var workout_text = document.createTextNode(workout_names[i].name);
     const start_text = document.createTextNode("Start");
     const modify_text = document.createTextNode("Modify");
-    const delete_text = document.createTextNode("X")
+    const delete_text = document.createTextNode("-")
 
     newWorkout.setAttribute("class", "push")
     newStart.setAttribute("class", "start1")
@@ -61,7 +70,7 @@ function createWorkoutElement(i, workout_names){
     newWorkout.style.top = String(40 + i*20) + "%";
     newStart.style.top = String(42.5 + i*20) + "%";
     newModify.style.top = String(42.5 + i*20) + "%";
-    newDelete.style.top = String(42.5 + i*20) + "%";
+    newDelete.style.top = String(40.5 + i*20) + "%";
 
     newWorkout.appendChild(workout_text);
     newStart.appendChild(start_text);
