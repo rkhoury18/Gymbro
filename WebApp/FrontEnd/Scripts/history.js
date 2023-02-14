@@ -12,6 +12,17 @@ function senddatajson(json,url){
     xhr.send((JSON.stringify(json)));
 }
 
+function parseDate(datestr){
+    date_arr = datestr.split("")
+    for (let i = 0; i < date_arr.length; i++){
+        if (date_arr[i] == " "){
+            date_arr[i] = "T"
+        }
+        date_arr.push("Z")
+    }
+    return date_arr.join("")
+}
+
 function popupFunctionality(element, ex_name){
     const PopUp = document.getElementById(ex_name + "_popup_container");
     const ClosePopup = document.getElementById(ex_name + "_close_popup");
@@ -32,8 +43,12 @@ function popupFunctionality(element, ex_name){
             reps = []
             dates = []
             for (let i = 0; i < json_arr.length; i++){
-                json_arr[i].
+                weights.push(json_arr[i].weight)
+                volumes.push(json_arr[i].volume)
+                reps.push(json_arr[i].reps)
+                dates.push(parseDate(son_arr[i].date))
             }
+            console.log
 
             var xValues = ["2021-01-01T00:00:00Z", "2021-01-15T00:00:00Z", "2021-02-01T00:00:00Z", "2021-02-15T00:00:00Z","2021-03-01T00:00:00Z", "2021-03-15T00:00:00Z","2021-04-01T00:00:00Z", "2021-04-15T00:00:00Z","2021-05-01T00:00:00Z", "2021-05-15T00:00:00Z","2021-06-01T00:00:00Z", "2021-06-15T00:00:00Z"];
             var yValues = [60, 60, 65, 65, 70, 70, 72.5, 72.5, 75, 75, 75, 77.5];
@@ -42,11 +57,11 @@ function popupFunctionality(element, ex_name){
             new Chart(ex_name + "ChartW", {
                 type: "line",
                 data: {
-                    labels: xValues,
+                    labels: dates,
                     datasets: [{
                     backgroundColor: "rgba(14, 161, 240, 0.75)",
                     borderColor: "rgba(0,0,0,0)",
-                    data: yValues
+                    data: weights
                     }]
                 },
                 options: {
@@ -54,13 +69,13 @@ function popupFunctionality(element, ex_name){
                     xAxes: [{
                         type: 'time',
                         time: {
-                            unit: 'month',
+                            unit: 'day',
                         }
                     }],
                     x: {
                         text: 'Time'
                     },
-                    yAxes : [{
+                    y : [{
                         text: 'Weight (kg)'
                     }]
                     }
@@ -71,11 +86,11 @@ function popupFunctionality(element, ex_name){
             new Chart(ex_name + "ChartV", {
                 type: "line",
                 data: {
-                    labels: xValues,
+                    labels: dates,
                     datasets: [{
                     backgroundColor: "rgba(240, 161, 14, 0.75)",
                     borderColor: "rgba(0,0,0,0)",
-                    data: yValues
+                    data: volumes
                     }]
                 },
                 options: {
@@ -83,7 +98,7 @@ function popupFunctionality(element, ex_name){
                     xAxes: [{
                         type: 'time',
                         time: {
-                            unit: 'month',
+                            unit: 'day',
                         }
                     }]
                     }
@@ -118,7 +133,6 @@ function toggleFunctionality(ex_name) {
 }
 
 
-<<<<<<< Updated upstream
 function createHistoryElement(ex_name, count, max_count){
     var two = document.getElementById("two");
     var container = document.createElement("div");
@@ -152,10 +166,6 @@ function createHistoryElement(ex_name, count, max_count){
     container.appendChild(box)
     two.appendChild(container)
 
-=======
-function createHistoryElement(ex_name, count){
-    var two = document.getElementById("two")
->>>>>>> Stashed changes
 }
 
 
