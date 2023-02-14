@@ -106,7 +106,7 @@ insert_sql_link_wrkt = (data,fk_c,fk) => {
 }
 
 const con = mysql.createConnection({
-    host: '13.42.16.164', //changes frequently
+    host: '18.133.248.245', //changes frequently
     user: 'jim',
     password: 'andy23',
     port: 3306
