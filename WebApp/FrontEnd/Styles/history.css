@@ -231,7 +231,7 @@
   .deadlift {
     appearance: none;
     border: 1px solid rgba(27, 31, 35, .15);
-    background-image: url("../Images/Deadlift.png");
+    background-image: url("../Images/Row.png");
     background-color:  rgb(2, 2, 100);
     background-size: 50% 50%;
     background-repeat: no-repeat;
@@ -297,7 +297,7 @@
   .row {
     appearance: none;
     border: 1px solid rgba(27, 31, 35, .15);
-    background-image: url("../Images/Row.png");
+    background-image: url("../Images/Deadlift.png");
     background-color:  rgb(2, 2, 100);
     background-size: 50% 50%;
     background-repeat: no-repeat;

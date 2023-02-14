@@ -3,6 +3,21 @@
     padding: 0;
 }
 
+/* .user {
+  position: fixed;
+  top: 52%;
+  left: 94%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  width: 100vw;
+  height: 100vh;
+  font-size: 20px;
+  font-family:Arial, Helvetica, sans-serif;
+  font-weight: light;
+  color: black;
+  min-width: 1000px;
+} */
+
 
 .parent {
   display: flex;
@@ -11,11 +26,11 @@
 }
 
 .parent button {
-  background-color: #9DB3BF;
-  color: white;
+  background-color: transparent;
+  color: red;
   border: none;
   padding: 5px;
-  font-size: 22px;
+  font-size: 50px;
   height: 5%;
   width: 2.55%;
   cursor: pointer;
@@ -24,8 +39,8 @@
 }
 
 .parent button:active {
-  background-color: #48abe0;
-  box-shadow: 0 0 2px darkslategray;
+  background-color: transparent;
+  box-shadow: 0 0 2px ;
   transform: translateY(2px);
 }
 

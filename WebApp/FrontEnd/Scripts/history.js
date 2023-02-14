@@ -86,8 +86,10 @@ function popupFunctionality(element, ex_name){
                         text: 'Weight (kg)'
                     }]
                     }
+                  }]
                 }
-            });
+            }
+        });
 
             //VolumeChart
             new Chart(ex_name + "ChartV", {
@@ -115,11 +117,11 @@ function popupFunctionality(element, ex_name){
 
         PopUp.style.display = "flex";
     });
-    
         
     ClosePopup.addEventListener("click", function() {
         PopUp.style.display = "none";
     });
+}
 }
 
 function toggleFunctionality(ex_name) {
@@ -207,15 +209,15 @@ window.onload = function() {
         max_count = 0;
         keys = Object.keys(workout_history)
         for (var key in keys){
-            if (parseInt(workout_history[keys[key]]) > max_count){
-                max_count = parseInt(workout_history[keys[key]]);
+            if (parseInt(workout_history[key]) > max_count){
+                max_count = parseInt(workout_history[key]);
             }
         }
         for (var key in keys){
             console.log("Key: " + key) 
-            console.log("Count: " + workout_history[keys[key]]) 
+            console.log("Count: " + workout_history[count]) 
             console.log("Max Count: " + max_count) 
-            createHistoryElement(keys[key], parseInt(workout_history[keys[key]]), max_count)
+            createHistoryElement(key, parseInt(workout_history[key]), max_count)
         }
     })
     // createHistoryElement("Push", 30, 35)
