@@ -165,14 +165,19 @@ window.onload = function() {
     whistory_promise = rcvdatajson("/history/rcv/workout")
 
     whistory_promise.then(value => {
-        workout_history = value; 
+        workout_history = value;
+        console.log("Workout History: " + workout_history) 
         max_count = 0;
-        for (var key in Object.keys(workout_history)){
+        keys = Object.keys(workout_history)
+        for (var key in keys){
             if (parseInt(workout_history[key]) > max_count){
                 max_count = parseInt(workout_history[key]);
             }
         }
-        for (var key in Object.keys(workout_history)){
+        for (var key in keys){
+            console.log("Key: " + key) 
+            console.log("Count: " + workout_history[count]) 
+            console.log("Max Count: " + max_count) 
             createHistoryElement(key, parseInt(workout_history[key]), max_count)
         }
     })
