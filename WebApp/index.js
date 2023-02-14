@@ -106,7 +106,7 @@ insert_sql_link_wrkt = (data,fk_c,fk) => {
 }
 
 const con = mysql.createConnection({
-    host: '18.133.248.245', //changes frequently
+    host: '13.42.105.65', //changes frequently
     user: 'jim',
     password: 'andy23',
     port: 3306
@@ -121,10 +121,14 @@ let start_exec;
 //  rest : 60 //rest time in seconds
 // }
 
-var workout = {}
+var workout = {};
+var workout_data = {};
 var meta;
+var ex_history_name;
+let ex_data = {};
 var workout_change_my_name;
 var completed_set ={};
+var curr_workout_name;
 
 let db_name = "jimbro";
 let user = {}
@@ -176,11 +180,38 @@ app.get('/workout',function(req, res){
     }
 })
 
+app.get('/workout/modify',function(req, res){
+    if (!req.isAuthenticated()){
+        res.redirect("/")
+    }
+    else{
+        res.sendFile('modify.html', { root: 'FrontEnd/HTML' });
+    }
+})
+
 app.get('/history',function(req, res){
     if (!req.isAuthenticated()){
         res.redirect("/")
     }
     else{
+        base_q = "SELECT name FROM workouts WHERE user_id = '" + user.id + "';" //get names of exercises in workout
+        console.log(base_q)
+        con.query(base_q, function (err, result) {
+            if (err) throw err;
+            for (var i of result) {
+                console.log()
+                let workout_name = i.name
+                console.log(workout_name)
+                q = "SELECT COUNT(*) FROM history WHERE name = '" + workout_name + "' AND user_id = '" + user.id + "';"
+                con.query(q, function (err, result) {
+                    if (err) throw err;
+                    r = JSON.parse(JSON.stringify(result))[0]
+                    workout_data[workout_name] = r["COUNT(*)"]
+                    //console.log(workout_data)
+                })
+            }
+    
+        })
         res.sendFile('history.html', { root: 'FrontEnd/HTML' });
     }
 })
@@ -203,7 +234,7 @@ app.get('/start_workout',function(req, res){
         res.sendFile('StartWorkout.html', { root: 'FrontEnd/HTML' });
     }
 })
-
+    
 app.post('/history/save',function(req, res){
     let data = req.body
     console.log(JSON.stringify(data, null, 4))
@@ -231,7 +262,7 @@ app.post('/history/save',function(req, res){
     });
     for (var key in data) {
         if (key == "name") continue
-	if (key == "user_id") continue
+	    if (key == "user_id") continue
         data[key]["user_id"] = user.id
         let str_ex = insert_sql_link_wrkt(data[key],"workout",data.name)
         con.query(str_ex, function (err, result) {
@@ -265,9 +296,9 @@ app.post('/pi', function(req,res){
 
 app.post('/client/workout/start', function(req,res){
     let data = req.body;
-    workout_name = data.name
+    curr_workout_name = data.name
     console.log(data)
-    base_q = "SELECT * FROM workouts WHERE name = '" + workout_name + "' AND user_id = '" + user.id + "';" //get exercises in workout
+    base_q = "SELECT * FROM workouts WHERE name = '" + curr_workout_name + "' AND user_id = '" + user.id + "';" //get exercises in workout
     console.log(base_q)
     workout = {}
     con.query(base_q, function (err, result) {
@@ -278,7 +309,7 @@ app.post('/client/workout/start', function(req,res){
         for (var key in r){
             if (key == "name") continue
             if (r[key] == null) continue
-	    if (key == "user_id") continue
+	        if (key == "user_id") continue
             let q = "SELECT * FROM " + r[key] + " WHERE workout = '" + r.name + "' AND user_id = '" + user.id + "';" //get exercise data
             let k = r[key]
             con.query(q, function (err, result) {
@@ -312,7 +343,7 @@ app.post('/client/workout/delete', function(req,res){
         for (var key in r){
             if (key == "name") continue
             if (r[key] == null) continue
-	    if (key == "user_id") continue
+	        if (key == "user_id") continue
             let q = "DELETE FROM " + r[key] + " WHERE workout = '" + r.name + "' AND user_id = '" + user.id + "';" //delete exercise data
             con.query(q, function (err, result) {
                 if (err) throw err;
@@ -323,6 +354,18 @@ app.post('/client/workout/delete', function(req,res){
             if (err) throw err;
         })
     })
+})
+
+app.post('/client/workout/finish', function(req,res){
+    let data = req.body
+    if (data.finish){
+        workout = {}
+        let q = "INSERT INTO history (name, user_id) VALUES ('" + curr_workout_name + "', '" + user.id + "');" //add workout to history
+        con.query(q, function (err, result) {
+            if (err) throw err;
+        })
+    }
+    res.end()
 })
 
 app.get('/pi/start_exec', function(req,res){
@@ -364,15 +407,25 @@ app.get('/client/finish_exec', function(req,res){
 }) //send ex complete to client
 
 app.post('/history/rcv/ex', function(req,res){
-
+    let data = req.body
+    ex_history_name = data.name
 })
 
 app.get('/history/rcv/ex', function(req,res){
-    res.end()
+    console.log(ex_history)
+    let q = "SELECT * FROM " + ex_history + " WHERE user_id = '" + user.id + "';"
+    con.query(q, function (err, result) {
+        if (err) throw err;
+        r = JSON.parse(JSON.stringify(result))
+        ex_data["ex_history"] = r
+    })
+    let q_2 = "SELECT * FROM " + ex_history + "_max WHERE user_id = '" + user.id + "';"
+    
 })
 
 app.get('/history/rcv/workout', function(req,res){
-    res.end()
+    console.log(workout_data)
+    res.send(workout_data)
 })
 
 //http code:
@@ -382,3 +435,10 @@ app.listen(3000,'0.0.0.0');
 //https code:
 // var httpsServer = https.createServer(credentials, app);
 // httpsServer.listen(3000,'0.0.0.0',()=>{console.log('app is running on port 3000');})
+
+/* {
+    ex_history : [ {reps:__,weight:__,volume:__, date-time:__}, {..}, {..} ..],
+    max_weight : __,
+    max_volume : __,
+    }
+*/
