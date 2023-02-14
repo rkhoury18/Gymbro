@@ -21,64 +21,79 @@ function popupFunctionality(element, ex_name){
         senddatajson({name:ex_name},"/history/rcv/ex")
 
         data_promise = rcvdatajson("/history/rcv/ex")
-        var xValues = ["2021-01-01T00:00:00Z", "2021-01-15T00:00:00Z", "2021-02-01T00:00:00Z", "2021-02-15T00:00:00Z","2021-03-01T00:00:00Z", "2021-03-15T00:00:00Z","2021-04-01T00:00:00Z", "2021-04-15T00:00:00Z","2021-05-01T00:00:00Z", "2021-05-15T00:00:00Z","2021-06-01T00:00:00Z", "2021-06-15T00:00:00Z"];
-        var yValues = [60, 60, 65, 65, 70, 70, 72.5, 72.5, 75, 75, 75, 77.5];
-        
-        //WeightChart
-        new Chart(ex_name + "ChartW", {
-            type: "line",
-            data: {
-                labels: xValues,
-                datasets: [{
-                backgroundColor: "rgba(14, 161, 240, 0.75)",
-                borderColor: "rgba(0,0,0,0)",
-                data: yValues
-                }]
-            },
-            options: {
-                scales: {
-                  xAxes: [{
-                    type: 'time',
-                    time: {
-                        unit: 'month',
-                    }
-                  }],
-                  x: {
-                    text: 'Time'
-                  },
-                  yAxes : [{
-                    text: 'Weight (kg)'
-                  }]
-                }
-            }
-        });
 
-        //VolumeChart
-        new Chart(ex_name + "ChartV", {
-            type: "line",
-            data: {
-                labels: xValues,
-                datasets: [{
-                backgroundColor: "rgba(240, 161, 14, 0.75)",
-                borderColor: "rgba(0,0,0,0)",
-                data: yValues
-                }]
-            },
-            options: {
-                scales: {
-                  xAxes: [{
-                    type: 'time',
-                    time: {
-                        unit: 'month',
-                    }
-                  }]
-                }
-            }
-        });
+        data_promise.then(value => {
+            history = value
 
+            json_arr = history["ex_history"]
+            
+            weights = []
+            volumes = []
+            reps = []
+            dates = []
+            for (let i = 0; i < json_arr.length; i++){
+                json_arr[i].
+            }
+
+            var xValues = ["2021-01-01T00:00:00Z", "2021-01-15T00:00:00Z", "2021-02-01T00:00:00Z", "2021-02-15T00:00:00Z","2021-03-01T00:00:00Z", "2021-03-15T00:00:00Z","2021-04-01T00:00:00Z", "2021-04-15T00:00:00Z","2021-05-01T00:00:00Z", "2021-05-15T00:00:00Z","2021-06-01T00:00:00Z", "2021-06-15T00:00:00Z"];
+            var yValues = [60, 60, 65, 65, 70, 70, 72.5, 72.5, 75, 75, 75, 77.5];
+            
+            //WeightChart
+            new Chart(ex_name + "ChartW", {
+                type: "line",
+                data: {
+                    labels: xValues,
+                    datasets: [{
+                    backgroundColor: "rgba(14, 161, 240, 0.75)",
+                    borderColor: "rgba(0,0,0,0)",
+                    data: yValues
+                    }]
+                },
+                options: {
+                    scales: {
+                    xAxes: [{
+                        type: 'time',
+                        time: {
+                            unit: 'month',
+                        }
+                    }],
+                    x: {
+                        text: 'Time'
+                    },
+                    yAxes : [{
+                        text: 'Weight (kg)'
+                    }]
+                    }
+                }
+            });
+
+            //VolumeChart
+            new Chart(ex_name + "ChartV", {
+                type: "line",
+                data: {
+                    labels: xValues,
+                    datasets: [{
+                    backgroundColor: "rgba(240, 161, 14, 0.75)",
+                    borderColor: "rgba(0,0,0,0)",
+                    data: yValues
+                    }]
+                },
+                options: {
+                    scales: {
+                    xAxes: [{
+                        type: 'time',
+                        time: {
+                            unit: 'month',
+                        }
+                    }]
+                    }
+                }
+            });
+        })
 
         PopUp.style.display = "flex";
     });
+    
         
     ClosePopup.addEventListener("click", function() {
         PopUp.style.display = "none";

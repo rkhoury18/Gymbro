@@ -48,6 +48,7 @@ function createWorkoutElement(i, workout_names){
     newStart.setAttribute("class", "start1")
     newStart.setAttribute("onclick", "window.location.href='/start_workout'")
     newModify.setAttribute("class", "modify1")
+    newModify.setAttribute("onclick", "window.location.href='/modify_workout'")
     newDelete.setAttribute("class", "delete1")
     delete_div.setAttribute("class", "parent")
 
@@ -74,13 +75,23 @@ function createWorkoutElement(i, workout_names){
 
     //Add listener for start button
     newStart.addEventListener("click", function() {
-      console.log("start id:", newStart.id)
+      // console.log("start id:", newStart.id)
       workout_num = parseInt(newStart.id.slice(-1));
       console.log(workout_num)
       var wrkt_name = workout_names[workout_num]
       console.log(wrkt_name)
       console.log("Start clicked")
       senddatajson(wrkt_name, "/client/workout/start")
+    })
+    //Add listener for start button
+    newModify.addEventListener("click", function() {
+      // console.log("start id:", newStart.id)
+      workout_num = parseInt(newModify.id.slice(-1));
+      // console.log(workout_num)
+      var wrkt_name = workout_names[workout_num]
+      console.log(wrkt_name)
+      console.log("Modify clicked")
+      senddatajson(wrkt_name, "/client/workout/modify")
     })
     //Add listeners for delete button
     newDelete.addEventListener("click", function() {
