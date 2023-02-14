@@ -17,12 +17,11 @@ function popupFunctionality(element, ex_name){
     const ClosePopup = document.getElementById(ex_name + "_close_popup");
     PopUp.style.display = "none";
 
-    
     element.addEventListener("click", function() {
         senddatajson({name:ex_name},"/history/rcv/ex")
 
         data_promise = rcvdatajson("/history/rcv/ex")
-        var xValues = ["2021-01-01", "2021-01-15", "2021-02-01", "2021-02-15","2021-03-01", "2021-03-15","2021-04-01", "2021-04-15","2021-05-01", "2021-05-15","2021-06-01", "2021-06-15"];
+        var xValues = ["2021-01-01T00:00:00Z", "2021-01-15T00:00:00Z", "2021-02-01T00:00:00Z", "2021-02-15T00:00:00Z","2021-03-01T00:00:00Z", "2021-03-15T00:00:00Z","2021-04-01T00:00:00Z", "2021-04-15T00:00:00Z","2021-05-01T00:00:00Z", "2021-05-15T00:00:00Z","2021-06-01T00:00:00Z", "2021-06-15T00:00:00Z"];
         var yValues = [60, 60, 65, 65, 70, 70, 72.5, 72.5, 75, 75, 75, 77.5];
         
         //WeightChart
@@ -38,14 +37,14 @@ function popupFunctionality(element, ex_name){
             },
             options: {
                 scales: {
-                    x: {
-                        type: 'time',
-                        time: {
-                            unit: 'month'
-                        }
+                  xAxes: [{
+                    type: 'time',
+                    time: {
+                        unit: 'month',
                     }
+                  }]
                 }
-            }
+              }
         });
 
         //VolumeChart
@@ -98,6 +97,9 @@ function toggleFunctionality(ex_name) {
 }
 
 
+function createHistoryElement(ex_name, count):
+    two = document.getElementById("two")
+
 
 window.onload = function() {
     
@@ -122,9 +124,9 @@ window.onload = function() {
     toggleFunctionality("barbell_row")
     toggleFunctionality("hip_thrust")
     
-    history_promise = rcvdatajson("/history/rcv/workout")
+    whistory_promise = rcvdatajson("/history/rcv/workout")
 
-    history_promise.then(value => {
+    whistory_promise.then(value => {
         workout_history = value;
     })
 
