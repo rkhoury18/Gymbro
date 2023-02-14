@@ -129,9 +129,8 @@ let ex_data = {};
 var workout_change_my_name;
 var completed_set ={};
 var curr_workout_name;
-
+var user_pi = {}
 let db_name = "jimbro";
-let user = {}
 con.connect(function(err) {
     if (err){
         console.log("Could not connect to the database.");
@@ -146,7 +145,7 @@ con.query("USE "+db_name, function (err, result) {
 
 app.get('/', function(req, res){
     console.log(req.isAuthenticated())
-    user = {}
+    let user = {}
     if (req.isAuthenticated()) {
         console.log(req.user)
         user["name"] = req.user.name
@@ -159,6 +158,10 @@ app.get('/', function(req, res){
 });
 
 app.get('/rcv/user', function(req, res){
+    let user = {}
+    user["name"] = req.user.name
+    user["email"] = req.user.email
+    user["id"] = req.user.id.slice(14)
     res.send(user);
 });
 
@@ -194,6 +197,10 @@ app.get('/history',function(req, res){
         res.redirect("/")
     }
     else{
+        let user = {}
+        user["name"] = req.user.name
+        user["email"] = req.user.email
+        user["id"] = req.user.id.slice(14)
         base_q = "SELECT name FROM workouts WHERE user_id = '" + user.id + "';" //get names of exercises in workout
         console.log(base_q)
         con.query(base_q, function (err, result) {
@@ -231,11 +238,18 @@ app.get('/start_workout',function(req, res){
         res.redirect("/")
     }
     else{
+	user_pi["name"] = req.user.name
+	user_pi["email"] = req.user.email
+	user_pi["id"] = req.user.id.slice(14)
         res.sendFile('StartWorkout.html', { root: 'FrontEnd/HTML' });
     }
 })
     
 app.post('/history/save',function(req, res){
+    let user = {}
+    user["name"] = req.user.name
+    user["email"] = req.user.email
+    user["id"] = req.user.id.slice(14)
     let data = req.body
     console.log(JSON.stringify(data, null, 4))
     //store data in database
@@ -273,6 +287,10 @@ app.post('/history/save',function(req, res){
 })
 
 app.get('/rcv/workout_names', function(req,res){
+    let user = {}
+    user["name"] = req.user.name
+    user["email"] = req.user.email
+    user["id"] = req.user.id.slice(14)
     let q = "SELECT name FROM workouts WHERE user_id = '" + user.id + "';"
     con.query(q, function (err, result) {
         if (err) throw err;
@@ -296,6 +314,10 @@ app.post('/pi', function(req,res){
 
 app.post('/client/workout/start', function(req,res){
     let data = req.body;
+   let user ={}
+   user["name"] = req.user.name
+    user["email"] = req.user.email
+    user["id"] = req.user.id.slice(14)
     curr_workout_name = data.name
     console.log(data)
     base_q = "SELECT * FROM workouts WHERE name = '" + curr_workout_name + "' AND user_id = '" + user.id + "';" //get exercises in workout
@@ -333,6 +355,10 @@ app.post('/client/start_ex', function(req,res){ //change to post
 
 app.post('/client/workout/delete', function(req,res){
     let data = req.body
+    let user = {}
+    user["name"] = req.user.name
+    user["email"] = req.user.email
+    user["id"] = req.user.id.slice(14)
     console.log(data)
     workout_name = data.name
     base_q = "SELECT * FROM workouts WHERE name = '" + workout_name + "' AND user_id = '" + user.id + "';" //get exercises in workout
@@ -354,10 +380,15 @@ app.post('/client/workout/delete', function(req,res){
             if (err) throw err;
         })
     })
-})
+} )
 
 app.post('/client/workout/finish', function(req,res){
     let data = req.body
+    let user = {}
+    user["name"] = req.user.name
+    user["email"] = req.user.email
+    user["id"] = req.user.id.slice(14)
+    console.log(data) 
     if (data.finish){
         workout = {}
         let q = "INSERT INTO history (name, user_id) VALUES ('" + curr_workout_name + "', '" + user.id + "');" //add workout to history
@@ -391,7 +422,7 @@ app.get('/client/finish_set', function(req,res){
 
 app.post('/pi/finish_exec', function(req,res){
     let finished_exec = req.body
-    finished_exec["user_id"] = user.id
+    finished_exec["user_id"] = user_pi.id
     console.log("total exec:",finished_exec)
     req = insert_sql(finished_exec)
     con.query(req, function (err, result) {
@@ -413,6 +444,10 @@ app.post('/history/ex', function(req,res){
 })
 
 app.get('/history/rcv/ex', function(req,res){
+    let user = {}
+    user["name"] = req.user.name
+    user["email"] = req.user.email
+    user["id"] = req.user.id.slice(14)
     let q = "SELECT weight,reps,volume,completed FROM " + ex_history_name + " WHERE user_id = '" + user.id + "';"
     con.query(q, function (err, result) {
         if (err) throw err;
