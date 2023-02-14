@@ -14,13 +14,18 @@ function senddatajson(json,url){
 
 function parseDate(datestr){
     date_arr = datestr.split("")
+    decimal_reached = false
     for (let i = 0; i < date_arr.length; i++){
-        if (date_arr[i] == " "){
-            date_arr[i] = "T"
+        if (date_arr[i] == "."){
+            decimal_reached = true
         }
-        date_arr.push("Z")
+        if (decimal_reached){
+            date_arr.splice(i)
+            date_arr.push("Z")
+            return date_arr.join("")
+        }
     }
-    return date_arr.join("")
+    
 }
 
 function popupFunctionality(element, ex_name){
@@ -29,26 +34,28 @@ function popupFunctionality(element, ex_name){
     PopUp.style.display = "none";
 
     element.addEventListener("click", function() {
-        senddatajson({name:ex_name},"/history/rcv/ex")
+        console.log(ex_name)
+        senddatajson({name:ex_name},"/history/ex")
 
         data_promise = rcvdatajson("/history/rcv/ex")
 
         data_promise.then(value => {
-            history = value
+            var history = value
 
-            json_arr = history["ex_history"]
+            var json_arr = history["ex_history"]
             
-            weights = []
-            volumes = []
-            reps = []
-            dates = []
+            var weights = []
+            var volumes = []
+            var reps = []
+            var dates = []
             for (let i = 0; i < json_arr.length; i++){
-                weights.push(json_arr[i].weight)
-                volumes.push(json_arr[i].volume)
-                reps.push(json_arr[i].reps)
-                dates.push(parseDate(son_arr[i].date))
+                weights.push(parseInt(json_arr[i].weight))
+                volumes.push(parseInt(json_arr[i].volume))
+                reps.push(parseInt(json_arr[i].reps))
+                dates.push(parseDate(json_arr[i].completed))
             }
-            console.log
+            console.log(weights)
+            console.log(dates)
 
             var xValues = ["2021-01-01T00:00:00Z", "2021-01-15T00:00:00Z", "2021-02-01T00:00:00Z", "2021-02-15T00:00:00Z","2021-03-01T00:00:00Z", "2021-03-15T00:00:00Z","2021-04-01T00:00:00Z", "2021-04-15T00:00:00Z","2021-05-01T00:00:00Z", "2021-05-15T00:00:00Z","2021-06-01T00:00:00Z", "2021-06-15T00:00:00Z"];
             var yValues = [60, 60, 65, 65, 70, 70, 72.5, 72.5, 75, 75, 75, 77.5];
@@ -69,7 +76,7 @@ function popupFunctionality(element, ex_name){
                     xAxes: [{
                         type: 'time',
                         time: {
-                            unit: 'day',
+                            unit: 'minute',
                         }
                     }],
                     x: {
@@ -98,7 +105,7 @@ function popupFunctionality(element, ex_name){
                     xAxes: [{
                         type: 'time',
                         time: {
-                            unit: 'day',
+                            unit: 'minute',
                         }
                     }]
                     }

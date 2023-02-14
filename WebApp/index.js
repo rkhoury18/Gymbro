@@ -406,21 +406,33 @@ app.get('/client/finish_exec', function(req,res){
     res.send("done")
 }) //send ex complete to client
 
-app.post('/history/rcv/ex', function(req,res){
+app.post('/history/ex', function(req,res){
     let data = req.body
     ex_history_name = data.name
+    console.log(ex_history_name)
 })
 
 app.get('/history/rcv/ex', function(req,res){
-    console.log(ex_history)
-    let q = "SELECT weight,reps,volume,user_id FROM " + ex_history + " WHERE user_id = '" + user.id + "';"
+    let q = "SELECT weight,reps,volume,completed FROM " + ex_history_name + " WHERE user_id = '" + user.id + "';"
     con.query(q, function (err, result) {
         if (err) throw err;
-        r = JSON.parse(JSON.stringify(result))
+        let r = JSON.parse(JSON.stringify(result))
         ex_data["ex_history"] = r
+        let q_2 = "SELECT MAX(weight) FROM " + ex_history_name + " WHERE user_id = '" + user.id + "';"
+        con.query(q_2, function (err, result) {
+            if (err) throw err;
+            let r2 = JSON.parse(JSON.stringify(result))[0]
+            ex_data["max_weight"] = r2
+            let q_3 = "SELECT MAX(volume) FROM " + ex_history_name + " WHERE user_id = '" + user.id + "';"
+            con.query(q_3, function (err, result) {
+                if (err) throw err;
+                let r3 = JSON.parse(JSON.stringify(result))[0]
+                ex_data["max_volume"] = r3
+                console.log("sending: ",ex_data)
+                res.send(ex_data)
+            })
+        })
     })
-    let q_2 = "SELECT MAX(weight) FROM " + ex_history + " WHERE user_id = '" + user.id + "';"
-    
 })
 
 app.get('/history/rcv/workout', function(req,res){
