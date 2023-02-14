@@ -45,7 +45,7 @@ function popupFunctionality(element, ex_name){
                   }],
                   x: {
                     text: 'Time'
-                  }
+                  },
                   yAxes : [{
                     text: 'Weight (kg)'
                   }]
