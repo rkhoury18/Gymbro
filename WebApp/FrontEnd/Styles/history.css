@@ -17,7 +17,6 @@
     background-repeat: no-repeat;
     background-position: 50%;
 }
-
 .heading {
     padding: 15px;
     background:  rgb(14, 161, 240) ;
@@ -33,40 +32,44 @@
   /* CSS */
   .bench {
     appearance: none;
-    background-color: rgb(2, 2, 100);
     border: 1px solid rgba(27, 31, 35, .15);
+    background-image: url("../Images/bench.png");
+    background-color:  rgb(2, 2, 100);
+    background-size: 50% 50%;
+    background-repeat: no-repeat;
+    background-position: bottom center;
     border-radius: 6px;
     box-shadow: rgba(27, 31, 35, .1) 0 1px 0;
     box-sizing: border-box;
-    color: #fff;
+    color: white;
     cursor: pointer;
-    display: inline-block;
+    /* display: inline-block; */
     font-family:Arial, Helvetica, sans-serif;
     font-weight: "light";
     font-size: 22px;
     font-weight: 600;
-    line-height: 20px;
-    padding: 6px 16px;
     position: relative;
-    text-align: center;
-    text-decoration: none;
     user-select: none;
     -webkit-user-select: none;
     touch-action: manipulation;
-    vertical-align: middle;
-    white-space: nowrap;
+    /* white-space: nowrap; */
     /* position: fixed; */
       top: 15%;
       left: 5%;
       height: 25%;
       width: 25%;
+      text-align: center;
+      vertical-align: top;
   }
 
-  .bench-button {
-    display: block;
-    position: absolute;
-    top: -50%;             
-  }
+  .benchspan {
+      font-size: 22px;
+      font-weight: 600;
+      position: absolute;
+      top: 20%;
+      left: 46%;
+      transform: translate(-50%, -50%);
+    }
   
   .bench:focus:not(:focus-visible):not(.focus-visible) {
     box-shadow: none;
@@ -97,32 +100,39 @@
   /* CSS */
   .overhead {
     appearance: none;
-    background-color: rgb(2, 2, 100);
     border: 1px solid rgba(27, 31, 35, .15);
+    background-image: url("../Images/Overhead.png");
+    background-color:  rgb(2, 2, 100);
+    background-size: 50% 50%;
+    background-repeat: no-repeat;
+    background-position: bottom center;
     border-radius: 6px;
     box-shadow: rgba(27, 31, 35, .1) 0 1px 0;
     box-sizing: border-box;
-    color: #fff;
+    color: white;
     cursor: pointer;
-    display: inline-block;
-    font-family: -apple-system,system-ui,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji";
+    /* display: inline-block; */
+    font-family:Arial, Helvetica, sans-serif;
+    font-weight: "light";
     font-size: 22px;
     font-weight: 600;
-    line-height: 20px;
-    padding: 6px 16px;
     position: relative;
-    text-align: center;
-    text-decoration: none;
     user-select: none;
     -webkit-user-select: none;
     touch-action: manipulation;
-    vertical-align: middle;
-    white-space: nowrap;
     /* position: fixed; */
       top: 15%;
       left: 10%;
       height: 25%;
       width: 25%;
+  }
+  .overheadspan {
+    font-size: 22px;
+    font-weight: 600;
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, -50%);
   }
   
   .overhead:focus:not(:focus-visible):not(.focus-visible) {
@@ -154,33 +164,42 @@
   /* CSS */
   .squat {
     appearance: none;
-    background-color: rgb(2, 2, 100);
     border: 1px solid rgba(27, 31, 35, .15);
+    background-image: url("../Images/Squat.png");
+    background-color:  rgb(2, 2, 100);
+    background-size: 50% 50%;
+    background-repeat: no-repeat;
+    background-position: bottom center;
     border-radius: 6px;
     box-shadow: rgba(27, 31, 35, .1) 0 1px 0;
     box-sizing: border-box;
-    color: #fff;
+    color: white;
     cursor: pointer;
-    display: inline-block;
-    font-family: -apple-system,system-ui,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji";
+    /* display: inline-block; */
+    font-family:Arial, Helvetica, sans-serif;
+    font-weight: "light";
     font-size: 22px;
     font-weight: 600;
-    line-height: 20px;
-    padding: 6px 16px;
     position: relative;
-    text-align: center;
-    text-decoration: none;
     user-select: none;
     -webkit-user-select: none;
     touch-action: manipulation;
-    vertical-align: middle;
-    white-space: nowrap;
     /* position: fixed; */
       top: 15%;
       left: 15%;
       height: 25%;
       width: 25%;
   }
+
+  .squatspan {
+    font-size: 22px;
+    font-weight: 600;
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
   
   .squat:focus:not(:focus-visible):not(.focus-visible) {
     box-shadow: none;
@@ -211,32 +230,41 @@
   /* CSS */
   .deadlift {
     appearance: none;
-    background-color: rgb(2, 2, 100);
     border: 1px solid rgba(27, 31, 35, .15);
+    background-image: url("../Images/Deadlift.png");
+    background-color:  rgb(2, 2, 100);
+    background-size: 50% 50%;
+    background-repeat: no-repeat;
+    background-position: bottom center;
     border-radius: 6px;
     box-shadow: rgba(27, 31, 35, .1) 0 1px 0;
     box-sizing: border-box;
-    color: #fff;
+    color: white;
     cursor: pointer;
-    display: inline-block;
-    font-family: -apple-system,system-ui,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji";
+    /* display: inline-block; */
+    font-family:Arial, Helvetica, sans-serif;
+    font-weight: "light";
     font-size: 22px;
     font-weight: 600;
-    line-height: 20px;
-    padding: 6px 16px;
     position: relative;
-    text-align: center;
-    text-decoration: none;
     user-select: none;
     -webkit-user-select: none;
     touch-action: manipulation;
-    vertical-align: middle;
-    white-space: nowrap;
     /* position: fixed; */
       top: 30%;
       left: 5%;
       height: 25%;
       width: 25%;
+  }
+
+  
+  .deadliftspan {
+    font-size: 22px;
+    font-weight: 600;
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, -50%);
   }
   
   .deadlift:focus:not(:focus-visible):not(.focus-visible) {
@@ -268,32 +296,39 @@
   /* CSS */
   .row {
     appearance: none;
-    background-color: rgb(2, 2, 100);
     border: 1px solid rgba(27, 31, 35, .15);
+    background-image: url("../Images/Row.png");
+    background-color:  rgb(2, 2, 100);
+    background-size: 50% 50%;
+    background-repeat: no-repeat;
+    background-position: bottom center;
     border-radius: 6px;
     box-shadow: rgba(27, 31, 35, .1) 0 1px 0;
     box-sizing: border-box;
-    color: #fff;
+    color: white;
     cursor: pointer;
-    display: inline-block;
-    font-family: -apple-system,system-ui,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji";
+    /* display: inline-block; */
+    font-family:Arial, Helvetica, sans-serif;
+    font-weight: "light";
     font-size: 22px;
     font-weight: 600;
-    line-height: 20px;
-    padding: 6px 16px;
     position: relative;
-    text-align: center;
-    text-decoration: none;
     user-select: none;
     -webkit-user-select: none;
     touch-action: manipulation;
-    vertical-align: middle;
-    white-space: nowrap;
     /* position: fixed; */
       top: 30%;
       left: 10%;
       height: 25%;
       width: 25%;
+  }
+  .rowspan {
+    font-size: 22px;
+    font-weight: 600;
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, -50%);
   }
   
   .row:focus:not(:focus-visible):not(.focus-visible) {
@@ -325,33 +360,41 @@
   /* CSS */
   .lat {
     appearance: none;
-    background-color: rgb(2, 2, 100);
     border: 1px solid rgba(27, 31, 35, .15);
+    background-image: url("../Images/Latpulldown.png");
+    background-color:  rgb(2, 2, 100);
+    background-size: 50% 50%;
+    background-repeat: no-repeat;
+    background-position: bottom center;
     border-radius: 6px;
     box-shadow: rgba(27, 31, 35, .1) 0 1px 0;
     box-sizing: border-box;
-    color: #fff;
+    color: white;
     cursor: pointer;
-    display: inline-block;
-    font-family: -apple-system,system-ui,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji";
+    /* display: inline-block; */
+    font-family:Arial, Helvetica, sans-serif;
+    font-weight: "light";
     font-size: 22px;
     font-weight: 600;
-    line-height: 20px;
-    padding: 6px 16px;
     position: relative;
-    text-align: center;
-    text-decoration: none;
     user-select: none;
     -webkit-user-select: none;
     touch-action: manipulation;
-    vertical-align: middle;
-    white-space: nowrap;
     /* position: fixed; */
       top: 30%;
       left: 15%;
       height: 25%;
       width: 25%;
   }
+  .latspan {
+    font-size: 22px;
+    font-weight: 600;
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  
   
   .lat:focus:not(:focus-visible):not(.focus-visible) {
     box-shadow: none;

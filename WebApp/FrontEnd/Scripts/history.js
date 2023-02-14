@@ -103,6 +103,7 @@ function toggleFunctionality(ex_name) {
 }
 
 
+<<<<<<< Updated upstream
 function createHistoryElement(ex_name, count, max_count){
     var two = document.getElementById("two");
     var container = document.createElement("div");
@@ -136,6 +137,10 @@ function createHistoryElement(ex_name, count, max_count){
     container.appendChild(box)
     two.appendChild(container)
 
+=======
+function createHistoryElement(ex_name, count){
+    var two = document.getElementById("two")
+>>>>>>> Stashed changes
 }
 
 
