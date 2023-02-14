@@ -86,10 +86,8 @@ function popupFunctionality(element, ex_name){
                         text: 'Weight (kg)'
                     }]
                     }
-                  }]
                 }
-            }
-        });
+            })
 
             //VolumeChart
             new Chart(ex_name + "ChartV", {
@@ -122,7 +120,7 @@ function popupFunctionality(element, ex_name){
         PopUp.style.display = "none";
     });
 }
-}
+
 
 function toggleFunctionality(ex_name) {
     var weight_button = document.getElementById(String(ex_name) + "_Weight")
