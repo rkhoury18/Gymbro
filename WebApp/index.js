@@ -180,7 +180,7 @@ app.get('/workout',function(req, res){
     }
 })
 
-app.get('/workout/modify',function(req, res){
+app.get('/modify_workout',function(req, res){
     if (!req.isAuthenticated()){
         res.redirect("/")
     }
@@ -413,13 +413,13 @@ app.post('/history/rcv/ex', function(req,res){
 
 app.get('/history/rcv/ex', function(req,res){
     console.log(ex_history)
-    let q = "SELECT * FROM " + ex_history + " WHERE user_id = '" + user.id + "';"
+    let q = "SELECT weight,reps,volume,user_id FROM " + ex_history + " WHERE user_id = '" + user.id + "';"
     con.query(q, function (err, result) {
         if (err) throw err;
         r = JSON.parse(JSON.stringify(result))
         ex_data["ex_history"] = r
     })
-    let q_2 = "SELECT * FROM " + ex_history + "_max WHERE user_id = '" + user.id + "';"
+    let q_2 = "SELECT MAX(weight) FROM " + ex_history + " WHERE user_id = '" + user.id + "';"
     
 })
 
