@@ -567,7 +567,7 @@
 }
 .skill-box .skill-bar{
     height: 20px;
-    width: 140%;
+    width: 125%;
     border-radius: 6px;
     margin-top: 6px;
     background: rgba(0,0,0,0.1);
