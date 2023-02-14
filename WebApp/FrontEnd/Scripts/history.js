@@ -42,9 +42,15 @@ function popupFunctionality(element, ex_name){
                     time: {
                         unit: 'month',
                     }
+                  }],
+                  x: {
+                    text: 'Time'
+                  }
+                  yAxes : [{
+                    text: 'Weight (kg)'
                   }]
                 }
-              }
+            }
         });
 
         //VolumeChart
@@ -60,12 +66,12 @@ function popupFunctionality(element, ex_name){
             },
             options: {
                 scales: {
-                    x: {
-                        type: 'time',
-                        time: {
-                            unit: 'month'
-                        }
+                  xAxes: [{
+                    type: 'time',
+                    time: {
+                        unit: 'month',
                     }
+                  }]
                 }
             }
         });
@@ -97,8 +103,40 @@ function toggleFunctionality(ex_name) {
 }
 
 
-function createHistoryElement(ex_name, count):
-    two = document.getElementById("two")
+function createHistoryElement(ex_name, count, max_count){
+    var two = document.getElementById("two");
+    var container = document.createElement("div");
+    var box = document.createElement("div");
+    var title = document.createElement("span");
+    var title_text = document.createTextNode(ex_name)
+    var bar = document.createElement("div")
+    var per = document.createElement("span");
+    var tooltip = document.createElement("span")  
+    var percent_text = document.createTextNode(String(count))
+
+    container.setAttribute("class", "container")
+    box.setAttribute("class", "skill-box")
+    title.setAttribute("class", "title")
+    bar.setAttribute("class", "skill-bar")
+    per.setAttribute("class", "skill-per css")
+    tooltip.setAttribute("class", "tooltip")
+
+    per.style.width = String(100*count/max_count) + "%"
+    bar.style.width = "90%"
+    // per.style.opacity = 1;
+    // container.style.top = String(10*(i + 1))
+    
+
+    tooltip.appendChild(percent_text)
+    per.appendChild(tooltip)
+    bar.appendChild(per)
+    title.appendChild(title_text)
+    box.appendChild(bar)
+    box.appendChild(title)
+    container.appendChild(box)
+    two.appendChild(container)
+
+}
 
 
 window.onload = function() {
@@ -127,9 +165,20 @@ window.onload = function() {
     whistory_promise = rcvdatajson("/history/rcv/workout")
 
     whistory_promise.then(value => {
-        workout_history = value;
+        workout_history = value; 
+        max_count = 0;
+        for (var key in Object.keys(workout_history)){
+            if (parseInt(workout_history[key]) > max_count){
+                max_count = parseInt(workout_history[key]);
+            }
+        }
+        for (var key in Object.keys(workout_history)){
+            createHistoryElement(key, parseInt(workout_history[key]), max_count)
+        }
     })
-
+    // createHistoryElement("Push", 30, 35)
+    // createHistoryElement("Pull", 35, 35)
+    // createHistoryElement("Legs", 25, 35)
 };
 
 

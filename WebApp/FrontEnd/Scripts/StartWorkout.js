@@ -146,9 +146,9 @@ async function updatepage(){
                 s_div = document.getElementById("sets_div" + String(ex_counter))
                 rst_div = document.getElementById("rest_div" + String(ex_counter))
 
-                w_div.style.top = String(3 + 25*ex_counter) + "%"
-                r_div.style.top  = String(3 + 25*ex_counter) + "%"
-                s_div.style.top  = String(3 + 25*ex_counter) + "%"
+                w_div.style.top = String(5 + 25*ex_counter) + "%"
+                r_div.style.top  = String(5 + 25*ex_counter) + "%"
+                s_div.style.top  = String(5 + 25*ex_counter) + "%"
                 
                 cur_w.parentNode.removeChild(cur_w)
                 cur_r.parentNode.removeChild(cur_r)
@@ -170,9 +170,9 @@ async function updatepage(){
         set_w.setAttribute("class", "form__group_a field")
         set_r.setAttribute("class", "form__group_b field")
         set_s.setAttribute("class", "form__group_c field")
-        w_label.setAttribute("form__label_a")
-        r_label.setAttribute("form__label_b")
-        s_label.setAttribute("form__label_c")
+        w_label.setAttribute("class","form__label_a")
+        r_label.setAttribute("class","form__label_b")
+        s_label.setAttribute("class","form__label_c")
 
         w_label.appendChild(w_text)
         r_label.appendChild(r_text)
@@ -185,14 +185,15 @@ async function updatepage(){
         document.body.appendChild(set_r)
         document.body.appendChild(set_s)
 
-        set_w.style.top = String(3*(sets_completed + 1) + 25*ex_counter) + "%"
-        set_r.style.top  = String(3*(sets_completed + 1) + 25*ex_counter) + "%"
-        set_s.style.top  = String(3*(sets_completed + 1) + 25*ex_counter) + "%"
+        set_w.style.top = String(5*(sets_completed + 1) + 25*ex_counter) + "%"
+        set_r.style.top  = String(5*(sets_completed + 1) + 25*ex_counter) + "%"
+        set_s.style.top  = String(5*(sets_completed + 1) + 25*ex_counter) + "%"
 
     }
 }
 
 window.onload = function() {
+    var finish = document.getElementById("finish")
     workout_promise = rcvdatajson("/rcv/workout")
     workout_promise.then(async value => {
         workout = value
@@ -244,5 +245,8 @@ window.onload = function() {
             }
             ex_counter += 1  
         })
+    })
+    finish.addEventListener(function(){
+        senddatajson({finish:1}, "/client/finish_workout")
     })
 }
