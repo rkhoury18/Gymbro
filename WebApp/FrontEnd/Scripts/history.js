@@ -223,14 +223,14 @@ window.onload = function() {
         console.log("Workout History: " + workout_history) 
         max_count = 0;
         keys = Object.keys(workout_history)
-        for (var key in keys){
+        for (var key of keys){
             if (parseInt(workout_history[key]) > max_count){
                 max_count = parseInt(workout_history[key]);
             }
         }
-        for (var key in keys){
+        for (var key of keys){
             console.log("Key: " + key) 
-            console.log("Count: " + workout_history[count]) 
+            console.log("Count: " + workout_history[key]) 
             console.log("Max Count: " + max_count) 
             createHistoryElement(key, parseInt(workout_history[key]), max_count)
         }

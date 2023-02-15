@@ -126,7 +126,6 @@ var workout_data = {};
 var meta;
 var ex_history_name;
 let ex_data = {};
-var workout_change_my_name;
 var completed_set ={};
 var curr_workout_name;
 var user_pi = {}
@@ -159,7 +158,6 @@ app.get('/', function(req, res){
 });
 
 app.get('/rcv/user', function(req, res){
-    let user = {}
     console.log(user_home)
     res.send(user_home);
 });
