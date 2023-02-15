@@ -130,6 +130,7 @@ var workout_change_my_name;
 var completed_set ={};
 var curr_workout_name;
 var user_pi = {}
+var user_home = {}
 let db_name = "jimbro";
 con.connect(function(err) {
     if (err){
@@ -145,12 +146,12 @@ con.query("USE "+db_name, function (err, result) {
 
 app.get('/', function(req, res){
     console.log(req.isAuthenticated())
-    let user = {}
+    //let user = {}
     if (req.isAuthenticated()) {
         console.log(req.user)
-        user["name"] = req.user.name
-        user["email"] = req.user.email
-        user["id"] = req.user.id.slice(14)
+        user_home["name"] = req.user.displayName
+        user_home["email"] = req.user.email
+        user_home["id"] = req.user.id.slice(14)
         res.sendFile('index.html', { root: 'FrontEnd/HTML'});
     } else {
         res.sendFile("login.html", { root: "FrontEnd/HTML"});
@@ -159,10 +160,8 @@ app.get('/', function(req, res){
 
 app.get('/rcv/user', function(req, res){
     let user = {}
-    user["name"] = req.user.name
-    user["email"] = req.user.email
-    user["id"] = req.user.id.slice(14)
-    res.send(user);
+    console.log(user_home)
+    res.send(user_home);
 });
 
 app.get('/use',function(req, res){
@@ -392,6 +391,7 @@ app.post('/client/workout/finish', function(req,res){
     if (data.finish){
         workout = {}
         let q = "INSERT INTO history (name, user_id) VALUES ('" + curr_workout_name + "', '" + user.id + "');" //add workout to history
+	console.log(q)
         con.query(q, function (err, result) {
             if (err) throw err;
         })

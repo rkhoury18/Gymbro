@@ -9,7 +9,7 @@ window.onload = function() {
   user_promise.then(user => {
     console.log(user)
     //user-name should be on top right of page i am noob :(
-    document.getElementById("user-name").innerHTML = user.name.givenName + " " + user.name.familyName;
+    document.getElementById("user-name").innerHTML = user.name;
   }); 
 }
 

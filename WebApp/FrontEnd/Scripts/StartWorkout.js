@@ -247,6 +247,6 @@ window.onload = function() {
         })
     })
     finish.addEventListener(function(){
-        senddatajson({finish:1}, "/client/finish_workout")
+        senddatajson({finish:1}, "/client/workout/finish")
     })
 }
