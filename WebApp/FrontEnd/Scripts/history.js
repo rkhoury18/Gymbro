@@ -21,9 +21,9 @@ function parseDate(datestr){
         }
         if (decimal_reached){
             date_arr.splice(i)
-            date_arr.push("Z")
-            return date_arr.join("")
-        }
+        date_arr.push("Z")
+    return date_arr.join("")
+}
     }
     
 }
@@ -66,6 +66,7 @@ function popupFunctionality(element, ex_name){
                 data: {
                     labels: dates,
                     datasets: [{
+                    label: "Weight over time",
                     backgroundColor: "rgba(14, 161, 240, 0.75)",
                     borderColor: "rgba(0,0,0,0)",
                     data: weights
@@ -74,15 +75,20 @@ function popupFunctionality(element, ex_name){
                 options: {
                     scales: {
                     xAxes: [{
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Time',
+                        },
                         type: 'time',
                         time: {
                             unit: 'minute',
                         }
                     }],
-                    x: {
-                        text: 'Time'
-                    },
-                    y : [{
+                    yAxes : [{
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Weight (kg)'
+                        },
                         text: 'Weight (kg)'
                     }]
                     }
@@ -95,6 +101,7 @@ function popupFunctionality(element, ex_name){
                 data: {
                     labels: dates,
                     datasets: [{
+                    label: "Volume over time",
                     backgroundColor: "rgba(240, 161, 14, 0.75)",
                     borderColor: "rgba(0,0,0,0)",
                     data: volumes
@@ -103,10 +110,20 @@ function popupFunctionality(element, ex_name){
                 options: {
                     scales: {
                     xAxes: [{
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Time'
+                        },
                         type: 'time',
                         time: {
                             unit: 'minute',
                         }
+                    }],
+                    yAxes: [{
+                        scaleLabel: {
+                            display: true,  
+                            labelString: 'Volume (kg)'
+                        },
                     }]
                     }
                 }
