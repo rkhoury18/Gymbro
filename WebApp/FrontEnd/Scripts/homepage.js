@@ -49,8 +49,6 @@ button.addEventListener("mouseleave", function() {
 });
 
 
-
-
 let button_b = document.querySelector(".history-button");
 let item_b = document.querySelector(".history-button .round");
 
@@ -70,6 +68,8 @@ button_b.addEventListener("mouseenter", function(event) {
   item_b.style.width = "1px";
   item_b.style.height = "1px";
 });
+
+
 
 button_b.addEventListener("mouseleave", function() {
   this.classList.remove("animate");
