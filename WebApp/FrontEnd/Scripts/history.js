@@ -194,6 +194,12 @@ function createHistoryElement(ex_name, count, max_count){
 
 
 window.onload = function() {
+    user_promise = rcvdatajson("/rcv/user");
+    user_promise.then(user => {
+        console.log(user)
+        //user-name should be on top right of page i am noob :(
+        document.getElementById("user-name").innerHTML = user.name
+    }); 
     
     const benchButton = document.getElementById("bench");
     const overheadButton = document.getElementById("overhead");

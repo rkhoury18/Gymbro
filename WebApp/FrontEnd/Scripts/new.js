@@ -95,6 +95,12 @@ function createDropdown(num_exercises) {
 
 var num_exercises = 1
 window.onload = function() {
+  user_promise = rcvdatajson("/rcv/user");
+    user_promise.then(user => {
+        console.log(user)
+        //user-name should be on top right of page i am noob :(
+        document.getElementById("user-name").innerHTML = user.name
+    }); 
   //Dropdown code
 
   var add = document.getElementById("Add");

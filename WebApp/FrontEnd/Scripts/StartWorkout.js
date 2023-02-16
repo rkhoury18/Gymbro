@@ -193,6 +193,12 @@ async function updatepage(){
 }
 
 window.onload = function() {
+    user_promise = rcvdatajson("/rcv/user");
+    user_promise.then(user => {
+        console.log(user)
+        //user-name should be on top right of page i am noob :(
+        document.getElementById("user-name").innerHTML = user.name
+    }); 
     var finish = document.getElementById("finish")
     workout_promise = rcvdatajson("/rcv/workout")
     workout_promise.then(async value => {

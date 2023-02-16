@@ -156,6 +156,12 @@ function createExercise(i, workout) {
 
 var num_exercises = 1
 window.onload = function() {
+  user_promise = rcvdatajson("/rcv/user");
+    user_promise.then(user => {
+        console.log(user)
+        //user-name should be on top right of page i am noob :(
+        document.getElementById("user-name").innerHTML = user.name
+    }); 
   //Create the exercises and fill values
   var finish = document.getElementById("finish")
   workout_promise = rcvdatajson("/rcv/workout")
