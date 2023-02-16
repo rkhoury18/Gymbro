@@ -1,4 +1,4 @@
-const url_save = "/history/save"
+const url_modify = "/history/modify"
 
 function myFunction() {
     document.getElementById("myDropdown").classList.toggle("show");
@@ -29,7 +29,7 @@ async function rcvdatajson(url) {
   return data;
 }
 
-function senddatajson(json,url){
+async function senddatajson(json,url){
   let xhr = new XMLHttpRequest();
   xhr.open("POST", url, true);
   xhr.setRequestHeader("Content-Type", "application/json");
@@ -286,11 +286,10 @@ window.onload = function() {
     })
     
     
-    save.addEventListener("click", function() {
+    save.addEventListener("click", async function() {
         let wrkt = {}
         var wrkt_name = name.value
         wrkt = {name:wrkt_name}
-        senddatajson(wrkt, "/client/workout/delete")
         for (let i = 1; i <= num_exercises[0] ; i+=1){
             console.log("Exercise " + String(i))
             //send data to server (exercise, weight, reps, sets, rest)

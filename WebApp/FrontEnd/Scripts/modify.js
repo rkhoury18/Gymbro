@@ -347,6 +347,7 @@ window.onload = function() {
       var ex_obj = {name:ex,weight:w,reps:r,sets:s,rest:rst}
       wrkt["exec"+String(i)] = ex_obj
     }
+    console.log(wrkt, "sent to server")
     senddatajson(wrkt,url_save)
   })
 

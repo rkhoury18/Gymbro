@@ -292,6 +292,7 @@ app.post('/history/save',function(req, res){
     str_wrkt = str_wrkt.slice(0, -2) //remove last comma
     str_wrkt += ");"
     req_workouts = str_wrkt
+    console.log(req_workouts)
     con.query(req_workouts, function (err, result) {
         if (err) throw err;
     });
@@ -307,6 +308,67 @@ app.post('/history/save',function(req, res){
     res.end()
 })
 
+app.post('/history/modify',function(req, res){
+    let user = {}
+    user["name"] = req.user.name
+    user["email"] = req.user.email
+    user["id"] = req.user.id.slice(14)
+    let data = req.body
+    data["user_id"] = user.id
+    let wrkt_name = data.name
+    base_q = "SELECT * FROM workouts WHERE name = '" + wrkt_name + "' AND user_id = '" + user.id + "';" //get exercises in workout
+    workout = {}
+    con.query(base_q, function (err, result) {
+        if (err) throw err;
+        r = JSON.parse(JSON.stringify(result))[0];
+        for (var key in r){
+            if (key == "name") continue
+            if (r[key] == null) continue
+	        if (key == "user_id") continue
+            let q = "DELETE FROM " + r[key] + " WHERE workout = '" + r.name + "' AND user_id = '" + user.id + "';" //delete exercise data
+            console.log(q)
+            con.query(q, function (err, result) {
+                if (err) throw err;
+            })
+        }
+        let q = "DELETE FROM workouts WHERE name = '" + r.name + "' AND user_id = '" + user.id + "';" //delete workout data
+        console.log(q)
+        con.query(q, function (err, result) {
+            if (err) throw err;
+            let str_wrkt = "INSERT INTO workouts("
+            for (var key in data) {
+                str_wrkt += key + ", "
+            }
+            str_wrkt = str_wrkt.slice(0, -2) //remove last comma
+            str_wrkt += ") VALUES ("
+            for (var key in data) {
+                if (key == "name" || key == "user_id") {
+                    str_wrkt += "'" + data[key] + "', "
+                }
+                else {
+                    str_wrkt += "'" + data[key].name + "', "
+                }
+            }
+            str_wrkt = str_wrkt.slice(0, -2) //remove last comma
+            str_wrkt += ");"
+            req_workouts = str_wrkt
+            console.log(req_workouts)
+            con.query(req_workouts, function (err, result) {
+                if (err) throw err;
+            });
+            for (var key in data) {
+                if (key == "name") continue
+                if (key == "user_id") continue
+                data[key]["user_id"] = user.id
+                let str_ex = insert_sql_link_wrkt(data[key],"workout",data.name)
+                con.query(str_ex, function (err, result) {
+                    if (err) throw err;
+                });
+            }
+            res.end()
+        })
+    })
+})
 app.get('/rcv/workout_names', function(req,res){
     let user = {}
     user["name"] = req.user.name
@@ -392,11 +454,13 @@ app.post('/client/workout/delete', function(req,res){
             if (r[key] == null) continue
 	        if (key == "user_id") continue
             let q = "DELETE FROM " + r[key] + " WHERE workout = '" + r.name + "' AND user_id = '" + user.id + "';" //delete exercise data
+            console.log(q)
             con.query(q, function (err, result) {
                 if (err) throw err;
             })
         }
         let q = "DELETE FROM workouts WHERE name = '" + r.name + "' AND user_id = '" + user.id + "';" //delete workout data
+        console.log(q)
         con.query(q, function (err, result) {
             if (err) throw err;
         })
