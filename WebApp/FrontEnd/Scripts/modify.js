@@ -22,6 +22,12 @@ function removal(element){
   element.parentNode.removeChild(element);
 }
 
+async function rcvdatajson(url) {
+  let response = await fetch(url);
+  let data = response.json();
+  return data;
+}
+
 function senddatajson(json,url){
   let xhr = new XMLHttpRequest();
   xhr.open("POST", url, true);
