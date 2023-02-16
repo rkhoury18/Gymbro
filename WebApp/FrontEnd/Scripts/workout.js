@@ -4,15 +4,6 @@ async function rcvdatajson(url) {
   return data;
 }
 
-window.onload = function() {
-  user_promise = rcvdatajson("/rcv/user");
-  user_promise.then(user => {
-    console.log(user)
-    //user-name should be on top right of page i am noob :(
-    document.getElementById("user-name").innerHTML = user.name.givenName + " " + user.name.familyName;
-  }); 
-}
-
 function senddatajson(json,url){
   let xhr = new XMLHttpRequest();
   xhr.open("POST", url, true);
@@ -153,7 +144,12 @@ function createWorkoutElement(i, workout_names){
 
 
 window.onload = function() {
-
+  user_promise = rcvdatajson("/rcv/user");
+  user_promise.then(user => {
+    console.log(user)
+    //user-name should be on top right of page i am noob :(
+    document.getElementById("user-name").innerHTML = user.name
+  }); 
   //Create objects for each workout
   workout_promise = rcvdatajson("/rcv/workout_names")
   // var workout_names = []
