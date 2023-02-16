@@ -38,7 +38,7 @@ xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 xhr.send(str);
 }
 
-function createDropdown(num_exercises) {
+function createDropdown(num_exercises, value) {
   var newDiv = document.createElement("div")
   var newDrop = document.createElement("select")
   newDrop.setAttribute("class", "dropdown")
@@ -79,7 +79,7 @@ function createDropdown(num_exercises) {
   newDrop.appendChild(deadlift)
   newDrop.appendChild(row)
   newDrop.appendChild(hip)
-
+  newDrop.value = value
   newDrop.style.top = String(25 + 12*(num_exercises - 1)) + "%"; 
   newDrop.id = "dropdown" + String(num_exercises);
   // newDiv.appendChild(newDrop)
@@ -91,15 +91,92 @@ function createDropdown(num_exercises) {
   });
 }
 
+//Rhea trying
+
+function createExercise(i, workout) {
+  var keys = Object.keys(workout)
+  ex_obj = workout[keys[i]]
+  name_text = document.createTextNode(parse_str(keys[i]))
+  w_div =  document.createElement("div")
+  r_div = document.createElement("div")
+  s_div = document.createElement("div")
+  rst_div = document.createElement("div")
+  w = document.createElement("input")
+  r = document.createElement("input")
+  s = document.createElement("input")
+  rst = document.createElement("input")
+  createDropdown(i, keys[i])
+  
+  w.value = ex_obj.weight
+  r.value = ex_obj.reps
+  s.value = ex_obj.sets
+  rst.value = ex_obj.rest
+
+   
+  name_button.setAttribute("class", "New_exercise")
+  
+  w_div.setAttribute("class", "input_container1")
+  r_div.setAttribute("class", "input_container2")
+  s_div.setAttribute("class", "input_container3")
+  rst_div.setAttribute("class", "input_container4")
+  
+  name_button.style.top = String(5 + 25*i) + "%"
+  w_div.style.top = String(13 + 25*i) + "%"
+  r_div.style.top  = String(13 + 25*i) + "%"
+  s_div.style.top  = String(13 + 25*i) + "%"
+  rst_div.style.top  = String(13 + 25*i) + "%"
+  drop.style.top = String(25 + 12*(i - 2)) + "%";
+
+  w.id = "weight" + String(i)
+  r.id = "reps" + String(i)
+  s.id = "sets" + String(i)
+  rst.id = "rest" + String(i)
+  w_div.id = "weight_div" + String(i)
+  r_div.id = "reps_div" + String(i)
+  s_div.id = "sets_div" + String(i)
+  rst_div.id = "rest_div" + String(i)
+  drop.id = "dropdown" + String(i)
+
+
+
+  w_div.appendChild(w)
+  r_div.appendChild(r)
+  s_div.appendChild(s)
+  rst_div.appendChild(rst)
+
+  document.body.appendChild(w_div)
+  document.body.appendChild(r_div)
+  document.body.appendChild(s_div)
+  document.body.appendChild(rst_div)
+  
+}
+
+//End of Rhea trying
 
 
 var num_exercises = 1
 window.onload = function() {
-  //Dropdown code
+  //Create the exercises and fill values
+  var finish = document.getElementById("finish")
+  workout_promise = rcvdatajson("/rcv/workout")
+  workout_promise.then(async value => {
+      workout = value
+      console.log(workout)
+      num_exercises = Object.size(workout)
+      play = document.getElementById("play")
+      finish = document.getElementById("finish")
+      finish.style.top = String(25*num_exercises) + "%"
+      ex_counter = 0
+      
+      for (let i = 0; i < num_exercises; i++){
+          createExercise(i, workout)
+      }
+    })
 
   var add = document.getElementById("Add");
   var save = document.getElementById("Save")
   var name = document.getElementById("name");
+
   add.addEventListener("click", function() {
       num_exercises += 1;
       var newWeight = document.createElement("div");      
@@ -107,7 +184,7 @@ window.onload = function() {
       var newSets = document.createElement("div");
       var newRest = document.createElement("div");
       var newDelete = document.createElement("div");
-      createDropdown(num_exercises);
+      createDropdown(num_exercises, "p_bench_press");
 
       var weightsIn = document.createElement("input");
       var repsIn = document.createElement("input");
