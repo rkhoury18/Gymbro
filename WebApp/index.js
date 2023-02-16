@@ -474,6 +474,7 @@ app.get('/history/rcv/ex', function(req,res){
         let r = JSON.parse(JSON.stringify(result))
         ex_data["ex_history"] = r
         let q_2 = "SELECT weight, reps FROM " + ex_history_name + " WHERE user_id = '" + user.id + "' AND weight = (SELECT MAX(weight) FROM bench_press) ORDER BY reps DESC LIMIT 1"
+        console.log(q_2)
         con.query(q_2, function (err, result) {
             if (err) throw err;
             let r2 = JSON.parse(JSON.stringify(result))[0]

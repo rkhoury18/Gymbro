@@ -41,8 +41,18 @@ function popupFunctionality(element, ex_name){
 
         data_promise.then(value => {
             var history = value
-
+            var max_volume = parseInt(history["max_volume"]['MAX(volume)'])
+            var max = history["max_weight"]
+            var max_weight = max["weight"]
+            //w ÷ [(1 .0278) – (0 .0278 x r)]
+            var one_rep_max = parseInt(max["weight"])/(1.0278 - (0.0278*parseInt(max["reps"]))) 
+            one_rep_max = Math.round(one_rep_max * 10) / 10
             var json_arr = history["ex_history"]
+            
+            //document.getElementById("user-name").innerHTML = user.name
+            document.getElementById("max_volume").innerHTML = "Max Volume:" + max_volume
+            document.getElementById("max_weight").innerHTML = "Max Weight:" + max_weight
+            document.getElementById("one_rep_max").innerHTML = "One Rep Max:" + one_rep_max
             
             var weights = []
             var volumes = []
@@ -241,6 +251,7 @@ window.onload = function() {
             createHistoryElement(key, parseInt(workout_history[key]), max_count)
         }
     })
+
     // createHistoryElement("Push", 30, 35)
     // createHistoryElement("Pull", 35, 35)
     // createHistoryElement("Legs", 25, 35)
