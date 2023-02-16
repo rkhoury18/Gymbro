@@ -499,7 +499,16 @@ app.get('/history/rcv/workout', function(req,res){
 })
 
 app.get('/fill/data',function(req,res){
-    let id = req.user.id.slice(14) 
+    let id = req.user.id.slice(14)
+    delete_sql = (table) => {
+        return "DELETE FROM " + table +";" 
+    }
+    for(let t of ["bench_press","squat","deadlift","overhead_press","hip_thrust","barbell_row","p_bench_press","p_squat","p_deadlift","p_overhead_press","p_hip_thrust","p_barbell_row","workouts","history"]){
+        let q = delete_sql(t)
+        con.query(q, function (err, result) {
+            if (err) throw err;
+        })
+    }
     fill_data = (ex_name,id,date_completed,weight,reps) => {
         let d = {name:ex_name,user_id:id,weight:weight,reps:reps,sets:3,volume:weight*reps,completed:date_completed}
         let query_d = insert_sql(d)
@@ -513,18 +522,16 @@ app.get('/fill/data',function(req,res){
         con.query(query_w,function(err,result){
             if (err) throw err;
         })
-        for( e in [exec1,exec2]){
-            for (var key in e) {
-                if (key == "name") continue
-                if (key == "user_id") continue
-                e[key]["user_id"] = id
-                query_ex = insert_sql_link_wrkt(e[key],"workout",e.name)
+        for( e of [exec1,exec2]){
+                console.log(e)
+                e["user_id"] = id
+                query_ex = insert_sql_link_wrkt(e,"workout",workout)
+                console.log(query_ex)
                 con.query(query_ex,function(err,result){
                     if (err) throw err;
                 })
             }
-        }   
-    }
+        }
     let push = {name:"push",
                 exec1:{name:"p_bench_press",weight:80,reps:10,sets:3,rest:60},
                 exec2:{name:"p_overhead_press",weight:50,reps:10,sets:3,rest:60}
@@ -583,13 +590,11 @@ app.get('/fill/data',function(req,res){
     insert_h  = (data) => {
         str = "INSERT INTO history ("
         for (var key in data) {
-            if (key == "name") continue
             str += key + ", "
         }
         str = str.slice(0, -2) //remove last comma
         str += ") VALUES ("
         for (var key in data) {
-            if (key == "name") continue
             str += data[key] + ", "
         }
         str = str.slice(0, -2) //remove last comma
@@ -599,15 +604,15 @@ app.get('/fill/data',function(req,res){
         })
     }
     for (let i = 0; i < 5; i++) {
-        data = {name:"push",user_id:id,date:dates[i]}
+        data = {name:"'push'",user_id:id,date_completed:"'"+dates[i]+"'"}
         insert_h(data);
     }
     for (let i = 0; i < 4; i++) {
-        data = {name:"pull",user_id:id,date:dates[i]}
+        data = {name:"'pull'",user_id:id,date_completed:"'"+dates[i]+"'"}
         insert_h(data);
     }
     for (let i = 0; i < 2; i++) {
-        data = {name:"legs",user_id:id,date:dates[i]}
+        data = {name:"'legs'",user_id:id,date_completed:"'"+dates[i]+"'"}
         insert_h(data);
     }
 })

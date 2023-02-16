@@ -1,4 +1,4 @@
-const url_save = "/history/modify"
+const url_save = "/history/save"
 
 function myFunction() {
     document.getElementById("myDropdown").classList.toggle("show");
@@ -179,7 +179,7 @@ function createExercise(num_exercises, add, save, workout){
     document.body.appendChild(newExercise);
 
     //Listen to delete and delete accordingly
-    deleteIn.addEventListener("click", function(num_exercises) {
+    deleteIn.addEventListener("click", function() {
         row_num = parseInt(deleteIn.id.slice(-1));
         console.log("Delete " + row_num + " Clicked")
         weights = document.getElementById("weights" + String(row_num))
@@ -264,7 +264,7 @@ window.onload = function() {
     workout = value
     console.log(workout)
     keys = Object.keys(workout)
-    key_length = keys.length
+    key = keys[0]
     console.log("Workout:", workout)
     console.log("Keys", key)
     var num_exercises = [0]
@@ -274,8 +274,9 @@ window.onload = function() {
     var save = document.getElementById("Save")
     var name = document.getElementById("name");
     name.value =  workout[key].workout;
-    for (let i = 1; i <= num_exercises[0]; i++){
-        createExercise([i], add, save, workout)
+    while (num_exercises < keys.length){
+        num_exercises[0] += 1
+        createExercise(num_exercises, add, save, workout)
     }
 
     
@@ -289,7 +290,8 @@ window.onload = function() {
         let wrkt = {}
         var wrkt_name = name.value
         wrkt = {name:wrkt_name}
-        for (let i = 1; i <= num_exercises ; i+=1){
+        senddatajson(wrkt, "/client/workout/delete")
+        for (let i = 1; i <= num_exercises[0] ; i+=1){
             console.log("Exercise " + String(i))
             //send data to server (exercise, weight, reps, sets, rest)
             weight_element = document.getElementById("weights" + String(i));

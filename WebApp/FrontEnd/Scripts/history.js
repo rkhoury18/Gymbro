@@ -91,7 +91,7 @@ function popupFunctionality(element, ex_name){
                         },
                         type: 'time',
                         time: {
-                            unit: 'minute',
+                            unit: 'week',
                         }
                     }],
                     yAxes : [{
@@ -126,7 +126,7 @@ function popupFunctionality(element, ex_name){
                         },
                         type: 'time',
                         time: {
-                            unit: 'minute',
+                            unit: 'week',
                         }
                     }],
                     yAxes: [{
