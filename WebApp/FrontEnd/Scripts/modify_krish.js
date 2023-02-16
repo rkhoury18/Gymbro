@@ -5,18 +5,19 @@ function myFunction() {
   }
   
   // Close the dropdown if the user clicks outside of it
-  window.onclick = function(event) {
-    if (!event.target.matches('.dropbtn')) {
-      var dropdowns = document.getElementsByClassName("dropdown-content");
-      var i;
-      for (i = 0; i < dropdowns.length; i++) {
-        var openDropdown = dropdowns[i];
-        if (openDropdown.classList.contains('show')) {
-          openDropdown.classList.remove('show');
-        }
-      }
-    }
-}
+//   window.onclick = function(event) {
+//     if (!event.target.matches('.dropbtn')) {
+//       var dropdowns = document.getElementsByClassName("dropdown-content");
+//       var i;
+//       for (i = 0; i < dropdowns.length; i++) {
+//         var openDropdown = dropdowns[i];
+//         if (openDropdown.classList.contains('show')) {
+//           openDropdown.classList.remove('show');
+//         }
+//       }
+//     }
+// }
+
 
 function removal(element){
   element.parentNode.removeChild(element);
@@ -44,7 +45,7 @@ xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 xhr.send(str);
 }
 
-function createDropdown(num_exercises) {
+function createDropdown(num_exercises, value) {
   var newDiv = document.createElement("div")
   var newDrop = document.createElement("select")
   newDrop.setAttribute("class", "dropdown")
@@ -86,8 +87,12 @@ function createDropdown(num_exercises) {
   newDrop.appendChild(row)
   newDrop.appendChild(hip)
 
-  newDrop.style.top = String(25 + 12*(num_exercises - 1)) + "%"; 
-  newDrop.id = "dropdown" + String(num_exercises);
+  newDrop.style.top = String(25 + 12*(num_exercises[0] - 1)) + "%"; 
+  newDrop.id = "dropdown" + String(num_exercises[0]);
+  if (typeof workout !== 'undefined'){
+      newDrop.value = value
+  }
+  
   // newDiv.appendChild(newDrop)
   document.body.appendChild(newDrop)
 
@@ -99,14 +104,21 @@ function createDropdown(num_exercises) {
 
 
 function createExercise(num_exercises, add, save, workout){
-
-    workout = (typeof workout === 'undefined') ? '' : workout;
+    if (typeof workout === 'undefined'){
+      ex_obj = {weight:0, reps:0, sets:0, rest:0}
+      createDropdown(num_exercises, "p_bench_press");
+    } 
+    else{
+      var keys = Object.keys(workout)
+      ex_obj = workout[keys[num_exercises[0] - 1]]
+      createDropdown(num_exercises, keys[num_exercises[0] - 1]);
+    }
+    console.log(ex_obj)
     var newWeight = document.createElement("div");      
     var newReps = document.createElement("div");      
     var newSets = document.createElement("div");
     var newRest = document.createElement("div");
     var newDelete = document.createElement("div");
-    createDropdown(num_exercises);
 
     var weightsIn = document.createElement("input");
     var repsIn = document.createElement("input");
@@ -129,29 +141,29 @@ function createExercise(num_exercises, add, save, workout){
     newExercise.setAttribute("class", "New_exercise")
 
 
-    newWeight.id = "weights_c" + String(num_exercises);
-    newReps.id = "reps_c" + String(num_exercises);
-    newSets.id = "sets_c" + String(num_exercises);
-    newRest.id = "rest_c" + String(num_exercises);
-    newExercise.id = "new_exercise" + String(num_exercises)
+    newWeight.id = "weights_c" + String(num_exercises[0]);
+    newReps.id = "reps_c" + String(num_exercises[0]);
+    newSets.id = "sets_c" + String(num_exercises[0]);
+    newRest.id = "rest_c" + String(num_exercises[0]);
+    newExercise.id = "new_exercise" + String(num_exercises[0])
 
-    weightsIn.id = "weights" + String(num_exercises);
-    repsIn.id = "reps" + String(num_exercises);
-    setsIn.id = "sets" + String(num_exercises);
-    restIn.id = "rest" + String(num_exercises);
-    deleteIn.id = "delete" + String(num_exercises)
+    weightsIn.id = "weights" + String(num_exercises[0]);
+    repsIn.id = "reps" + String(num_exercises[0]);
+    setsIn.id = "sets" + String(num_exercises[0]);
+    restIn.id = "rest" + String(num_exercises[0]);
+    deleteIn.id = "delete" + String(num_exercises[0])
 
-    weightsIn.value = workout[i][weight] //TODO: Change this
-    repsIn.value = workout[i][reps] //TODO: Change this
-    setsIn.value = workout[i][sets] //TODO: Change this
-    restIn.value = workout[i][rest] //TODO: Change this
+    weightsIn.value = ex_obj.weight //TODO: Change this
+    repsIn.value = ex_obj.reps //TODO: Change this
+    setsIn.value = ex_obj.sets //TODO: Change this
+    restIn.value = ex_obj.rest //TODO: Change this
 
-    newWeight.style.top = String(25 + 12*(num_exercises - 1)) + "%"; //TODO: Make this not hardcoded
-    newReps.style.top = String(25 + 12*(num_exercises - 1)) + "%"; //TODO: Make this not hardcoded
-    newSets.style.top = String(25 + 12*(num_exercises - 1)) + "%"; //TODO: Make this not hardcoded
-    newRest.style.top = String(25 + 12*(num_exercises - 1)) + "%"; //TODO: Make this not hardcoded
-    deleteIn.style.top = String(23 + 12*(num_exercises - 1)) + "%";
-    newExercise.style.top = String(23 + 12*(num_exercises - 1)) + "%";
+    newWeight.style.top = String(25 + 12*(num_exercises[0] - 1)) + "%"; //TODO: Make this not hardcoded
+    newReps.style.top = String(25 + 12*(num_exercises[0] - 1)) + "%"; //TODO: Make this not hardcoded
+    newSets.style.top = String(25 + 12*(num_exercises[0] - 1)) + "%"; //TODO: Make this not hardcoded
+    newRest.style.top = String(25 + 12*(num_exercises[0] - 1)) + "%"; //TODO: Make this not hardcoded
+    deleteIn.style.top = String(23 + 12*(num_exercises[0] - 1)) + "%";
+    newExercise.style.top = String(23 + 12*(num_exercises[0] - 1)) + "%";
     
     newWeight.appendChild(weightsIn);
     document.body.appendChild(newWeight);
@@ -167,9 +179,9 @@ function createExercise(num_exercises, add, save, workout){
     document.body.appendChild(newExercise);
 
     //Listen to delete and delete accordingly
-    deleteIn.addEventListener("click", function() {
+    deleteIn.addEventListener("click", function(num_exercises) {
         row_num = parseInt(deleteIn.id.slice(-1));
-        console.log(row_num)
+        console.log("Delete " + row_num + " Clicked")
         weights = document.getElementById("weights" + String(row_num))
         reps = document.getElementById("reps" + String(row_num))
         sets = document.getElementById("sets" + String(row_num))
@@ -196,7 +208,7 @@ function createExercise(num_exercises, add, save, workout){
         removal(drop);
         removal(new_ex)
 
-        for (let i = row_num + 1; i <= num_exercises; i+=1){
+        for (let i = row_num + 1; i <= num_exercises[0]; i+=1){
             weights = document.getElementById("weights" + String(i))
             reps = document.getElementById("reps" + String(i))
             sets = document.getElementById("sets" + String(i))
@@ -219,7 +231,7 @@ function createExercise(num_exercises, add, save, workout){
             sets_c.id = "sets_c" + String(i - 1)
             rest_c.id = "rest_c" + String(i - 1)
             drop.id = "dropdown" + String(i - 1)
-            new_ex.id = "new_exercise" + + String(i - 1)
+            new_ex.id = "new_exercise" + String(i - 1)
 
             weight_c.style.top = String(25 + 12*(i - 2)) + "%"; //TODO: Make this not hardcoded
             reps_c.style.top = String(25 + 12*(i - 2)) + "%"; //TODO: Make this not hardcoded
@@ -230,17 +242,14 @@ function createExercise(num_exercises, add, save, workout){
             new_ex.style.top = String(23 + 12*(i - 2)) + "%";
 
         }
-        num_exercises -= 1;
-        add.style.top = String(34 + 12*(num_exercises - 1)) + "%";
-        save.style.top = String(35 + 12*(num_exercises - 1)) + "%";
+        num_exercises[0] -= 1;
+        add.style.top = String(34 + 12*(num_exercises[0] - 1)) + "%";
+        save.style.top = String(35 + 12*(num_exercises[0] - 1)) + "%";
     })
-
-    add.style.top = String(34 + 12*(num_exercises - 1)) + "%";
-    save.style.top = String(35 + 12*(num_exercises - 1)) + "%";
+    add.style.top = String(34 + 12*(num_exercises[0] - 1)) + "%";
+    save.style.top = String(35 + 12*(num_exercises[0] - 1)) + "%";
 }
 
-
-var num_exercises = 1
 window.onload = function() {
   user_promise = rcvdatajson("/rcv/user");
     user_promise.then(user => {
@@ -254,20 +263,25 @@ window.onload = function() {
   workout_promise.then(async value => {
     workout = value
     console.log(workout)
-    num_exercises = Object.size(workout)
+    keys = Object.keys(workout)
+    key_length = keys.length
+    console.log("Workout:", workout)
+    console.log("Keys", key)
+    var num_exercises = [0]
     ex_counter = 0
-    
-    for (let i = 1; i <= num_exercises; i++){
-        createExercise(i, add, save, workout)
-    }
 
     var add = document.getElementById("Add");
     var save = document.getElementById("Save")
     var name = document.getElementById("name");
+    name.value =  workout[key].workout;
+    for (let i = 1; i <= num_exercises[0]; i++){
+        createExercise([i], add, save, workout)
+    }
+
+    
     add.addEventListener("click", function() {
-        num_exercises += 1;
-        createExercise(num_exercises, add, save)
-        
+        num_exercises[0] += 1;
+        createExercise(num_exercises, add, save)  
     })
     
     

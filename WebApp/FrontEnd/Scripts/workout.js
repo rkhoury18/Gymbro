@@ -91,7 +91,7 @@ function createWorkoutElement(i, workout_names){
       var wrkt_name = workout_names[workout_num]
       console.log(wrkt_name)
       console.log("Modify clicked")
-      senddatajson(wrkt_name, "/client/workout/modify")
+      senddatajson(wrkt_name, "/client/workout/start")
     })
     //Add listeners for delete button
     newDelete.addEventListener("click", function() {

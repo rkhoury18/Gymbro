@@ -120,6 +120,8 @@ insert_sql_workout = (data) => {
             str_wrkt += "'" + data[key].name + "', "
         }
     }
+    str_wrkt = str_wrkt.slice(0, -2) //remove last comma
+    str_wrkt += ");"
     return str_wrkt
 }
 
@@ -207,7 +209,7 @@ app.get('/modify_workout',function(req, res){
         res.redirect("/")
     }
     else{
-        res.sendFile('modify.html', { root: 'FrontEnd/HTML' });
+        res.sendFile('modify_krish.html', { root: 'FrontEnd/HTML' });
     }
 })
 
@@ -333,8 +335,8 @@ app.post('/pi', function(req,res){
 
 app.post('/client/workout/start', function(req,res){
     let data = req.body;
-   let user ={}
-   user["name"] = req.user.name
+    let user ={}
+    user["name"] = req.user.name
     user["email"] = req.user.email
     user["id"] = req.user.id.slice(14)
     curr_workout_name = data.name
@@ -497,6 +499,7 @@ app.get('/history/rcv/workout', function(req,res){
 })
 
 app.get('/fill/data',function(req,res){
+    let id = req.user.id.slice(14) 
     fill_data = (ex_name,id,date_completed,weight,reps) => {
         let d = {name:ex_name,user_id:id,weight:weight,reps:reps,sets:3,volume:weight*reps,completed:date_completed}
         let query_d = insert_sql(d)
@@ -504,21 +507,23 @@ app.get('/fill/data',function(req,res){
             if (err) throw err;
         })
     }
-    fill_workouts = (workout,exec1,exec2,exec3,id) => {
-        let w = {name:workout,user_id:id,exec1:exec1,exec1:exec2,exec1:exec3}
+    fill_workout = (workout,exec1,exec2,id) => {
+        let w = {name:workout,user_id:id,exec1:exec1,exec2:exec2}
         let query_w = insert_sql_workout(w)
         con.query(query_w,function(err,result){
             if (err) throw err;
         })
-        for (var key in w) {
-            if (key == "name") continue
-            if (key == "user_id") continue
-            data[key]["user_id"] = id
-            query_ex = insert_sql_link_wrkt(data[key],"workout",data.name)
-            con.query(query_ex,function(err,result){
-                if (err) throw err;
-            })
-        }
+        for( e in [exec1,exec2]){
+            for (var key in e) {
+                if (key == "name") continue
+                if (key == "user_id") continue
+                e[key]["user_id"] = id
+                query_ex = insert_sql_link_wrkt(e[key],"workout",e.name)
+                con.query(query_ex,function(err,result){
+                    if (err) throw err;
+                })
+            }
+        }   
     }
     let push = {name:"push",
                 exec1:{name:"p_bench_press",weight:80,reps:10,sets:3,rest:60},
@@ -552,9 +557,61 @@ app.get('/fill/data',function(req,res){
                         exec2:{name:"p_deadlift",weight:160,reps:5,sets:3,rest:60},
                         exec3:{name:"p_hip_thrust",weight:80,reps:10,sets:3,rest:60},
                         }
-
-    for (let ex of ["bench_press","overhead_press","deadlift","barbell_row","squat","hip_thrust"]) {}
-    for (let wrk of ["push","pull","legs"]) {}
+    let dates = ["2023-01-01 01:23:45","2023-01-08 01:23:45","2023-01-15 01:23:45","2023-01-22 01:23:45","2023-01-29 01:23:45","2023-02-05 01:23:45","2023-02-12 01-23-45","2023-02-19 01:23:45","2023-02-26 01:23:45","2023-03-05 01:23:45","2023-03-12 01:23:45","2023-03-19 01:23:45","2023-03-26 01:23:45","2023-04-02 01:23:45","2023-04-09 01:23:45","2023-04-16 01:23:45","2023-04-23 01:23:45","2023-04-30 01:23:45"]//,"2023-05-07 01:23:45","2023-05-14 01:23:45","2023-05-21 01:23:45","2023-05-28 01:23:45","2023-06-04 01:23:45","2023-06-11 01:23:45","2023-06-18 01:23:45","2023-06-25 01:23:45","2023-07-02 01:23:45","2023-07-09 01:23:45","2023-07-16 01:23:45","2023-07-23 01:23:45","2023-07-30 01:23:45","2023-08-06 01:23:45","2023-08-13 01:23:45","2023-08-20 01:23:45","2023-08-27 01:23:45","2023-09-03 01:23:45","2023-09-10 01:23:45","2023-09-17 01:23:45","2023-09-24 01:23:45","2023-10-01 01:23:45","2023-10-08 01:23:45","2023-10-15 01:23:45","2023-10-22 01:23:45","2023-10-29 01:23:45","2023-11-05 01:23:45","202"]
+    for (let ex of ["bench_press","overhead_press","deadlift","barbell_row","squat","hip_thrust"]) {
+        let i = 0
+        for (let weight of [72.5,75,80]){
+            let rep_arr = []
+            if (weight == 72.5) {
+                rep_arr = [6,8]
+            }
+            else if (weight == 75) {
+                rep_arr = [6,8,10]
+            }
+            else {
+                rep_arr = [6]
+            }
+            for (let reps of rep_arr){
+                fill_data(ex,id,"'"+dates[i]+"'",weight,reps)
+                i+=1
+            }
+        }      
+    }
+    for (let wrk of [push,pull,legs]) {
+        fill_workout(wrk.name,wrk.exec1,wrk.exec2,id)
+    }
+    insert_h  = (data) => {
+        str = "INSERT INTO history ("
+        for (var key in data) {
+            if (key == "name") continue
+            str += key + ", "
+        }
+        str = str.slice(0, -2) //remove last comma
+        str += ") VALUES ("
+        for (var key in data) {
+            if (key == "name") continue
+            str += data[key] + ", "
+        }
+        str = str.slice(0, -2) //remove last comma
+        str += ");"
+        con.query(str, function (err, result) {
+            if (err) throw err;
+        })
+    }
+    for (let i = 0; i < 5; i++) {
+        data = {name:"push",user_id:id,date:dates[i]}
+        insert_h(data);
+    }
+    for (let i = 0; i < 4; i++) {
+        data = {name:"pull",user_id:id,date:dates[i]}
+        insert_h(data);
+    }
+    for (let i = 0; i < 2; i++) {
+        data = {name:"legs",user_id:id,date:dates[i]}
+        insert_h(data);
+    }
+})
+        
 //http code:
 console.log('app is running on port 3000');
 app.listen(3000,'0.0.0.0');
