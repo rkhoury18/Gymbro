@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>GymBro</title>
+    <link rel="stylesheet" href="../Styles/modify.css">
+  </head>
+  <body>
+    <div>
+      <div class="user" id="user-name">
+        <p>user name</p>
+      </div>
+        <div>
+          <button id="top_navigation" class="top_navigation" role="button"></button>
+          <button id="Exercise" class="Exercise" role="button">Exercice</button>
+          <button id="Sets" class="Sets" role="button">Sets</button>
+          <button id="Rest" class="Rest" role="button">Rest</button>
+          <button id="Weights" class="Weights" role="button">Weight</button>
+          <button id="Reps" class="Reps" role="button">Reps</button>
+          <div class="form__group field">
+            <input type="input" class="form__field" placeholder="Name" name="name" id='name' required />
+            <label for="name" class="form__label">Name of Workout</label>
+          </div>
+
+        <div class="parent">
+          <button id="delete1" class="delete1" role="button">-</button>
+      </div>
+        <div class="parents">
+            <button id="Add" class="Add" role="button">+</button>
+        </div>
+        <button id="Save" class="Save" onclick="window.location.href='/workout'">Save</button>
+        <button class="back" onclick="window.location.href='/workout'">←</button>
+        <script src="../Scripts/modify_krish.js"></script>
+  </body>
+</html>

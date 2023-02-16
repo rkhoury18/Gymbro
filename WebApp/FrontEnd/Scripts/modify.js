@@ -175,9 +175,6 @@ window.onload = function() {
       workout = value
       console.log(workout)
       num_exercises = Object.size(workout)
-      play = document.getElementById("play")
-      finish = document.getElementById("finish")
-      finish.style.top = String(25*num_exercises) + "%"
       ex_counter = 0
       
       for (let i = 0; i < num_exercises; i++){
