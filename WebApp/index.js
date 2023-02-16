@@ -105,6 +105,24 @@ insert_sql_link_wrkt = (data,fk_c,fk) => {
     return str
 }
 
+insert_sql_workout = (data) => {
+    let str_wrkt = "INSERT INTO workouts("
+    for (var key in data) {
+        str_wrkt += key + ", "
+    }
+    str_wrkt = str_wrkt.slice(0, -2) //remove last comma
+    str_wrkt += ") VALUES ("
+    for (var key in data) {
+        if (key == "name" || key == "user_id") {
+            str_wrkt += "'" + data[key] + "', "
+        }
+        else {
+            str_wrkt += "'" + data[key].name + "', "
+        }
+    }
+    return str_wrkt
+}
+
 const con = mysql.createConnection({
     host: '13.42.105.65', //changes frequently
     user: 'jim',
@@ -455,7 +473,7 @@ app.get('/history/rcv/ex', function(req,res){
         if (err) throw err;
         let r = JSON.parse(JSON.stringify(result))
         ex_data["ex_history"] = r
-        let q_2 = "SELECT MAX(weight) FROM " + ex_history_name + " WHERE user_id = '" + user.id + "';"
+        let q_2 = "SELECT weight, reps FROM " + ex_history_name + " WHERE user_id = '" + user.id + "' AND weight = (SELECT MAX(weight) FROM bench_press) ORDER BY reps DESC LIMIT 1"
         con.query(q_2, function (err, result) {
             if (err) throw err;
             let r2 = JSON.parse(JSON.stringify(result))[0]
@@ -477,6 +495,33 @@ app.get('/history/rcv/workout', function(req,res){
     res.send(workout_data)
 })
 
+// app.get('/fill/data',function(req,res){
+//     fill_data = (ex_name,id,date_completed,weight,reps) => {
+//         let d = {name:ex_name,user_id:id,weight:weight,reps:reps,sets:3,volume:weight*reps,completed:date_completed}
+//         let query_d = insert_sql(d)
+//         con.query(query_d,function(err,result){
+//             if (err) throw err;
+//         })
+//     }
+//     fill_workouts = (workout,exec1,exec2,exec3,id) => {
+//         let w = {name:workout,user_id:id,exec1:exec1,exec1:exec2,exec1:exec3}
+//         let query_w = insert_sql_workout(w)
+//         con.query(query_w,function(err,result){
+//             if (err) throw err;
+//         })
+//         for (var key in w) {
+//             if (key == "name") continue
+//             if (key == "user_id") continue
+//             data[key]["user_id"] = id
+//             query_ex = insert_sql_link_wrkt(data[key],"workout",data.name)
+//             con.query(query_ex,function(err,result){
+//                 if (err) throw err;
+//             })
+//         }
+//     }
+//     for (let ex of []) {}
+//     for (let w of []) {}
+// })
 //http code:
 console.log('app is running on port 3000');
 app.listen(3000,'0.0.0.0');
