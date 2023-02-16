@@ -752,7 +752,7 @@
   touch-action: manipulation;
   position: relative;
   top: 5%;
-  left: 48%;
+  left: 46%;
   width: 9%;
   height: 5%;
   z-index: 2;
@@ -781,8 +781,8 @@
   touch-action: manipulation;
   position: relative;
   top: 5%;
-  left: 69%;
-  width: 9%;
+  left: 67%;
+  width: 10%;
   height: 5%;
   z-index: 2;
 }
