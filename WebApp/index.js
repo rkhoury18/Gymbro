@@ -495,33 +495,65 @@ app.get('/history/rcv/workout', function(req,res){
     res.send(workout_data)
 })
 
-// app.get('/fill/data',function(req,res){
-//     fill_data = (ex_name,id,date_completed,weight,reps) => {
-//         let d = {name:ex_name,user_id:id,weight:weight,reps:reps,sets:3,volume:weight*reps,completed:date_completed}
-//         let query_d = insert_sql(d)
-//         con.query(query_d,function(err,result){
-//             if (err) throw err;
-//         })
-//     }
-//     fill_workouts = (workout,exec1,exec2,exec3,id) => {
-//         let w = {name:workout,user_id:id,exec1:exec1,exec1:exec2,exec1:exec3}
-//         let query_w = insert_sql_workout(w)
-//         con.query(query_w,function(err,result){
-//             if (err) throw err;
-//         })
-//         for (var key in w) {
-//             if (key == "name") continue
-//             if (key == "user_id") continue
-//             data[key]["user_id"] = id
-//             query_ex = insert_sql_link_wrkt(data[key],"workout",data.name)
-//             con.query(query_ex,function(err,result){
-//                 if (err) throw err;
-//             })
-//         }
-//     }
-//     for (let ex of []) {}
-//     for (let w of []) {}
-// })
+app.get('/fill/data',function(req,res){
+    fill_data = (ex_name,id,date_completed,weight,reps) => {
+        let d = {name:ex_name,user_id:id,weight:weight,reps:reps,sets:3,volume:weight*reps,completed:date_completed}
+        let query_d = insert_sql(d)
+        con.query(query_d,function(err,result){
+            if (err) throw err;
+        })
+    }
+    fill_workouts = (workout,exec1,exec2,exec3,id) => {
+        let w = {name:workout,user_id:id,exec1:exec1,exec1:exec2,exec1:exec3}
+        let query_w = insert_sql_workout(w)
+        con.query(query_w,function(err,result){
+            if (err) throw err;
+        })
+        for (var key in w) {
+            if (key == "name") continue
+            if (key == "user_id") continue
+            data[key]["user_id"] = id
+            query_ex = insert_sql_link_wrkt(data[key],"workout",data.name)
+            con.query(query_ex,function(err,result){
+                if (err) throw err;
+            })
+        }
+    }
+    let push = {name:"push",
+                exec1:{name:"p_bench_press",weight:80,reps:10,sets:3,rest:60},
+                exec2:{name:"p_overhead_press",weight:50,reps:10,sets:3,rest:60}
+                }
+    let pull = {name:"pull",
+                exec1:{name:"p_barbell_row",weight:80,reps:10,sets:3,rest:60},
+                exec2:{name:"p_deadlift",weight:160,reps:5,sets:3,rest:60}
+                }
+    let legs = {name:"legs",
+                exec1:{name:"p_squat",weight:120,reps:10,sets:3,rest:60},
+                exec2:{name:"p_hip_thrust",weight:80,reps:10,sets:3,rest:60}
+                }
+    let upper = {name:"upper",
+                exec1:{name:"p_bench_press",weight:80,reps:10,sets:3,rest:60},
+                exec2:{name:"p_overhead_press",weight:50,reps:10,sets:3,rest:60},
+                exec3:{name:"p_barbell_row",weight:80,reps:10,sets:3,rest:60}
+                }
+    let lower = {name:"lower",
+                exec1:{name:"p_squat",weight:120,reps:10,sets:3,rest:60},
+                exec2:{name:"p_hip_thrust",weight:80,reps:10,sets:3,rest:60},
+                exec3:{name:"p_deadlift",weight:160,reps:5,sets:3,rest:60}
+                }
+    let full_body_a =   {name:"full_body_a",
+                        exec1:{name:"p_bench_press",weight:80,reps:10,sets:3,rest:60},
+                        exec2:{name:"barbell_row",weight:80,reps:10,sets:3,rest:60},
+                        exec3:{name:"p_squat",weight:120,reps:10,sets:3,rest:60},
+                        }
+    let full_body_b =   {name:"full_body_b",
+                        exec1:{name:"p_overhead_press",weight:50,reps:10,sets:3,rest:60},
+                        exec2:{name:"p_deadlift",weight:160,reps:5,sets:3,rest:60},
+                        exec3:{name:"p_hip_thrust",weight:80,reps:10,sets:3,rest:60},
+                        }
+
+    for (let ex of ["bench_press","overhead_press","deadlift","barbell_row","squat","hip_thrust"]) {}
+    for (let wrk of ["push","pull","legs"]) {}
 //http code:
 console.log('app is running on port 3000');
 app.listen(3000,'0.0.0.0');
