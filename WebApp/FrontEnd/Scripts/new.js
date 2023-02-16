@@ -61,7 +61,7 @@ function createDropdown(num_exercises) {
   bench.value = "p_bench_press"
   overhead.value = "p_overhead_press"
   squat.value = "p_squat"
-  deadlift.value = "p_dealift"
+  deadlift.value = "p_deadlift"
   row.value = "p_barbell_row"
   hip.value = "p_hip_thrust"
 
