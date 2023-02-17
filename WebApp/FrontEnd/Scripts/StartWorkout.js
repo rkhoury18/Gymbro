@@ -252,7 +252,7 @@ window.onload = function() {
             ex_counter += 1  
         })
     })
-    finish.addEventListener(function(){
+    finish.addEventListener("click",function(){
         senddatajson({finish:1}, "/client/workout/finish")
     })
 }

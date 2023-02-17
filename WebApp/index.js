@@ -539,7 +539,7 @@ app.get('/history/rcv/ex', function(req,res){
         if (err) throw err;
         let r = JSON.parse(JSON.stringify(result))
         ex_data["ex_history"] = r
-        let q_2 = "SELECT weight, reps FROM " + ex_history_name + " WHERE user_id = '" + user.id + "' AND weight = (SELECT MAX(weight) FROM bench_press) ORDER BY reps DESC LIMIT 1"
+        let q_2 = "SELECT weight, reps FROM " + ex_history_name + " WHERE user_id = '" + user.id + "' AND weight = (SELECT MAX(weight) FROM bench_press WHERE user_id = '" + user.id + "') ORDER BY reps DESC LIMIT 1"
         console.log(q_2)
         con.query(q_2, function (err, result) {
             if (err) throw err;
@@ -558,14 +558,274 @@ app.get('/history/rcv/ex', function(req,res){
 })
 
 app.get('/history/rcv/workout', function(req,res){
-    console.log(workout_data)
-    res.send(workout_data)
+    let user = {}
+    user["name"] = req.user.name
+    user["email"] = req.user.email
+    user["id"] = req.user.id.slice(14)
+    base_q = "SELECT name FROM workouts WHERE user_id = '" + user.id + "';" //get names of exercises in workout
+    console.log(base_q)
+    con.query(base_q, function (err, result) {
+        if (err) throw err;
+    
+        let completedQueries = 0;
+        let totalQueries = result.length;
+        let workout_data = {};
+    
+        for (var i of result) {
+            let workout_name = i.name
+            let q = "SELECT COUNT(*) FROM history WHERE name = '" + workout_name + "' AND user_id = '" + user.id + "';"
+            con.query(q, function (err, result) {
+                if (err) throw err;
+    
+                r = JSON.parse(JSON.stringify(result))[0];
+                workout_data[workout_name] = r["COUNT(*)"];
+    
+                // Increment the completed queries counter
+                completedQueries++;
+    
+                // Check if all queries have completed
+                if (completedQueries === totalQueries) {
+                    res.send(workout_data);
+                }
+            });
+        }
+    });
 })
 
-app.get('/fill/data',function(req,res){
+app.get('/fill/data/rhea',function(req,res){
     let id = req.user.id.slice(14)
     delete_sql = (table) => {
-        return "DELETE FROM " + table +";" 
+        return "DELETE FROM " + table + " WHERE user_id = '" + user.id + "';"
+    }
+    for(let t of ["bench_press","squat","deadlift","overhead_press","hip_thrust","barbell_row","p_bench_press","p_squat","p_deadlift","p_overhead_press","p_hip_thrust","p_barbell_row","workouts","history"]){
+        let q = delete_sql(t)
+        con.query(q, function (err, result) {
+            if (err) throw err;
+        })
+    }
+    fill_data = (ex_name,id,date_completed,weight,reps) => {
+        let d = {name:ex_name,user_id:id,weight:weight,reps:reps,sets:3,volume:weight*reps,completed:date_completed}
+        let query_d = insert_sql(d)
+        con.query(query_d,function(err,result){
+            if (err) throw err;
+        })
+    }
+    fill_workout = (workout,exec1,exec2,exec3,id) => {
+        let w = {name:workout,user_id:id,exec1:exec1,exec2:exec2,exec3:exec3}
+        let query_w = insert_sql_workout(w)
+        con.query(query_w,function(err,result){
+            if (err) throw err;
+        })
+        for( e of [exec1,exec2,exec3]){
+                console.log(e)
+                e["user_id"] = id
+                query_ex = insert_sql_link_wrkt(e,"workout",workout)
+                console.log(query_ex)
+                con.query(query_ex,function(err,result){
+                    if (err) throw err;
+                })
+            }
+        }
+    let push = {name:"push",
+                exec1:{name:"p_bench_press",weight:80,reps:10,sets:3,rest:60},
+                exec2:{name:"p_overhead_press",weight:50,reps:10,sets:3,rest:60}
+                }
+    let pull = {name:"pull",
+                exec1:{name:"p_barbell_row",weight:80,reps:10,sets:3,rest:60},
+                exec2:{name:"p_deadlift",weight:160,reps:5,sets:3,rest:60}
+                }
+    let legs = {name:"legs",
+                exec1:{name:"p_squat",weight:120,reps:10,sets:3,rest:60},
+                exec2:{name:"p_hip_thrust",weight:80,reps:10,sets:3,rest:60}
+                }
+    let upper = {name:"upper",
+                exec1:{name:"p_bench_press",weight:80,reps:10,sets:3,rest:60},
+                exec2:{name:"p_overhead_press",weight:50,reps:10,sets:3,rest:60},
+                exec3:{name:"p_barbell_row",weight:80,reps:10,sets:3,rest:60}
+                }
+    let lower = {name:"lower",
+                exec1:{name:"p_squat",weight:120,reps:10,sets:3,rest:60},
+                exec2:{name:"p_hip_thrust",weight:80,reps:10,sets:3,rest:60},
+                exec3:{name:"p_deadlift",weight:160,reps:5,sets:3,rest:60}
+                }
+    let full_body_a =   {name:"full_body_a",
+                        exec1:{name:"p_bench_press",weight:80,reps:10,sets:3,rest:60},
+                        exec2:{name:"barbell_row",weight:80,reps:10,sets:3,rest:60},
+                        exec3:{name:"p_squat",weight:120,reps:10,sets:3,rest:60},
+                        }
+    let full_body_b =   {name:"full_body_b",
+                        exec1:{name:"p_overhead_press",weight:50,reps:10,sets:3,rest:60},
+                        exec2:{name:"p_deadlift",weight:160,reps:5,sets:3,rest:60},
+                        exec3:{name:"p_hip_thrust",weight:80,reps:10,sets:3,rest:60},
+                        }
+    let dates = ["2023-01-01 03:23:45","2023-01-08 03:23:45","2023-01-15 03:23:45","2023-01-22 03:23:45","2023-01-29 03:23:45","2023-02-05 03:23:45","2023-02-12 01-23-45","2023-02-19 03:23:45","2023-02-26 03:23:45","2023-03-05 03:23:45","2023-03-12 03:23:45","2023-03-19 03:23:45","2023-03-26 03:23:45","2023-04-02 03:23:45","2023-04-09 03:23:45","2023-04-16 03:23:45","2023-04-23 03:23:45","2023-04-30 03:23:45"]//,"2023-05-07 01:23:45","2023-05-14 01:23:45","2023-05-21 01:23:45","2023-05-28 01:23:45","2023-06-04 01:23:45","2023-06-11 01:23:45","2023-06-18 01:23:45","2023-06-25 01:23:45","2023-07-02 01:23:45","2023-07-09 01:23:45","2023-07-16 01:23:45","2023-07-23 01:23:45","2023-07-30 01:23:45","2023-08-06 01:23:45","2023-08-13 01:23:45","2023-08-20 01:23:45","2023-08-27 01:23:45","2023-09-03 01:23:45","2023-09-10 01:23:45","2023-09-17 01:23:45","2023-09-24 01:23:45","2023-10-01 01:23:45","2023-10-08 01:23:45","2023-10-15 01:23:45","2023-10-22 01:23:45","2023-10-29 01:23:45","2023-11-05 01:23:45","202"]
+    for (let ex of ["bench_press","overhead_press","deadlift","barbell_row","squat","hip_thrust"]) {
+        let i = 0
+        for (let weight of [67,70,82]){
+            let rep_arr = []
+            if (weight == 67) {
+                rep_arr = [10]
+            }
+            else if (weight == 82) {
+                rep_arr = [8,10]
+            }
+            else {
+                rep_arr = [6,8]
+            }
+            for (let reps of rep_arr){
+                fill_data(ex,id,"'"+dates[i]+"'",weight,reps)
+                i+=1
+            }
+        }      
+    }
+    for (let wrk of [upper,lower]) {
+        fill_workout(wrk.name,wrk.exec1,wrk.exec2,wrk.exec3,id)
+    }
+    insert_h  = (data) => {
+        str = "INSERT INTO history ("
+        for (var key in data) {
+            str += key + ", "
+        }
+        str = str.slice(0, -2) //remove last comma
+        str += ") VALUES ("
+        for (var key in data) {
+            str += data[key] + ", "
+        }
+        str = str.slice(0, -2) //remove last comma
+        str += ");"
+        con.query(str, function (err, result) {
+            if (err) throw err;
+        })
+    }
+    for (let i = 0; i < 8; i++) {
+        data = {name:"'upper'",user_id:id,date_completed:"'"+dates[i]+"'"}
+        insert_h(data);
+    }
+    for (let i = 0; i < 10; i++) {
+        data = {name:"'lower'",user_id:id,date_completed:"'"+dates[i]+"'"}
+        insert_h(data);
+    }
+})
+
+app.get('/fill/data/krish', function(req, res) {
+    let id = req.user.id.slice(14)
+    delete_sql = (table) => {
+        return "DELETE FROM " + table + " WHERE user_id = '" + user.id + "';"
+    }
+    for(let t of ["bench_press","squat","deadlift","overhead_press","hip_thrust","barbell_row","p_bench_press","p_squat","p_deadlift","p_overhead_press","p_hip_thrust","p_barbell_row","workouts","history"]){
+        let q = delete_sql(t)
+        con.query(q, function (err, result) {
+            if (err) throw err;
+        })
+    }
+    fill_data = (ex_name,id,date_completed,weight,reps) => {
+        let d = {name:ex_name,user_id:id,weight:weight,reps:reps,sets:3,volume:weight*reps,completed:date_completed}
+        let query_d = insert_sql(d)
+        con.query(query_d,function(err,result){
+            if (err) throw err;
+        })
+    }
+    fill_workout = (workout,exec1,exec2,exec3,id) => {
+        let w = {name:workout,user_id:id,exec1:exec1,exec2:exec2,exec3:exec3}
+        let query_w = insert_sql_workout(w)
+        con.query(query_w,function(err,result){
+            if (err) throw err;
+        })
+        for( e of [exec1,exec2,exec3]){
+                console.log(e)
+                e["user_id"] = id
+                query_ex = insert_sql_link_wrkt(e,"workout",workout)
+                console.log(query_ex)
+                con.query(query_ex,function(err,result){
+                    if (err) throw err;
+                })
+            }
+        }
+    let push = {name:"push",
+                exec1:{name:"p_bench_press",weight:80,reps:10,sets:3,rest:60},
+                exec2:{name:"p_overhead_press",weight:50,reps:10,sets:3,rest:60}
+                }
+    let pull = {name:"pull",
+                exec1:{name:"p_barbell_row",weight:80,reps:10,sets:3,rest:60},
+                exec2:{name:"p_deadlift",weight:160,reps:5,sets:3,rest:60}
+                }
+    let legs = {name:"legs",
+                exec1:{name:"p_squat",weight:120,reps:10,sets:3,rest:60},
+                exec2:{name:"p_hip_thrust",weight:80,reps:10,sets:3,rest:60}
+                }
+    let upper = {name:"upper",
+                exec1:{name:"p_bench_press",weight:80,reps:10,sets:3,rest:60},
+                exec2:{name:"p_overhead_press",weight:50,reps:10,sets:3,rest:60},
+                exec3:{name:"p_barbell_row",weight:80,reps:10,sets:3,rest:60}
+                }
+    let lower = {name:"lower",
+                exec1:{name:"p_squat",weight:120,reps:10,sets:3,rest:60},
+                exec2:{name:"p_hip_thrust",weight:80,reps:10,sets:3,rest:60},
+                exec3:{name:"p_deadlift",weight:160,reps:5,sets:3,rest:60}
+                }
+    let full_body_a =   {name:"Full Body A",
+                        exec1:{name:"p_bench_press",weight:80,reps:10,sets:3,rest:60},
+                        exec2:{name:"p_barbell_row",weight:80,reps:10,sets:3,rest:60},
+                        exec3:{name:"p_squat",weight:120,reps:10,sets:3,rest:60},
+                        }
+    let full_body_b =   {name:"Full Body B",
+                        exec1:{name:"p_overhead_press",weight:50,reps:10,sets:3,rest:60},
+                        exec2:{name:"p_deadlift",weight:160,reps:5,sets:3,rest:60},
+                        exec3:{name:"p_hip_thrust",weight:80,reps:10,sets:3,rest:60},
+                        }
+    let dates = ["2023-01-01 02:23:45","2023-01-08 02:23:45","2023-01-15 02:23:45","2023-01-22 02:23:45","2023-01-29 02:23:45","2023-02-05 02:23:45","2023-02-12 01-23-45","2023-02-19 02:23:45","2023-02-26 02:23:45","2023-03-05 02:23:45","2023-03-12 02:23:45","2023-03-19 02:23:45","2023-03-26 02:23:45","2023-04-02 02:23:45","2023-04-09 02:23:45","2023-04-16 02:23:45","2023-04-23 02:23:45","2023-04-30 02:23:45"]//,"2023-05-07 02:23:45","2023-05-14 01:23:45","2023-05-21 01:23:45","2023-05-28 01:23:45","2023-06-04 01:23:45","2023-06-11 01:23:45","2023-06-18 01:23:45","2023-06-25 01:23:45","2023-07-02 01:23:45","2023-07-09 01:23:45","2023-07-16 01:23:45","2023-07-23 01:23:45","2023-07-30 01:23:45","2023-08-06 01:23:45","2023-08-13 01:23:45","2023-08-20 01:23:45","2023-08-27 01:23:45","2023-09-03 01:23:45","2023-09-10 01:23:45","2023-09-17 01:23:45","2023-09-24 01:23:45","2023-10-01 01:23:45","2023-10-08 01:23:45","2023-10-15 01:23:45","2023-10-22 01:23:45","2023-10-29 01:23:45","2023-11-05 01:23:45","202"]
+    for (let ex of ["bench_press","overhead_press","deadlift","barbell_row","squat","hip_thrust"]) {
+        let i = 0
+        for (let weight of [95,97,100]){
+            let rep_arr = []
+            if (weight == 95) {
+                rep_arr = [8,10]
+            }
+            else if (weight == 82) {
+                rep_arr = [10]
+            }
+            else {
+                rep_arr = [6,8,10]
+            }
+            for (let reps of rep_arr){
+                fill_data(ex,id,"'"+dates[i]+"'",weight,reps)
+                i+=1
+            }
+        }      
+    }
+    for (let wrk of [full_body_a,full_body_b]) {
+        fill_workout(wrk.name,wrk.exec1,wrk.exec2,wrk.exec3,id)
+    }
+    insert_h  = (data) => {
+        str = "INSERT INTO history ("
+        for (var key in data) {
+            str += key + ", "
+        }
+        str = str.slice(0, -2) //remove last comma
+        str += ") VALUES ("
+        for (var key in data) {
+            str += data[key] + ", "
+        }
+        str = str.slice(0, -2) //remove last comma
+        str += ");"
+        con.query(str, function (err, result) {
+            if (err) throw err;
+        })
+    }
+    for (let i = 0; i < 8; i++) {
+        data = {name:"'Full Body A'",user_id:id,date_completed:"'"+dates[i]+"'"}
+        insert_h(data);
+    }
+    for (let i = 0; i < 10; i++) {
+        data = {name:"'Full Body B'",user_id:id,date_completed:"'"+dates[i]+"'"}
+        insert_h(data);
+    }
+})
+
+app.get('/fill/data/andy', (req, res) => {
+    let id = req.user.id.slice(14)
+    delete_sql = (table) => {
+        return "DELETE FROM " + table + " WHERE user_id = '" + user.id + "';"
     }
     for(let t of ["bench_press","squat","deadlift","overhead_press","hip_thrust","barbell_row","p_bench_press","p_squat","p_deadlift","p_overhead_press","p_hip_thrust","p_barbell_row","workouts","history"]){
         let q = delete_sql(t)
