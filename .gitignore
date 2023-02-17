@@ -1,3 +1,4 @@
 node_modules
 keys
+WebApp/display_data.js
 *.env
