@@ -3,13 +3,13 @@ import time
 import smbus2
 # import numpy as np
 import RPi.GPIO as GPIO
-from acc import *
+#from acc import *
 from acc_new import *
 GPIO.setmode(GPIO.BCM) 
 GPIO.setup(26, GPIO.OUT) 
 GPIO.setwarnings(False)
 
-IP = "18.168.150.73:3000"
+IP = "18.170.88.248:3000"
 URL_RCV_EXEC = "http://"+IP+"/pi/start_exec"
 URL_SEND_EXEC = "http://"+IP+"/pi/finish_exec"
 
@@ -28,11 +28,15 @@ while True:
             print("No workout")
             time.sleep(1)
             continue
+        if not len(meta):
+            print("No workout")
+            time.sleep(1)
+            continue
         print("meta: ", meta)
         name = meta['name']
         start = meta['start']
-        target_sets = meta['sets']
-        rest_time = meta['rest']
+        target_sets = int(meta['sets'])
+        rest_time = int(meta['rest'])
         max_weight = 0
         max_volume = 0
         if start:
@@ -47,12 +51,11 @@ while True:
                     x = rq.get(URL_RCV_SET)
                     wrkt = x.json()
                     print("wrkt: ", wrkt)
-                    target_reps = wrkt['reps']
-                    weight = wrkt['weight']
+                    target_reps = int(wrkt['reps'])
+                    weight = int(wrkt['weight'])
                     stalled = 0
                     
-                    #r = start_set(target_reps)
-                    r = start_set_y(target_reps) #signal processing using PCA
+                    r = start_set(target_reps)
 
                     volume = weight*r
                     print("volume: ", volume)
@@ -61,16 +64,16 @@ while True:
                     if weight > max_weight:
                         max_weight = weight
                         best_reps = r                   
-                    rq.post(URL_SEND_EXEC, data = {'weight':weight, 'reps':r})
+                    rq.post(URL_SEND_SET, data = {'weight':weight, 'reps':r})
                     print("Resting for: ", rest_time, " seconds")
-                    time.sleep(rest_time)
+                    time.sleep(rest_time - 10)
                     print("Resting done")
 
                     
                 #once sets are done, vibrate:
-                vibrate_finish_set()
+                #vibrate_finish_set()
 
-                rq.post(URL_SEND_EXEC, data = {'name':name, 'max_weight':max_weight, 'best_reps':best_reps, 'sets':target_sets, 'rest':rest_time, 'volume':max_volume})
+                rq.post(URL_SEND_EXEC, data = {'name':name, 'weight':max_weight, 'reps':best_reps, 'sets':target_sets,  'volume':max_volume})
         else:
             pass  
 

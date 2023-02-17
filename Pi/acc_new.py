@@ -17,7 +17,7 @@ PIN_VIBRATE2 = 24
 bus = smbus2.SMBus(1)
 time.sleep(1)
 #Set up a write transaction that sends the command to measure temperature
-cmd_meas_acceleration = smbus2.i2c_msg.write(LIS3DH_ADRESS,[REGISTER_ADRESS, 0x27])
+cmd_meas_acceleration = smbus2.i2c_msg.write(LIS3DH_ADRESS,[REGISTER_ADRESS, 0x77])
     
 #Execute the two transactions with a small delay between them
 bus.i2c_rdwr(cmd_meas_acceleration)
@@ -58,11 +58,47 @@ def read_accelerometer_data():
     
     return (x, y, z)
 
+
+
+def relative_heights(x, peaks):
+
+    rel_heights = [0]*len(peaks)
+    left_bases = [0]*len(peaks)
+    right_bases = [0]*len(peaks)
+
+    for peak_nr in range(len(peaks)):
+        peak = peaks[peak_nr]
+        i_min = 0
+        i_max = len(x) - 1
+
+
+        # Find the left base in interval [i_min, peak]
+        i = left_bases[peak_nr] = peak
+        left_min = x[peak]
+        while i_min <= i and x[i] <= x[peak]:
+            if x[i] < left_min:
+                left_min = x[i]
+                left_bases[peak_nr] = i
+            i -= 1
+
+        # Find the right base in interval [peak, i_max]
+        i = right_bases[peak_nr] = peak
+        right_min = x[peak]
+        while i <= i_max and x[i] <= x[peak]:
+            if x[i] < right_min:
+                right_min = x[i]
+                right_bases[peak_nr] = i
+            i += 1
+
+        rel_heights[peak_nr] = x[peak] - max(left_min, right_min)
+
+    return rel_heights
+
 #Find index of peaks in a signal
-def peak_finder(x, height=None):
+def peak_finder(x, height=None, relative_height = None):
     i = 1 
     i_max = len(x) - 1
-    peaks = []
+    maxima = []
     while (i < i_max):
         if (x[i - 1] < x[i]):
             i_next = i + 1 
@@ -73,12 +109,21 @@ def peak_finder(x, height=None):
 
             if (x[i_next] < x[i]):
                 if (height == None):
-                    peaks.append((i + i_next - 1) // 2)
+                    maxima.append((i + i_next - 1) // 2)
                     i = i_next
                 elif (height < x[i]):
-                    peaks.append((i + i_next - 1) // 2)
+                    maxima.append((i + i_next - 1) // 2)
                     i = i_next
         i += 1
+    if (relative_height != None):     
+        rel_heights = relative_heights(x, maxima)
+        peaks = []
+        for i in range(len(rel_heights)):
+            if rel_heights[i] >= relative_height:
+                peaks.append(maxima[i])
+    else:
+        peaks = maxima
+        
     return peaks
 
 #Vibrate
@@ -109,41 +154,23 @@ def vibrate_rest():
     GPIO.output(PIN_VIBRATE, 0)
     GPIO.output(PIN_VIBRATE2, 0)
 
-def vibrate_finish_Set():
-    GPIO.output(PIN_VIBRATE, 1)
-    GPIO.output(PIN_VIBRATE2, 1)
-    time.sleep(0.5)
-    GPIO.output(PIN_VIBRATE, 0)
-    GPIO.output(PIN_VIBRATE2, 0)
-    time.sleep(0.5)
-    GPIO.output(PIN_VIBRATE, 1)
-    GPIO.output(PIN_VIBRATE2, 1)
-    time.sleep(0.5)
-    GPIO.output(PIN_VIBRATE, 0)
-    GPIO.output(PIN_VIBRATE, 0)
-    time.sleep(0.5)
-    GPIO.output(PIN_VIBRATE, 1)
-    GPIO.output(PIN_VIBRATE2, 1)
-    time.sleep(0.5)
-    GPIO.output(PIN_VIBRATE, 0)
-    GPIO.output(PIN_VIBRATE, 0)
-
 
 #Remove in final version
-def to_csv(array, name):
-    f = open(name + ".csv", 'w')
-    for element in array:
-        f.write(str(element) + "\n")
-    f.close()
+# def to_csv(array, name):
+#     f = open(name + ".csv", 'w')
+#     for element in array:
+#         f.write(str(element) + "\n")
+#     f.close()
     
     
 #-----Parameters-----
-FILTER_TAPS = 100
+FILTER_TAPS = 150
 
 SAMPLES_SAVED = 800
-MIN_PEAK_HEIGHT = 1.2
+MIN_PEAK_HEIGHT = 1.0
+MIN_REL_HEIGHT = 0.75
 
-MAX_IDLE = 30
+MAX_IDLE = 20
 REP_GOAL = 10
 
 def start_set(target_reps):
@@ -183,14 +210,14 @@ def start_set(target_reps):
             mag_arr = mag_arr[1:] + [mag]
 
         #Count reps (peaks)
-        reps = len(peak_finder(z_arr, height = MIN_PEAK_HEIGHT))
+        reps = len(peak_finder(z_arr, height = MIN_PEAK_HEIGHT, relative_height = MIN_REL_HEIGHT))
         if (previous_reps != reps):
             print("Reps:", reps)
             previous_reps = reps
             set_started = True
 
         if (len(z_arr) > MAX_IDLE) and (set_started):
-            recent_reps = len(peak_finder(z_arr[-MAX_IDLE:], height = MIN_PEAK_HEIGHT))
+            recent_reps = len(peak_finder(z_arr[-MAX_IDLE:], height = MIN_PEAK_HEIGHT, relative_height = MIN_REL_HEIGHT))
 
 
         #Vibrate when rep_goal hit and when rest started
@@ -206,8 +233,6 @@ def start_set(target_reps):
 
             if (recent_reps == 0):
                 print("Rest started..")
-                to_csv(z_arr, "z_400_fast")
-                to_csv(mag_arr, "mag_400_fast")
                 vibrate_rest()
                 break
 
@@ -223,233 +248,89 @@ def start_set(target_reps):
     return reps
 
 
-def start_set_y(target_reps):
-    #Variables Initialised
-    z_arr = []
-    y_arr = []
-    reps = 0
-    previous_reps = 0
-    recent_reps = 1
-    goal_hit = False
-    set_started = False
+# def start_set_y(target_reps):
+#     #Variables Initialised
+#     z_arr = []
+#     y_arr = []
+#     reps = 0
+#     previous_reps = 0
+#     recent_reps = 1
+#     goal_hit = False
+#     set_started = False
 
-    #Initialise signal processing variables:
-    d = 3 #dimension of input data
-    l = 1 #dimension of output data
-    k = 50 #window size 
-    U = np.zeros((d,l))
-    B_t = np.zeros((k,d)) 
-    sigma_array = np.zeros(l) #array of size l
-    #vibrate_start()
+#     #Initialise signal processing variables:
+#     d = 3 #dimension of input data
+#     l = 1 #dimension of output data
+#     k = 50 #window size 
+#     U = np.zeros((d,l))
+#     B_t = np.zeros((k,d)) 
+#     sigma_array = np.zeros(l) #array of size l
+#     #vibrate_start()
 
-    while True:
+#     while True:
 
-        # N-tap averaging filter
-        x_1 = []
-        y_1 = []
-        z_1 = []
+#         # N-tap averaging filter
+#         x_1 = []
+#         y_1 = []
+#         z_1 = []
 
-        for i in range(FILTER_TAPS):
-            (x, y, z) = read_accelerometer_data()
-            x_1.append(x)
-            y_1.append(y)
-            z_1.append(z)
+#         for i in range(FILTER_TAPS):
+#             (x, y, z) = read_accelerometer_data()
+#             x_1.append(x)
+#             y_1.append(y)
+#             z_1.append(z)
 
-        x = sum(x_1)/len(x_1)
-        y = sum(y_1)/len(y_1)
-        z = sum(z_1)/len(z_1)
+#         x = sum(x_1)/len(x_1)
+#         y = sum(y_1)/len(y_1)
+#         z = sum(z_1)/len(z_1)
 
-        B_t, U, sigma_array, y_t = process_1_input_vector(x,y,z,k,l,d,sigma_array, B_t, U)
+#         B_t, U, sigma_array, y_t = process_1_input_vector(x,y,z,k,l,d,sigma_array, B_t, U)
 
-        #Change window and count reps
-        if (len(y_arr) < SAMPLES_SAVED):
-            y_arr.append(y_t)
-        else:
-            y_arr = y_arr[1:] + [y_t]
+#         #Change window and count reps
+#         if (len(y_arr) < SAMPLES_SAVED):
+#             y_arr.append(y_t)
+#         else:
+#             y_arr = y_arr[1:] + [y_t]
 
-        #Count reps (peaks)
-        reps = len(peak_finder(y_arr, height = MIN_PEAK_HEIGHT))
-        if (previous_reps != reps):
-            print("Reps:", reps)
-            previous_reps = reps
-            set_started = True
+#         #Count reps (peaks)
+#         reps = len(peak_finder(y_arr, height = MIN_PEAK_HEIGHT))
+#         if (previous_reps != reps):
+#             print("Reps:", reps)
+#             previous_reps = reps
+#             set_started = True
 
-        if (len(y_arr) > MAX_IDLE) and (set_started):
-            recent_reps = len(peak_finder(y_arr[-MAX_IDLE:], height = MIN_PEAK_HEIGHT))
-
-
-        #Vibrate when rep_goal hit and when rest started
-        try:
-            if (reps == target_reps) and (not goal_hit):
-                print("Rep goal hit!")
-                # vibrate_goal()
-                goal_hit = True
-
-            else:
-                GPIO.output(PIN_VIBRATE,0)
-
-            if (recent_reps == 0):
-                print("Rest started..")
-                to_csv(z_arr, "z_arr")
-                # vibrate_rest()
-                break
-
-            else:
-                GPIO.output(PIN_VIBRATE,0)
-
-        except KeyboardInterrupt:
-            GPIO.cleanup()
-
-        print("y_t: {} ".format(y_t))
-
-    return reps
+#         if (len(y_arr) > MAX_IDLE) and (set_started):
+#             recent_reps = len(peak_finder(y_arr[-MAX_IDLE:], height = MIN_PEAK_HEIGHT))
 
 
-def start_set_data(target_reps):
-    #Variables Initialised
-    z_arr = []
-    mag_arr = []
-    y_arr = []
-    reps = 0
-    previous_reps = 0
-    recent_reps = 1
-    goal_hit = False
-    set_started = False
-    vibrate_start()
+#         #Vibrate when rep_goal hit and when rest started
+#         try:
+#             if (reps == target_reps) and (not goal_hit):
+#                 print("Rep goal hit!")
+#                 # vibrate_goal()
+#                 goal_hit = True
 
-    d = 3 #dimension of input data
-    l = 1 #dimension of output data
-    k = 50 #window size 
-    U = np.zeros((d,l))
-    B_t = np.zeros((k,d)) 
-    sigma_array = np.zeros(l) #array of size l
+#             else:
+#                 GPIO.output(PIN_VIBRATE,0)
 
-    while True:
+#             if (recent_reps == 0):
+#                 print("Rest started..")
+#                 to_csv(z_arr, "z_arr")
+#                 # vibrate_rest()
+#                 break
 
-        # N-tap averaging filter
-        x_1 = []
-        y_1 = []
-        z_1 = []
+#             else:
+#                 GPIO.output(PIN_VIBRATE,0)
 
-        for i in range(FILTER_TAPS):
-            (x, y, z) = read_accelerometer_data()
-            x_1.append(x)
-            y_1.append(y)
-            z_1.append(z)
+#         except KeyboardInterrupt:
+#             GPIO.cleanup()
 
-        x = sum(x_1)/len(x_1)
-        y = sum(y_1)/len(y_1)
-        z = sum(z_1)/len(z_1)
-        mag = (x**2 + y**2 + z**2)**0.5
+#         print("y_t: {} ".format(y_t))
 
-
-        B_t, U, sigma_array, y_t = process_1_input_vector(x,y,z,k,l,d,sigma_array, B_t, U)
-
-        #Change window and count reps
-        if (len(y_arr) < SAMPLES_SAVED):
-            y_arr.append(y_t[0])
-        else:
-            y_arr = y_arr[1:] + [y_t[0]]
-
-        #Change window and count reps
-        if (len(z_arr) < SAMPLES_SAVED):
-            z_arr.append(z)
-            mag_arr.append(mag)
-        else:
-            z_arr = z_arr[1:] + [z]
-            mag_arr = mag_arr[1:] + [mag]
-
-        #Count reps (peaks)
-        reps = len(peak_finder(z_arr, height = MIN_PEAK_HEIGHT))
-        if (previous_reps != reps):
-            print("Reps:", reps)
-            previous_reps = reps
-            set_started = True
-
-        if (len(z_arr) > MAX_IDLE) and (set_started):
-            recent_reps = len(peak_finder(z_arr[-MAX_IDLE:], height = MIN_PEAK_HEIGHT))
-
-
-        #Vibrate when rep_goal hit and when rest started
-        try:
-            if (reps == target_reps) and (not goal_hit):
-                print("Rep goal hit!")
-                vibrate_goal()
-                goal_hit = True
-
-            else:
-                GPIO.output(PIN_VIBRATE,0)
-                GPIO.output(PIN_VIBRATE2,0)
-
-            if (recent_reps == 0):
-                print("Rest started..")
-                to_csv(z_arr, "z_200")
-                to_csv(mag_arr, "mag_200")
-                to_csv(y_arr, "pca_200")
-                vibrate_rest()
-                break
-
-            else:
-                GPIO.output(PIN_VIBRATE,0)
-                GPIO.output(PIN_VIBRATE2,0)
-
-        except KeyboardInterrupt:
-            GPIO.cleanup()
-
-
-        print("x: {} y: {} z: {}".format(round(x, 3),round(y,3),round(z,3)))
-    return reps
-
-def ConstructWindow(x_t, B, k):
-
-    B_new = np.delete(B, k-1, 0)
-
-    B_t = np.vstack([x_t, B_new])
-
-    return B_t
-
-
-def process_1_input_vector(x,y,z,k,l,d,sigma_array, B_t, U):
-   
-    #x is input data vector at time t (x,y,z)
-    #k is window size of B
-    #l is dimension of output vector
-    #d is dimension of input data
-
-    #inside the while true:
-    x_t = [x,y,z]
-    B_t = ConstructWindow(x_t, B_t, k)
-    
-    min_val = np.min(sigma_array)
-
-    #sigma, u = np.linalg.eigh( B_t*(I - U*U.T)):
-    X = np.matmul(B_t, (np.eye(d) - np.matmul(U, U.transpose())))
-    
-
-    sigma, u = np.linalg.eigh( np.matmul(X.transpose(), X))
-    
-    #print(sigma.shape)
-
-    #print(sigma)
-    #print(u)
-
-    if sigma[d-1] > min_val:
-        idx = np.argmin(sigma_array)
-        U[:, idx] = u[:,d-1]
-        sigma_array[idx] = sigma[d-1]
-    
-
-    y_t = np.matmul(x_t, U)
-
-    return B_t, U, sigma_array, y_t
-
+#     return reps
 
 
     
 
-if __name__ == "__main__":
-    start_set_data(10)
-
-
-
-
+# if __name__ == "__main__":
+#     start_set(10)
