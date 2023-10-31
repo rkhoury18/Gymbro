@@ -1,5 +1,5 @@
 # **Gymbro Intro**
-Gymbro is a coursework project for the Embedded Systems courswork. We created a tool to help you work out using a raspberry pi.
+Gymbro is a coursework project for the Embedded Systems module. We created a tool to help you work out using a raspberry pi.
 
 # **Repo Description**
 The repo is composed of two main folders:
