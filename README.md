@@ -10,7 +10,7 @@ The repo is composed of two main folders:
 
 # **More Info**
 For more information on how to use it and what features are implemented please refer to our marketing website: 
-https://pr1120.wixsite.com/gymbro-1 
-You can also checkout our demo video and ad video:
-https://www.youtube.com/watch?v=rFBxXwwBgMg
+https://pr1120.wixsite.com/gymbro-1 <br> 
+You can also checkout our demo video and ad video:<br> 
+https://www.youtube.com/watch?v=rFBxXwwBgMg <br> 
 https://www.youtube.com/watch?v=UWn9fuHs9mg&feature=youtu.be
